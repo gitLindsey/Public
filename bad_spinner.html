@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Name Spinner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-button {
+            background: #667eea;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .file-button:hover {
+            background: #5a67d8;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 30px auto;
+        }
+
+        .spinner {
+            width: 100%;
+            height: 100%;
+            border: 8px solid #667eea;
+            border-radius: 50%;
+            position: relative;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: transform 3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .spinner.spinning {
+            transform: rotate(1440deg);
+        }
+
+        .spinner-arrow {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ff6b6b;
+            z-index: 10;
+        }
+
+        .selected-name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+
+        .spin-button {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .spin-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .spin-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .student-count {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #1976d2;
+            font-size: 14px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .spinning .selected-name {
+            animation: pulse 0.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Student Spinner</h1>
+        
+        <div class="instructions">
+            📝 Paste student names (one per line) or upload a text file<br>
+            🎲 Press SPACEBAR or click the button to spin!
+        </div>
+
+        <div class="input-section">
+            <textarea id="studentInput" placeholder="Enter student names, one per line:
+John Smith
+Jane Doe
+Michael Johnson
+Sarah Williams"></textarea>
+            
+            <div class="file-input-wrapper">
+                <input type="file" id="fileInput" class="file-input" accept=".txt,.csv">
+                <button class="file-button">📁 Upload File</button>
+            </div>
+        </div>
+
+        <div class="student-count" id="studentCount">No students added yet</div>
+
+        <div class="spinner-container">
+            <div class="spinner-arrow"></div>
+            <div class="spinner" id="spinner">
+                <div class="selected-name" id="selectedName">Add students to spin!</div>
+            </div>
+        </div>
+
+        <button class="spin-button" id="spinButton" disabled>🎲 Spin the Wheel!</button>
+    </div>
+
+    <script>
+        let students = [];
+        let isSpinning = false;
+
+        const studentInput = document.getElementById('studentInput');
+        const fileInput = document.getElementById('fileInput');
+        const studentCount = document.getElementById('studentCount');
+        const spinner = document.getElementById('spinner');
+        const selectedName = document.getElementById('selectedName');
+        const spinButton = document.getElementById('spinButton');
+
+        // Process names to handle duplicates
+        function processNames(rawNames) {
+            const nameCount = {};
+            const processedNames = [];
+
+            // Count occurrences of first names
+            rawNames.forEach(fullName => {
+                const firstName = fullName.trim().split(' ')[0];
+                nameCount[firstName] = (nameCount[firstName] || 0) + 1;
+            });
+
+            // Process each name
+            rawNames.forEach(fullName => {
+                const parts = fullName.trim().split(' ');
+                const firstName = parts[0];
+                
+                if (nameCount[firstName] > 1 && parts.length > 1) {
+                    // Add last initial if first name is duplicate and last name exists
+                    const lastInitial = parts[parts.length - 1].charAt(0).toUpperCase();
+                    processedNames.push(`${firstName} ${lastInitial}.`);
+                } else {
+                    processedNames.push(firstName);
+                }
+            });
+
+            return processedNames;
+        }
+
+        // Update student list
+        function updateStudents() {
+            const rawNames = studentInput.value
+                .split('\n')
+                .map(name => name.trim())
+                .filter(name => name.length > 0);
+
+            students = processNames(rawNames);
+            
+            if (students.length > 0) {
+                studentCount.textContent = `${students.length} student${students.length === 1 ? '' : 's'} ready to spin!`;
+                spinButton.disabled = false;
+                selectedName.textContent = 'Ready to spin!';
+            } else {
+                studentCount.textContent = 'No students added yet';
+                spinButton.disabled = true;
+                selectedName.textContent = 'Add students to spin!';
+            }
+        }
+
+        // Handle file upload
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    studentInput.value = e.target.result;
+                    updateStudents();
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Update students when text changes
+        studentInput.addEventListener('input', updateStudents);
+
+        // Spin function
+        function spin() {
+            if (isSpinning || students.length === 0) return;
+
+            isSpinning = true;
+            spinButton.disabled = true;
+            spinner.classList.add('spinning');
+
+            // Show spinning animation with changing names
+            let spinCounter = 0;
+            const spinInterval = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * students.length);
+                selectedName.textContent = students[randomIndex];
+                spinCounter++;
+                
+                if (spinCounter > 20) {
+                    clearInterval(spinInterval);
+                }
+            }, 100);
+
+            // Final selection after animation
+            setTimeout(() => {
+                const finalIndex = Math.floor(Math.random() * students.length);
+                selectedName.textContent = students[finalIndex];
+                spinner.classList.remove('spinning');
+                isSpinning = false;
+                spinButton.disabled = false;
+            }, 3000);
+        }
+
+        // Event listeners
+        spinButton.addEventListener('click', spin);
+
+        // Spacebar to spin
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && !isSpinning && students.length > 0) {
+                e.preventDefault();
+                spin();
+            }
+        });
+
+        // Initialize
+        updateStudents();
+    </script>
+</body>
+</html>
