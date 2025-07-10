@@ -14,8 +14,8 @@
         body {
             font-family: 'Georgia', serif;
             line-height: 1.6;
-            color: #2c3e50;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
             min-height: 100vh;
         }
 
@@ -37,14 +37,14 @@
 
         h1 {
             font-size: 2.5em;
-            color: #2c3e50;
+            color: #1a1a1a;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .subtitle {
             font-size: 1.2em;
-            color: #7f8c8d;
+            color: #374151;
             font-style: italic;
         }
 
@@ -64,21 +64,21 @@
         }
 
         .section h2 {
-            color: #2c3e50;
+            color: #1a1a1a;
             font-size: 2em;
             margin-bottom: 20px;
-            border-bottom: 3px solid #3498db;
+            border-bottom: 3px solid #1e40af;
             padding-bottom: 10px;
         }
 
         .storytelling-intro {
-            background: linear-gradient(45deg, #f39c12, #f1c40f);
+            background: linear-gradient(45deg, #b45309, #d97706);
             color: white;
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 25px;
             font-size: 1.1em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .interactive-demo {
@@ -90,7 +90,7 @@
         }
 
         .demo-button {
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            background: linear-gradient(45deg, #1e40af, #1e3a8a);
             color: white;
             border: none;
             padding: 12px 25px;
@@ -99,11 +99,18 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin: 10px;
+            font-weight: bold;
         }
 
         .demo-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.4);
+            background: linear-gradient(45deg, #1d4ed8, #1e40af);
+        }
+
+        .demo-button:focus {
+            outline: 3px solid #fbbf24;
+            outline-offset: 2px;
         }
 
         .demo-button:active {
@@ -132,12 +139,12 @@
         }
 
         .conducted-wave {
-            background: linear-gradient(90deg, transparent, #e74c3c, transparent);
+            background: linear-gradient(90deg, transparent, #dc2626, transparent);
             animation: conductedFlow 2s ease-in-out infinite;
         }
 
         .radiated-wave {
-            background: radial-gradient(circle, #e74c3c 2px, transparent 2px);
+            background: radial-gradient(circle, #dc2626 2px, transparent 2px);
             background-size: 20px 20px;
             animation: radiatedPulse 1.5s ease-in-out infinite;
         }
@@ -164,7 +171,7 @@
             background: #f8f9fa;
             border-radius: 10px;
             padding: 25px;
-            border-left: 5px solid #3498db;
+            border-left: 5px solid #1e40af;
             transition: transform 0.3s ease;
         }
 
@@ -173,7 +180,7 @@
         }
 
         .comparison-card h3 {
-            color: #2c3e50;
+            color: #1a1a1a;
             margin-bottom: 15px;
             font-size: 1.3em;
         }
@@ -194,12 +201,12 @@
             content: "▶";
             position: absolute;
             left: 0;
-            color: #3498db;
+            color: #1e40af;
             font-size: 0.8em;
         }
 
         .quiz-section {
-            background: linear-gradient(45deg, #8e44ad, #9b59b6);
+            background: linear-gradient(45deg, #6b21a8, #7c2d12);
             color: white;
             padding: 25px;
             border-radius: 10px;
@@ -218,27 +225,33 @@
         }
 
         .quiz-option {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             padding: 15px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            font-weight: 500;
         }
 
         .quiz-option:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
 
+        .quiz-option:focus {
+            outline: 3px solid #fbbf24;
+            outline-offset: 2px;
+        }
+
         .quiz-option.correct {
-            border-color: #27ae60;
-            background: rgba(39, 174, 96, 0.3);
+            border-color: #16a34a;
+            background: rgba(34, 197, 94, 0.4);
         }
 
         .quiz-option.incorrect {
-            border-color: #e74c3c;
-            background: rgba(231, 76, 60, 0.3);
+            border-color: #dc2626;
+            background: rgba(220, 38, 38, 0.4);
         }
 
         .real-world-examples {
@@ -253,7 +266,7 @@
             border-radius: 8px;
             padding: 15px;
             margin: 10px 0;
-            border-left: 4px solid #e74c3c;
+            border-left: 4px solid #dc2626;
             transition: transform 0.3s ease;
         }
 
@@ -264,7 +277,7 @@
         .progress-bar {
             width: 100%;
             height: 8px;
-            background: #ecf0f1;
+            background: #e5e7eb;
             border-radius: 4px;
             overflow: hidden;
             margin: 20px 0;
@@ -272,7 +285,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #3498db, #2980b9);
+            background: linear-gradient(90deg, #1e40af, #1e3a8a);
             width: 0%;
             transition: width 0.5s ease;
         }
@@ -422,16 +435,16 @@
                 <p>Adjust the sliders to see which medium is recommended for your scenario:</p>
                 <div style="text-align: left; max-width: 600px; margin: 0 auto;">
                     <label for="mobilitySlider">Mobility Requirements: <span id="mobilityValue">50</span>%</label>
-                    <input type="range" id="mobilitySlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;">
+                    <input type="range" id="mobilitySlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;" aria-label="Mobility Requirements">
                     
                     <label for="securitySlider">Security Needs: <span id="securityValue">50</span>%</label>
-                    <input type="range" id="securitySlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;">
+                    <input type="range" id="securitySlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;" aria-label="Security Needs">
                     
                     <label for="bandwidthSlider">Bandwidth Requirements: <span id="bandwidthValue">50</span>%</label>
-                    <input type="range" id="bandwidthSlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;">
+                    <input type="range" id="bandwidthSlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;" aria-label="Bandwidth Requirements">
                     
                     <label for="costSlider">Cost Sensitivity: <span id="costValue">50</span>%</label>
-                    <input type="range" id="costSlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;">
+                    <input type="range" id="costSlider" min="0" max="100" value="50" style="width: 100%; margin: 10px 0;" aria-label="Cost Sensitivity">
                 </div>
                 <div id="recommendation" style="margin-top: 20px; font-size: 1.2em; font-weight: bold;"></div>
             </div>
@@ -444,16 +457,16 @@
                     A technology manager needs to connect two buildings 2 km apart with high-bandwidth, secure communications. The connection must support 10 Gbps continuously. Which approach would be most appropriate?
                 </div>
                 <div class="quiz-options">
-                    <div class="quiz-option" onclick="selectAnswer(this, false)">
+                    <div class="quiz-option" onclick="selectAnswer(this, false)" tabindex="0" role="button" aria-label="Quiz option A">
                         Install a high-power WiFi system between buildings
                     </div>
-                    <div class="quiz-option" onclick="selectAnswer(this, true)">
+                    <div class="quiz-option" onclick="selectAnswer(this, true)" tabindex="0" role="button" aria-label="Quiz option B">
                         Deploy fiber optic cable between the buildings
                     </div>
-                    <div class="quiz-option" onclick="selectAnswer(this, false)">
+                    <div class="quiz-option" onclick="selectAnswer(this, false)" tabindex="0" role="button" aria-label="Quiz option C">
                         Use cellular network bonding for redundancy
                     </div>
-                    <div class="quiz-option" onclick="selectAnswer(this, false)">
+                    <div class="quiz-option" onclick="selectAnswer(this, false)" tabindex="0" role="button" aria-label="Quiz option D">
                         Implement satellite communication links
                     </div>
                 </div>
@@ -527,14 +540,14 @@
             const recommendation = document.getElementById('recommendation');
             if (conductedScore > radiatedScore) {
                 recommendation.innerHTML = '🔌 <strong>Conducted Media Recommended</strong><br>Best for high-bandwidth, secure, fixed installations';
-                recommendation.style.color = '#2980b9';
+                recommendation.style.color = '#1e40af';
             } else {
                 recommendation.innerHTML = '📡 <strong>Radiated Media Recommended</strong><br>Best for mobile, flexible, cost-sensitive deployments';
-                recommendation.style.color = '#e74c3c';
+                recommendation.style.color = '#dc2626';
             }
         }
 
-        // Quiz functionality
+        // Quiz functionality with keyboard support
         let quizAnswered = false;
 
         function selectAnswer(element, isCorrect) {
@@ -546,11 +559,11 @@
             if (isCorrect) {
                 element.classList.add('correct');
                 feedback.innerHTML = '✅ <strong>Correct!</strong> Fiber optic cable provides the high bandwidth (10 Gbps), security, and reliability needed for this critical inter-building connection.';
-                feedback.style.color = '#27ae60';
+                feedback.style.color = '#16a34a';
             } else {
                 element.classList.add('incorrect');
                 feedback.innerHTML = '❌ <strong>Consider again:</strong> For 10 Gbps over 2 km with high security requirements, conducted media (fiber optic) is the optimal choice.';
-                feedback.style.color = '#e74c3c';
+                feedback.style.color = '#dc2626';
             }
             
             // Mark all other options as incorrect
@@ -563,6 +576,15 @@
             
             updateProgress();
         }
+
+        // Add keyboard support for quiz options
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('quiz-option') && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                const isCorrect = e.target.onclick.toString().includes('true');
+                selectAnswer(e.target, isCorrect);
+            }
+        });
 
         // Initialize sliders
         document.getElementById('mobilitySlider').addEventListener('input', updateDecisionMatrix);
