@@ -6,111 +6,142 @@
     <title>Conducted and Radiated Media - Information Infrastructure</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* Override Canvas LMS default styles */
+        .container, .container * {
+            font-family: 'Georgia', serif !important;
+            line-height: 1.6 !important;
         }
 
         body {
-            font-family: 'Georgia', serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-            min-height: 100vh;
+            font-family: 'Georgia', serif !important;
+            line-height: 1.6 !important;
+            color: #1a1a1a !important;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+            min-height: 100vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 20px !important;
         }
 
         header {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 20px !important;
+            padding: 40px !important;
+            margin-bottom: 40px !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
         }
 
         h1 {
-            font-size: 2.5em;
-            color: #1a1a1a;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 2.5em !important;
+            color: #1a1a1a !important;
+            margin-bottom: 10px !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1) !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .subtitle {
-            font-size: 1.2em;
-            color: #374151;
-            font-style: italic;
+            font-size: 1.2em !important;
+            color: #374151 !important;
+            font-style: italic !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 15px !important;
+            padding: 30px !important;
+            margin-bottom: 30px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
         }
 
         .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
         }
 
         .section h2 {
-            color: #1a1a1a;
-            font-size: 2em;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #1e40af;
-            padding-bottom: 10px;
+            color: #1a1a1a !important;
+            font-size: 2em !important;
+            margin-bottom: 20px !important;
+            border-bottom: 3px solid #1e40af !important;
+            padding-bottom: 10px !important;
+            font-family: 'Georgia', serif !important;
+        }
+
+        .section p {
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
+            line-height: 1.6 !important;
+            margin-bottom: 15px !important;
         }
 
         .storytelling-intro {
-            background: linear-gradient(45deg, #b45309, #d97706);
-            color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            font-size: 1.1em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #b45309, #d97706) !important;
+            color: white !important;
+            padding: 25px !important;
+            border-radius: 10px !important;
+            margin-bottom: 25px !important;
+            font-size: 1.1em !important;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .interactive-demo {
-            background: #ecf0f1;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
+            background: #ecf0f1 !important;
+            border-radius: 10px !important;
+            padding: 20px !important;
+            margin: 20px 0 !important;
+            text-align: center !important;
+        }
+
+        .interactive-demo h3 {
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
+            margin-bottom: 15px !important;
+        }
+
+        .interactive-demo p {
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .demo-button {
-            background: linear-gradient(45deg, #1e40af, #1e3a8a);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1.1em;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px;
-            font-weight: bold;
+            background: linear-gradient(45deg, #1e40af, #1e3a8a) !important;
+            color: white !important;
+            border: none !important;
+            padding: 12px 25px !important;
+            font-size: 1.1em !important;
+            border-radius: 25px !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            margin: 10px !important;
+            font-weight: bold !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .demo-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.4);
-            background: linear-gradient(45deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.4) !important;
+            background: linear-gradient(45deg, #1d4ed8, #1e40af) !important;
         }
 
         .demo-button:focus {
-            outline: 3px solid #fbbf24;
-            outline-offset: 2px;
+            outline: 3px solid #fbbf24 !important;
+            outline-offset: 2px !important;
         }
 
         .demo-button:active {
@@ -118,35 +149,35 @@
         }
 
         .signal-visualization {
-            height: 200px;
-            background: #34495e;
-            border-radius: 10px;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
+            height: 200px !important;
+            background: #34495e !important;
+            border-radius: 10px !important;
+            margin: 20px 0 !important;
+            position: relative !important;
+            overflow: hidden !important;
         }
 
         .wave {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            position: absolute !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0 !important;
+            transition: opacity 0.5s ease !important;
         }
 
         .wave.active {
-            opacity: 1;
+            opacity: 1 !important;
         }
 
         .conducted-wave {
-            background: linear-gradient(90deg, transparent, #dc2626, transparent);
-            animation: conductedFlow 2s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent, #dc2626, transparent) !important;
+            animation: conductedFlow 2s ease-in-out infinite !important;
         }
 
         .radiated-wave {
-            background: radial-gradient(circle, #dc2626 2px, transparent 2px);
-            background-size: 20px 20px;
-            animation: radiatedPulse 1.5s ease-in-out infinite;
+            background: radial-gradient(circle, #dc2626 2px, transparent 2px) !important;
+            background-size: 20px 20px !important;
+            animation: radiatedPulse 1.5s ease-in-out infinite !important;
         }
 
         @keyframes conductedFlow {
@@ -161,147 +192,202 @@
         }
 
         .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 30px 0;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 30px !important;
+            margin: 30px 0 !important;
         }
 
         .comparison-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 25px;
-            border-left: 5px solid #1e40af;
-            transition: transform 0.3s ease;
+            background: #f8f9fa !important;
+            border-radius: 10px !important;
+            padding: 25px !important;
+            border-left: 5px solid #1e40af !important;
+            transition: transform 0.3s ease !important;
         }
 
         .comparison-card:hover {
-            transform: translateX(10px);
+            transform: translateX(10px) !important;
         }
 
         .comparison-card h3 {
-            color: #1a1a1a;
-            margin-bottom: 15px;
-            font-size: 1.3em;
+            color: #1a1a1a !important;
+            margin-bottom: 15px !important;
+            font-size: 1.3em !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .characteristics-list {
-            list-style: none;
-            padding: 0;
+            list-style: none !important;
+            padding: 0 !important;
         }
 
         .characteristics-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #ecf0f1;
-            position: relative;
-            padding-left: 25px;
+            padding: 8px 0 !important;
+            border-bottom: 1px solid #ecf0f1 !important;
+            position: relative !important;
+            padding-left: 25px !important;
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .characteristics-list li:before {
-            content: "▶";
-            position: absolute;
-            left: 0;
-            color: #1e40af;
-            font-size: 0.8em;
+            content: "▶" !important;
+            position: absolute !important;
+            left: 0 !important;
+            color: #1e40af !important;
+            font-size: 0.8em !important;
         }
 
         .quiz-section {
-            background: linear-gradient(45deg, #6b21a8, #7c2d12);
-            color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 30px;
+            background: linear-gradient(45deg, #6b21a8, #7c2d12) !important;
+            color: white !important;
+            padding: 25px !important;
+            border-radius: 10px !important;
+            margin-top: 30px !important;
+        }
+
+        .quiz-section h2 {
+            color: white !important;
+            border-bottom: 3px solid white !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .quiz-question {
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            font-size: 1.2em !important;
+            margin-bottom: 20px !important;
+            color: white !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .quiz-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 15px !important;
         }
 
         .quiz-option {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            font-weight: 500;
+            background: rgba(255, 255, 255, 0.15) !important;
+            padding: 15px !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            border: 2px solid transparent !important;
+            font-weight: 500 !important;
+            color: white !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .quiz-option:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-2px) !important;
         }
 
         .quiz-option:focus {
-            outline: 3px solid #fbbf24;
-            outline-offset: 2px;
+            outline: 3px solid #fbbf24 !important;
+            outline-offset: 2px !important;
         }
 
         .quiz-option.correct {
-            border-color: #16a34a;
-            background: rgba(34, 197, 94, 0.4);
+            border-color: #16a34a !important;
+            background: rgba(34, 197, 94, 0.4) !important;
         }
 
         .quiz-option.incorrect {
-            border-color: #dc2626;
-            background: rgba(220, 38, 38, 0.4);
+            border-color: #dc2626 !important;
+            background: rgba(220, 38, 38, 0.4) !important;
         }
 
         .real-world-examples {
-            background: #ecf0f1;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
+            background: #ecf0f1 !important;
+            border-radius: 10px !important;
+            padding: 20px !important;
+            margin: 20px 0 !important;
+        }
+
+        .real-world-examples h3 {
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
+            margin-bottom: 15px !important;
         }
 
         .example-card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #dc2626;
-            transition: transform 0.3s ease;
+            background: white !important;
+            border-radius: 8px !important;
+            padding: 15px !important;
+            margin: 10px 0 !important;
+            border-left: 4px solid #dc2626 !important;
+            transition: transform 0.3s ease !important;
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
         }
 
         .example-card:hover {
-            transform: translateX(5px);
+            transform: translateX(5px) !important;
+        }
+
+        .example-card strong {
+            color: #1a1a1a !important;
         }
 
         .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 20px 0;
+            width: 100% !important;
+            height: 8px !important;
+            background: #e5e7eb !important;
+            border-radius: 4px !important;
+            overflow: hidden !important;
+            margin: 20px 0 !important;
         }
 
         .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #1e40af, #1e3a8a);
-            width: 0%;
-            transition: width 0.5s ease;
+            height: 100% !important;
+            background: linear-gradient(90deg, #1e40af, #1e3a8a) !important;
+            width: 0% !important;
+            transition: width 0.5s ease !important;
         }
 
+        /* Media queries with !important */
         @media (max-width: 768px) {
             .comparison-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
             
             .quiz-options {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
             
             h1 {
-                font-size: 2em;
+                font-size: 2em !important;
             }
+        }
+
+        /* Override any Canvas LMS text styling */
+        .container strong, .container em {
+            font-family: 'Georgia', serif !important;
+        }
+
+        /* Ensure labels and form elements maintain styling */
+        .container label {
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
+        }
+
+        .container input[type="range"] {
+            background: #e5e7eb !important;
+        }
+
+        /* Force quiz feedback colors */
+        #quizFeedback {
+            font-family: 'Georgia', serif !important;
+        }
+
+        #recommendation {
+            font-family: 'Georgia', serif !important;
+        }
+
+        #signalDescription {
+            color: #1a1a1a !important;
+            font-family: 'Georgia', serif !important;
         }
     </style>
 </head>
