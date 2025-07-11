@@ -83,11 +83,15 @@
 
         .section-content {
             padding: 25px;
-            display: none;
+            display: block;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
         }
 
         .section-content.active {
-            display: block;
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
         }
 
         .toggle-icon {
@@ -616,16 +620,29 @@
         // Store original values for editing
         const originalValues = {};
 
+        // Initialize sections on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Open first section by default
+            toggleSection('faculty');
+        });
+
         function toggleSection(sectionId) {
             const content = document.getElementById(sectionId + '-content');
             const icon = document.getElementById(sectionId + '-icon');
             
+            if (!content || !icon) {
+                console.error('Section elements not found:', sectionId);
+                return;
+            }
+            
             if (content.classList.contains('active')) {
                 content.classList.remove('active');
                 icon.classList.remove('rotated');
+                icon.textContent = '▼';
             } else {
                 content.classList.add('active');
                 icon.classList.add('rotated');
+                icon.textContent = '▲';
             }
         }
 
