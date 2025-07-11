@@ -3,18 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MSTM 5033 Information Infrastructure Syllabus</title>
+  <title>MSTM 5033 Syllabus</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background-color: #ffffff;
       color: #1A1A1A;
-      margin: 0;
-      padding: 0;
+      display: flex;
+    }
+
+    /* Sidebar */
+    nav {
+      width: 220px;
+      background-color: #2f4abd; /* Darker Royal Blue */
+      color: white;
+      height: 100vh;
+      padding-top: 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+    }
+
+    nav h2 {
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    nav button {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    nav button:hover,
+    nav button:focus {
+      background-color: #4169E1;
+      outline: none;
+    }
+
+    /* Main content wrapper */
+    .content-wrapper {
+      margin-left: 220px;
+      flex: 1;
     }
 
     header {
-      background-color: #4169E1; /* Royal Blue */
+      background-color: #4169E1;
       color: white;
       padding: 1rem;
       text-align: center;
@@ -22,6 +66,7 @@
 
     main {
       padding: 1rem 2rem;
+      scroll-behavior: smooth;
     }
 
     h2 {
@@ -50,7 +95,13 @@
       margin-top: 0.5rem;
     }
 
-    button {
+    input[type="text"] {
+      width: 100%;
+      padding: 0.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    button.update-btn {
       background-color: #4169E1;
       color: white;
       border: none;
@@ -61,7 +112,7 @@
       border-radius: 5px;
     }
 
-    button:hover {
+    button.update-btn:hover {
       background-color: #2f4abd;
     }
 
@@ -70,104 +121,117 @@
       color: #333;
       text-align: center;
       padding: 1rem;
-      margin-top: 2rem;
       font-size: 0.9rem;
       border-top: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>MSTM 5033: Information Infrastructure</h1>
-    <p id="termDisplay">Summer S2 2025</p>
-  </header>
+  <!-- Sidebar Navigation -->
+  <nav>
+    <h2>Navigation</h2>
+    <button onclick="scrollToSection('instructor')">Instructor Info</button>
+    <button onclick="scrollToSection('description')">Course Description</button>
+    <button onclick="scrollToSection('materials')">Course Materials</button>
+    <button onclick="scrollToSection('outcomes')">Learning Outcomes</button>
+    <button onclick="scrollToSection('grading')">Grading</button>
+    <button onclick="scrollToSection('schedule')">Schedule</button>
+    <button onclick="scrollToSection('policies')">Policies</button>
+  </nav>
 
-  <main>
-    <section class="editable">
-      <h2>Instructor Information (Editable)</h2>
-      <label for="facultyName">Name:</label>
-      <input type="text" id="facultyName" value="Dr. Melissa Carlton" />
+  <div class="content-wrapper">
+    <header>
+      <h1>MSTM 5033: Information Infrastructure</h1>
+      <p id="termDisplay">Summer S2 2025</p>
+    </header>
 
-      <label for="facultyEmail">Email:</label>
-      <input type="text" id="facultyEmail" value="carltonm@lindsey.edu" />
+    <main>
+      <section id="instructor" class="editable">
+        <h2>Instructor Information (Editable)</h2>
+        <label for="facultyName">Name:</label>
+        <input type="text" id="facultyName" value="Dr. Melissa Carlton" />
 
-      <label for="officeHours">Office Hours:</label>
-      <input type="text" id="officeHours" value="Mon & Wed 9:00–11:30am, Tues & Thurs 2:30–5:00pm (CT)" />
+        <label for="facultyEmail">Email:</label>
+        <input type="text" id="facultyEmail" value="carltonm@lindsey.edu" />
 
-      <label for="termInput">Course Term:</label>
-      <input type="text" id="termInput" value="Summer S2 2025" />
+        <label for="officeHours">Office Hours:</label>
+        <input type="text" id="officeHours" value="Mon & Wed 9:00–11:30am, Tues & Thurs 2:30–5:00pm (CT)" />
 
-      <button onclick="updateFacultyInfo()">Update Info</button>
-    </section>
+        <label for="termInput">Course Term:</label>
+        <input type="text" id="termInput" value="Summer S2 2025" />
 
-    <section class="locked">
-      <h2>Course Description</h2>
-      <p>This course introduces fundamental concepts of data communication and networking, such as network structure, cybersecurity issues, and trends in communications and networking. Practical application of content is made through case study analysis.</p>
-    </section>
+        <button class="update-btn" onclick="updateFacultyInfo()">Update Info</button>
+      </section>
 
-    <section class="locked">
-      <h2>Course Materials</h2>
-      <ul>
-        <li><strong>Textbook:</strong> West, J., & White, C. M. (2023). *Data Communication and Computer Networks* (9th ed.). Cengage.</li>
-        <li><strong>Software:</strong> MS Office, Packet Tracer</li>
-      </ul>
-    </section>
+      <section id="description" class="locked">
+        <h2>Course Description</h2>
+        <p>This course introduces fundamental concepts of data communication and networking, such as network structure, cybersecurity issues, and trends in communications and networking. Practical application of content is made through case study analysis.</p>
+      </section>
 
-    <section class="locked">
-      <h2>Learning Outcomes</h2>
-      <ol>
-        <li>Apply fundamental concepts of data communication and networking with practical applications</li>
-        <li>Examine the role of network layers</li>
-        <li>Evaluate cybersecurity issues</li>
-        <li>Analyze key trends in communications and networking</li>
-      </ol>
-    </section>
+      <section id="materials" class="locked">
+        <h2>Course Materials</h2>
+        <ul>
+          <li><strong>Textbook:</strong> West, J., & White, C. M. (2023). *Data Communication and Computer Networks* (9th ed.). Cengage.</li>
+          <li><strong>Software:</strong> MS Office, Packet Tracer</li>
+        </ul>
+      </section>
 
-    <section class="locked">
-      <h2>Grading</h2>
-      <p><strong>Grade Breakdown:</strong></p>
-      <ul>
-        <li>Introduction Discussion – 1%</li>
-        <li>Weekly Discussions – 8%</li>
-        <li>Quizzes – 42%</li>
-        <li>Group Assignments – 49%</li>
-      </ul>
+      <section id="outcomes" class="locked">
+        <h2>Learning Outcomes</h2>
+        <ol>
+          <li>Apply fundamental concepts of data communication and networking with practical applications</li>
+          <li>Examine the role of network layers</li>
+          <li>Evaluate cybersecurity issues</li>
+          <li>Analyze key trends in communications and networking</li>
+        </ol>
+      </section>
 
-      <p><strong>Grade Scale:</strong></p>
-      <ul>
-        <li>A = 94–100%</li>
-        <li>A– = 90–93%</li>
-        <li>B+ = 87–89%, B = 84–86%, B– = 80–83%</li>
-        <li>C+ = 77–79%, C = 70–76%</li>
-        <li>D = 60–69%</li>
-        <li>F = 0–59%</li>
-      </ul>
-    </section>
+      <section id="grading" class="locked">
+        <h2>Grading</h2>
+        <p><strong>Grade Breakdown:</strong></p>
+        <ul>
+          <li>Introduction Discussion – 1%</li>
+          <li>Weekly Discussions – 8%</li>
+          <li>Quizzes – 42%</li>
+          <li>Group Assignments – 49%</li>
+        </ul>
 
-    <section class="locked">
-      <h2>Weekly Schedule</h2>
-      <p>Refer to the LMS for full module content and dates. Weeks run Monday through Sunday, Central Time.</p>
-    </section>
+        <p><strong>Grade Scale:</strong></p>
+        <ul>
+          <li>A = 94–100%</li>
+          <li>A– = 90–93%</li>
+          <li>B+ = 87–89%, B = 84–86%, B– = 80–83%</li>
+          <li>C+ = 77–79%, C = 70–76%</li>
+          <li>D = 60–69%</li>
+          <li>F = 0–59%</li>
+        </ul>
+      </section>
 
-    <section class="locked">
-      <h2>Policies</h2>
-      <p>This course adheres to all Lindsey Wilson College academic, attendance, grading, and integrity policies, including rules around AI use, plagiarism, disabilities, and grievance procedures.</p>
-    </section>
-  </main>
+      <section id="schedule" class="locked">
+        <h2>Weekly Schedule</h2>
+        <p>Refer to the LMS for full module content and dates. Weeks run Monday through Sunday, Central Time.</p>
+      </section>
 
-  <footer>
-    © 2025 Lindsey Wilson College · All rights reserved.
-  </footer>
+      <section id="policies" class="locked">
+        <h2>Policies</h2>
+        <p>This course adheres to all Lindsey Wilson College academic, attendance, grading, and integrity policies, including rules around AI use, plagiarism, disabilities, and grievance procedures.</p>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 Lindsey Wilson College · All rights reserved.
+    </footer>
+  </div>
 
   <script>
     function updateFacultyInfo() {
-      const name = document.getElementById('facultyName').value;
-      const email = document.getElementById('facultyEmail').value;
-      const office = document.getElementById('officeHours').value;
       const term = document.getElementById('termInput').value;
-
-      alert("Faculty and term information updated successfully.");
       document.getElementById('termDisplay').innerText = term;
+      alert("Faculty and term information updated successfully.");
+    }
+
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: "smooth" });
     }
   </script>
 </body>
