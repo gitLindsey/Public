@@ -418,20 +418,47 @@
 
             <div class="interactive-demo">
                 <h3>Network Performance Simulator</h3>
-                <p>Click to simulate different network scenarios:</p>
+                <p>Click to simulate different network scenarios and observe traffic patterns:</p>
                 <button class="demo-button" onclick="simulateTraffic('normal')">Normal Traffic</button>
                 <button class="demo-button" onclick="simulateTraffic('high')">High Traffic</button>
                 <button class="demo-button" onclick="simulateTraffic('qos')">QoS Enabled</button>
                 
                 <div class="network-visual" id="networkVisual">
-                    <div>Network Status: <span id="networkStatus">Ready</span></div>
-                    <div>Bandwidth Usage: <span id="bandwidthUsage">0%</span></div>
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <span class="status-indicator" id="statusIndicator"></span>
+                        <div>Network Status: <span id="networkStatus">Ready</span></div>
+                    </div>
+                    
+                    <div class="network-metrics">
+                        <div class="metric-card">
+                            <div class="metric-value" id="bandwidthUsage">0%</div>
+                            <div class="metric-label">Bandwidth Usage</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="latency">5ms</div>
+                            <div class="metric-label">Latency</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="throughput">0 Mbps</div>
+                            <div class="metric-label">Throughput</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="packetLoss">0%</div>
+                            <div class="metric-label">Packet Loss</div>
+                        </div>
+                    </div>
+                    
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="network-diagram" id="networkDiagram">
+                        <!-- Network nodes will be dynamically created here -->
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div id="technologies" class="content-section">
             <h2 class="section-title">Modern LAN Technologies</h2>
@@ -647,34 +674,229 @@
         function simulateTraffic(type) {
             const statusElement = document.getElementById('networkStatus');
             const bandwidthElement = document.getElementById('bandwidthUsage');
+            const latencyElement = document.getElementById('latency');
+            const throughputElement = document.getElementById('throughput');
+            const packetLossElement = document.getElementById('packetLoss');
             const progressFill = document.getElementById('progressFill');
+            const statusIndicator = document.getElementById('statusIndicator');
             
-            let status, bandwidth, width;
+            // Clear existing network diagram
+            const networkDiagram = document.getElementById('networkDiagram');
+            networkDiagram.innerHTML = '';
+            
+            let status, bandwidth, width, latency, throughput, packetLoss, statusClass;
             
             switch(type) {
                 case 'normal':
                     status = 'Normal Operations';
                     bandwidth = '45%';
                     width = '45%';
+                    latency = '5ms';
+                    throughput = '850 Mbps';
+                    packetLoss = '0.1%';
+                    statusClass = 'status-normal';
+                    createNormalTrafficDiagram();
                     break;
                 case 'high':
                     status = 'High Traffic Load';
                     bandwidth = '85%';
                     width = '85%';
+                    latency = '15ms';
+                    throughput = '650 Mbps';
+                    packetLoss = '2.3%';
+                    statusClass = 'status-high';
+                    createHighTrafficDiagram();
                     break;
                 case 'qos':
                     status = 'QoS Optimized';
                     bandwidth = '60%';
                     width = '60%';
+                    latency = '8ms';
+                    throughput = '950 Mbps';
+                    packetLoss = '0.3%';
+                    statusClass = 'status-qos';
+                    createQoSTrafficDiagram();
                     break;
             }
             
             statusElement.textContent = status;
             bandwidthElement.textContent = bandwidth;
+            latencyElement.textContent = latency;
+            throughputElement.textContent = throughput;
+            packetLossElement.textContent = packetLoss;
             progressFill.style.width = width;
             
+            // Update status indicator
+            statusIndicator.className = 'status-indicator ' + statusClass;
+            
             // Add animation effect
-            progressFill.style.transition = 'width 0.5s ease';
+            progressFill.style.transition = 'width 0.8s ease';
+        }
+
+        function createNormalTrafficDiagram() {
+            const diagram = document.getElementById('networkDiagram');
+            
+            // Create network nodes
+            const switch1 = createNetworkNode('SW1', 'switch-node', 50, 100);
+            const switch2 = createNetworkNode('SW2', 'switch-node', 250, 100);
+            const server = createNetworkNode('SRV', 'server-node', 450, 100);
+            const device1 = createNetworkNode('PC1', 'device-node', 50, 50);
+            const device2 = createNetworkNode('PC2', 'device-node', 50, 150);
+            const device3 = createNetworkNode('PC3', 'device-node', 250, 50);
+            const device4 = createNetworkNode('PC4', 'device-node', 250, 150);
+            
+            diagram.appendChild(switch1);
+            diagram.appendChild(switch2);
+            diagram.appendChild(server);
+            diagram.appendChild(device1);
+            diagram.appendChild(device2);
+            diagram.appendChild(device3);
+            diagram.appendChild(device4);
+            
+            // Create traffic lines
+            createTrafficLine(70, 75, 150, 0);
+            createTrafficLine(70, 125, 150, 0);
+            createTrafficLine(270, 75, 150, 0);
+            createTrafficLine(270, 125, 150, 0);
+            createTrafficLine(290, 100, 140, 0);
+            
+            // Create normal traffic packets
+            setTimeout(() => {
+                createTrafficPackets('normal', 3);
+            }, 500);
+        }
+
+        function createHighTrafficDiagram() {
+            const diagram = document.getElementById('networkDiagram');
+            
+            // Create network nodes (same as normal but with congestion indicators)
+            const switch1 = createNetworkNode('SW1', 'switch-node', 50, 100);
+            const switch2 = createNetworkNode('SW2', 'switch-node', 250, 100);
+            const server = createNetworkNode('SRV', 'server-node', 450, 100);
+            const device1 = createNetworkNode('PC1', 'device-node', 50, 50);
+            const device2 = createNetworkNode('PC2', 'device-node', 50, 150);
+            const device3 = createNetworkNode('PC3', 'device-node', 250, 50);
+            const device4 = createNetworkNode('PC4', 'device-node', 250, 150);
+            
+            // Make nodes pulse to indicate high traffic
+            [switch1, switch2].forEach(node => {
+                node.style.animation = 'pulse 1s infinite';
+            });
+            
+            diagram.appendChild(switch1);
+            diagram.appendChild(switch2);
+            diagram.appendChild(server);
+            diagram.appendChild(device1);
+            diagram.appendChild(device2);
+            diagram.appendChild(device3);
+            diagram.appendChild(device4);
+            
+            // Create thicker traffic lines for high traffic
+            createTrafficLine(70, 75, 150, 0, 5);
+            createTrafficLine(70, 125, 150, 0, 5);
+            createTrafficLine(270, 75, 150, 0, 5);
+            createTrafficLine(270, 125, 150, 0, 5);
+            createTrafficLine(290, 100, 140, 0, 5);
+            
+            // Create heavy traffic packets
+            setTimeout(() => {
+                createTrafficPackets('heavy', 8);
+            }, 500);
+        }
+
+        function createQoSTrafficDiagram() {
+            const diagram = document.getElementById('networkDiagram');
+            
+            // Create network nodes
+            const switch1 = createNetworkNode('SW1', 'switch-node', 50, 100);
+            const switch2 = createNetworkNode('SW2', 'switch-node', 250, 100);
+            const server = createNetworkNode('SRV', 'server-node', 450, 100);
+            const device1 = createNetworkNode('PC1', 'device-node', 50, 50);
+            const device2 = createNetworkNode('PC2', 'device-node', 50, 150);
+            const device3 = createNetworkNode('PC3', 'device-node', 250, 50);
+            const device4 = createNetworkNode('PC4', 'device-node', 250, 150);
+            
+            // Add QoS indicators to switches
+            switch1.style.borderColor = '#3498db';
+            switch2.style.borderColor = '#3498db';
+            switch1.style.borderWidth = '4px';
+            switch2.style.borderWidth = '4px';
+            
+            diagram.appendChild(switch1);
+            diagram.appendChild(switch2);
+            diagram.appendChild(server);
+            diagram.appendChild(device1);
+            diagram.appendChild(device2);
+            diagram.appendChild(device3);
+            diagram.appendChild(device4);
+            
+            // Create traffic lines with QoS colors
+            createTrafficLine(70, 75, 150, 0, 3, '#27ae60');
+            createTrafficLine(70, 125, 150, 0, 3, '#f39c12');
+            createTrafficLine(270, 75, 150, 0, 3, '#e74c3c');
+            createTrafficLine(270, 125, 150, 0, 3, '#3498db');
+            createTrafficLine(290, 100, 140, 0, 4, '#9b59b6');
+            
+            // Create QoS managed traffic packets
+            setTimeout(() => {
+                createTrafficPackets('qos', 5);
+            }, 500);
+        }
+
+        function createNetworkNode(label, className, x, y) {
+            const node = document.createElement('div');
+            node.className = `network-node ${className}`;
+            node.style.left = x + 'px';
+            node.style.top = y + 'px';
+            node.textContent = label;
+            return node;
+        }
+
+        function createTrafficLine(x, y, width, angle, thickness = 3, color = '#3498db') {
+            const line = document.createElement('div');
+            line.className = 'traffic-line';
+            line.style.left = x + 'px';
+            line.style.top = y + 'px';
+            line.style.width = width + 'px';
+            line.style.height = thickness + 'px';
+            line.style.background = color;
+            line.style.transform = `rotate(${angle}deg)`;
+            document.getElementById('networkDiagram').appendChild(line);
+        }
+
+        function createTrafficPackets(type, count) {
+            const diagram = document.getElementById('networkDiagram');
+            const paths = [
+                { x: 70, y: 70 },
+                { x: 70, y: 120 },
+                { x: 270, y: 70 },
+                { x: 270, y: 120 },
+                { x: 290, y: 95 }
+            ];
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const packet = document.createElement('div');
+                    packet.className = `traffic-packet traffic-${type}`;
+                    
+                    const path = paths[i % paths.length];
+                    packet.style.left = path.x + 'px';
+                    packet.style.top = path.y + 'px';
+                    
+                    if (type === 'qos' && i % 2 === 0) {
+                        packet.classList.add('qos-priority');
+                    }
+                    
+                    diagram.appendChild(packet);
+                    
+                    // Remove packet after animation
+                    setTimeout(() => {
+                        if (packet.parentNode) {
+                            packet.parentNode.removeChild(packet);
+                        }
+                    }, 2500);
+                }, i * 200);
+            }
         }
 
         function showPhaseDetails(phase) {
