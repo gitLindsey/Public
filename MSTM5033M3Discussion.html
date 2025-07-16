@@ -354,6 +354,145 @@
             text-decoration: underline;
         }
 
+        /* Fixed Network Diagram Styles */
+        .network-node {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background: #fff;
+            border: 2px solid #34495e;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 12px;
+            color: #34495e;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .switch-node {
+            background-color: #ecf0f1;
+            border-color: #95a5a6;
+        }
+
+        .server-node {
+            background-color: #2ecc71;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .device-node {
+            background-color: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+
+        .traffic-line {
+            position: absolute;
+            background: #3498db;
+            z-index: 5;
+            border-radius: 2px;
+        }
+
+        .traffic-packet {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #2980b9;
+            border-radius: 50%;
+            animation: movePacket 2s linear forwards;
+            z-index: 15;
+        }
+
+        .traffic-heavy {
+            background: #e74c3c;
+            box-shadow: 0 0 6px rgba(231, 76, 60, 0.5);
+        }
+
+        .traffic-normal {
+            background: #27ae60;
+            box-shadow: 0 0 6px rgba(39, 174, 96, 0.5);
+        }
+
+        .traffic-qos {
+            background: #8e44ad;
+            box-shadow: 0 0 6px rgba(142, 68, 173, 0.5);
+        }
+
+        .qos-priority {
+            border: 2px solid gold;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes movePacket {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(var(--distance, 150px)); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 15px 10px rgba(231, 76, 60, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-normal {
+            background: #27ae60;
+        }
+
+        .status-high {
+            background: #e74c3c;
+        }
+
+        .status-qos {
+            background: #f39c12;
+        }
+
+        .network-metrics {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .metric-card {
+            background: #f0f3f4;
+            border-radius: 10px;
+            padding: 10px 20px;
+            text-align: center;
+            min-width: 100px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .metric-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .network-diagram {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -385,6 +524,10 @@
             .considerations-grid {
                 grid-template-columns: 1fr;
             }
+
+            .network-diagram {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -401,520 +544,239 @@
             </div>
         </div>
 
-         <div class="main-content">
+        <div class="main-content">
             <div class="header">
                 <h1>Modern LAN Technologies Implementation Strategy</h1>
                 <p>A Comprehensive Analysis for Growing Business Networks</p>
             </div>
 
-        <div id="overview" class="content-section active">
-            <h2 class="section-title">Executive Summary</h2>
-            <p>As an IT manager for a growing business, implementing modern LAN technologies requires a strategic approach that balances performance optimization with scalability, reliability, and security. This comprehensive analysis explores the implementation of advanced switching technologies, VLANs, and QoS mechanisms to create a robust network infrastructure.</p>
-            
-            <div class="tech-card">
-                <h3><span class="tech-icon">🎯</span>Strategic Objectives</h3>
-                <p>The primary goal is to establish a network architecture that can adapt to business growth while maintaining optimal performance and security. This involves implementing modern switching technologies, strategic VLAN segmentation, and comprehensive QoS policies.</p>
-            </div>
-
-            <div class="interactive-demo">
-                <h3>Network Performance Simulator</h3>
-                <p>Click to simulate different network scenarios and observe traffic patterns:</p>
-                <button class="demo-button" onclick="simulateTraffic('normal')">Normal Traffic</button>
-                <button class="demo-button" onclick="simulateTraffic('high')">High Traffic</button>
-                <button class="demo-button" onclick="simulateTraffic('qos')">QoS Enabled</button>
+            <div id="overview" class="content-section active">
+                <h2 class="section-title">Executive Summary</h2>
+                <p>As an IT manager for a growing business, implementing modern LAN technologies requires a strategic approach that balances performance optimization with scalability, reliability, and security. This comprehensive analysis explores the implementation of advanced switching technologies, VLANs, and QoS mechanisms to create a robust network infrastructure.</p>
                 
-                <div class="network-visual" id="networkVisual">
-                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                        <span class="status-indicator" id="statusIndicator"></span>
-                        <div>Network Status: <span id="networkStatus">Ready</span></div>
-                    </div>
+                <div class="tech-card">
+                    <h3><span class="tech-icon">🎯</span>Strategic Objectives</h3>
+                    <p>The primary goal is to establish a network architecture that can adapt to business growth while maintaining optimal performance and security. This involves implementing modern switching technologies, strategic VLAN segmentation, and comprehensive QoS policies.</p>
+                </div>
+
+                <div class="interactive-demo">
+                    <h3>Network Performance Simulator</h3>
+                    <p>Click to simulate different network scenarios and observe traffic patterns:</p>
+                    <button class="demo-button" onclick="simulateTraffic('normal')">Normal Traffic</button>
+                    <button class="demo-button" onclick="simulateTraffic('high')">High Traffic</button>
+                    <button class="demo-button" onclick="simulateTraffic('qos')">QoS Enabled</button>
                     
-                    <div class="network-metrics">
-                        <div class="metric-card">
-                            <div class="metric-value" id="bandwidthUsage">0%</div>
-                            <div class="metric-label">Bandwidth Usage</div>
+                    <div class="network-visual" id="networkVisual">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <span class="status-indicator" id="statusIndicator"></span>
+                            <div>Network Status: <span id="networkStatus">Ready</span></div>
                         </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="latency">5ms</div>
-                            <div class="metric-label">Latency</div>
+                        
+                        <div class="network-metrics">
+                            <div class="metric-card">
+                                <div class="metric-value" id="bandwidthUsage">0%</div>
+                                <div class="metric-label">Bandwidth Usage</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="latency">5ms</div>
+                                <div class="metric-label">Latency</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="throughput">0 Mbps</div>
+                                <div class="metric-label">Throughput</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="packetLoss">0%</div>
+                                <div class="metric-label">Packet Loss</div>
+                            </div>
                         </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="throughput">0 Mbps</div>
-                            <div class="metric-label">Throughput</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="packetLoss">0%</div>
-                            <div class="metric-label">Packet Loss</div>
+                        
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                         </div>
                     </div>
-                    
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                    </div>
-                    
+
                     <div class="network-diagram" id="networkDiagram">
                         <!-- Network nodes will be dynamically created here -->
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div id="technologies" class="content-section">
-            <h2 class="section-title">Modern LAN Technologies</h2>
-            
-            <div class="tech-card">
-                <h3><span class="tech-icon">⚡</span>Advanced Switching Technologies</h3>
-                <p>Modern enterprise switches form the backbone of any robust LAN infrastructure. Layer 2 and Layer 3 switches provide essential services including VLAN support, routing capabilities, and advanced management features. Contemporary switches offer high-density port configurations, Power over Ethernet (PoE) support, and advanced security features.</p>
+            <div id="technologies" class="content-section">
+                <h2 class="section-title">Modern LAN Technologies</h2>
                 
-                <div class="implementation-steps">
-                    <h4>Implementation Strategy:</h4>
-                    <ul>
-                        <li>Deploy core switches with high-speed uplinks (10GbE or higher)</li>
-                        <li>Implement access switches with appropriate port density</li>
-                        <li>Configure redundant paths for high availability</li>
-                        <li>Enable advanced features like port security and storm control</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="tech-card">
-                <h3><span class="tech-icon">🔗</span>Virtual LANs (VLANs)</h3>
-                <p>VLANs provide logical network segmentation, enabling the creation of separate broadcast domains without physical network separation. <span class="citation">VLANs provide security, performance, and manageability benefits that are essential for modern networks</span> (Owl360IT, 2024).</p>
-                
-                <div class="implementation-steps">
-                    <h4>VLAN Implementation Approach:</h4>
-                    <ul>
-                        <li>Create department-specific VLANs (Finance, HR, Operations)</li>
-                        <li>Implement guest networks with restricted access</li>
-                        <li>Establish management VLANs for network infrastructure</li>
-                        <li>Configure inter-VLAN routing for necessary communication</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="tech-card">
-                <h3><span class="tech-icon">⚖️</span>Quality of Service (QoS)</h3>
-                <p>QoS mechanisms ensure that critical network traffic receives priority treatment, particularly important for voice and video communications. <span class="citation">QoS tools prioritize packets to optimize the use of finite bandwidth resources</span> (TechTarget, 2024).</p>
-                
-                <div class="implementation-steps">
-                    <h4>QoS Configuration Strategy:</h4>
-                    <ul>
-                        <li>Classify traffic types (voice, video, data, best-effort)</li>
-                        <li>Implement DSCP marking for end-to-end QoS</li>
-                        <li>Configure traffic shaping and policing policies</li>
-                        <li>Deploy admission control for real-time applications</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div id="implementation" class="content-section">
-            <h2 class="section-title">Implementation Roadmap</h2>
-            
-            <div class="tech-card">
-                <h3><span class="tech-icon">📋</span>Phase 1: Assessment and Planning</h3>
-                <p>Conduct a comprehensive network audit to understand current infrastructure, traffic patterns, and business requirements. This phase involves documenting existing network topology, identifying performance bottlenecks, and establishing baseline metrics.</p>
-                
-                <div class="interactive-demo">
-                    <button class="demo-button" onclick="showPhaseDetails(1)">View Phase 1 Details</button>
-                    <div id="phase1Details" style="display: none; margin-top: 20px;">
+                <div class="tech-card">
+                    <h3><span class="tech-icon">⚡</span>Advanced Switching Technologies</h3>
+                    <p>Modern enterprise switches form the backbone of any robust LAN infrastructure. Layer 2 and Layer 3 switches provide essential services including VLAN support, routing capabilities, and advanced management features. Contemporary switches offer high-density port configurations, Power over Ethernet (PoE) support, and advanced security features.</p>
+                    
+                    <div class="implementation-steps">
+                        <h4>Implementation Strategy:</h4>
                         <ul>
-                            <li>Network topology documentation</li>
-                            <li>Traffic flow analysis</li>
-                            <li>Performance baseline establishment</li>
-                            <li>Security vulnerability assessment</li>
+                            <li>Deploy core switches with high-speed uplinks (10GbE or higher)</li>
+                            <li>Implement access switches with appropriate port density</li>
+                            <li>Configure redundant paths for high availability</li>
+                            <li>Enable advanced features like port security and storm control</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3><span class="tech-icon">🔗</span>Virtual LANs (VLANs)</h3>
+                    <p>VLANs provide logical network segmentation, enabling the creation of separate broadcast domains without physical network separation. <span class="citation">VLANs provide security, performance, and manageability benefits that are essential for modern networks</span> (Owl360IT, 2024).</p>
+                    
+                    <div class="implementation-steps">
+                        <h4>VLAN Implementation Approach:</h4>
+                        <ul>
+                            <li>Create department-specific VLANs (Finance, HR, Operations)</li>
+                            <li>Implement guest networks with restricted access</li>
+                            <li>Establish management VLANs for network infrastructure</li>
+                            <li>Configure inter-VLAN routing for necessary communication</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3><span class="tech-icon">⚖️</span>Quality of Service (QoS)</h3>
+                    <p>QoS mechanisms ensure that critical network traffic receives priority treatment, particularly important for voice and video communications. <span class="citation">QoS tools prioritize packets to optimize the use of finite bandwidth resources</span> (TechTarget, 2024).</p>
+                    
+                    <div class="implementation-steps">
+                        <h4>QoS Configuration Strategy:</h4>
+                        <ul>
+                            <li>Classify traffic types (voice, video, data, best-effort)</li>
+                            <li>Implement DSCP marking for end-to-end QoS</li>
+                            <li>Configure traffic shaping and policing policies</li>
+                            <li>Deploy admission control for real-time applications</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="tech-card">
-                <h3><span class="tech-icon">🏗️</span>Phase 2: Infrastructure Deployment</h3>
-                <p>Deploy core switching infrastructure with appropriate redundancy and high-availability features. This includes installing new switches, configuring basic connectivity, and establishing management protocols.</p>
+            <div id="implementation" class="content-section">
+                <h2 class="section-title">Implementation Roadmap</h2>
                 
-                <div class="interactive-demo">
-                    <button class="demo-button" onclick="showPhaseDetails(2)">View Phase 2 Details</button>
-                    <div id="phase2Details" style="display: none; margin-top: 20px;">
+                <div class="tech-card">
+                    <h3><span class="tech-icon">📋</span>Phase 1: Assessment and Planning</h3>
+                    <p>Conduct a comprehensive network audit to understand current infrastructure, traffic patterns, and business requirements. This phase involves documenting existing network topology, identifying performance bottlenecks, and establishing baseline metrics.</p>
+                    
+                    <div class="interactive-demo">
+                        <button class="demo-button" onclick="showPhaseDetails(1)">View Phase 1 Details</button>
+                        <div id="phase1Details" style="display: none; margin-top: 20px;">
+                            <ul>
+                                <li>Network topology documentation</li>
+                                <li>Traffic flow analysis</li>
+                                <li>Performance baseline establishment</li>
+                                <li>Security vulnerability assessment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3><span class="tech-icon">🏗️</span>Phase 2: Infrastructure Deployment</h3>
+                    <p>Deploy core switching infrastructure with appropriate redundancy and high-availability features. This includes installing new switches, configuring basic connectivity, and establishing management protocols.</p>
+                    
+                    <div class="interactive-demo">
+                        <button class="demo-button" onclick="showPhaseDetails(2)">View Phase 2 Details</button>
+                        <div id="phase2Details" style="display: none; margin-top: 20px;">
+                            <ul>
+                                <li>Core switch installation and configuration</li>
+                                <li>Redundant path establishment</li>
+                                <li>Basic VLAN configuration</li>
+                                <li>Management interface setup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3><span class="tech-icon">⚙️</span>Phase 3: Advanced Configuration</h3>
+                    <p>Implement advanced features including comprehensive VLAN strategies, QoS policies, and security measures. This phase focuses on optimizing network performance and establishing robust security policies.</p>
+                    
+                    <div class="interactive-demo">
+                        <button class="demo-button" onclick="showPhaseDetails(3)">View Phase 3 Details</button>
+                        <div id="phase3Details" style="display: none; margin-top: 20px;">
+                            <ul>
+                                <li>Advanced VLAN configuration and inter-VLAN routing</li>
+                                <li>QoS policy implementation</li>
+                                <li>Security feature activation</li>
+                                <li>Performance monitoring setup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="considerations" class="content-section">
+                <h2 class="section-title">Key Considerations</h2>
+                
+                <div class="considerations-grid">
+                    <div class="consideration-card">
+                        <h4>🔒 Scalability</h4>
+                        <p>Design network architecture with growth in mind. Implement modular designs that can accommodate additional users, devices, and applications without major infrastructure overhauls.</p>
+                    </div>
+                    
+                    <div class="consideration-card">
+                        <h4>⚡ Reliability</h4>
+                        <p>Ensure high availability through redundant paths, equipment redundancy, and comprehensive monitoring. Implement failover mechanisms and disaster recovery procedures.</p>
+                    </div>
+                    
+                    <div class="consideration-card">
+                        <h4>🛡️ Cybersecurity</h4>
+                        <p>Integrate security measures at every network layer. Implement network segmentation, access controls, and continuous monitoring to protect against threats.</p>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3><span class="tech-icon">📈</span>Scalability Strategies</h3>
+                    <p>Network scalability requires careful planning and implementation of technologies that can grow with business needs. <span class="citation">Using VLANs allows for network segmentation that keeps different traffic types separate, ensuring smooth and efficient data flow</span> (Meter, 2024).</p>
+                    
+                    <div class="implementation-steps">
+                        <h4>Scalability Best Practices:</h4>
                         <ul>
-                            <li>Core switch installation and configuration</li>
-                            <li>Redundant path establishment</li>
-                            <li>Basic VLAN configuration</li>
-                            <li>Management interface setup</li>
+                            <li>Implement hierarchical network design principles</li>
+                            <li>Use stackable switches for easy capacity expansion</li>
+                            <li>Plan for future bandwidth requirements</li>
+                            <li>Implement network automation for configuration management</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3><span class="tech-icon">🔧</span>Reliability and High Availability</h3>
+                    <p>Reliability is achieved through redundant systems, proper monitoring, and proactive maintenance. <span class="citation">Adhering to fundamental principles of network design including redundancy, scalability, and modularity can significantly enhance network robustness and reliability</span> (NSC, 2024).</p>
+                    
+                    <div class="implementation-steps">
+                        <h4>Reliability Measures:</h4>
+                        <ul>
+                            <li>Deploy redundant core switches with failover capabilities</li>
+                            <li>Implement Spanning Tree Protocol (STP) for loop prevention</li>
+                            <li>Configure link aggregation for increased bandwidth and redundancy</li>
+                            <li>Establish comprehensive network monitoring and alerting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3><span class="tech-icon">🛡️</span>Cybersecurity Integration</h3>
+                    <p>Security must be integrated into every aspect of network design and implementation. Modern networks require layered security approaches that protect against evolving threats.</p>
+                    
+                    <div class="implementation-steps">
+                        <h4>Security Implementation:</h4>
+                        <ul>
+                            <li>Implement network access control (NAC) systems</li>
+                            <li>Deploy intrusion detection and prevention systems (IDS/IPS)</li>
+                            <li>Configure port security and MAC address filtering</li>
+                            <li>Establish secure management protocols (SSH, HTTPS)</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="tech-card">
-                <h3><span class="tech-icon">⚙️</span>Phase 3: Advanced Configuration</h3>
-                <p>Implement advanced features including comprehensive VLAN strategies, QoS policies, and security measures. This phase focuses on optimizing network performance and establishing robust security policies.</p>
+            <div id="references" class="content-section">
+                <h2 class="section-title">Academic References</h2>
                 
-                <div class="interactive-demo">
-                    <button class="demo-button" onclick="showPhaseDetails(3)">View Phase 3 Details</button>
-                    <div id="phase3Details" style="display: none; margin-top: 20px;">
-                        <ul>
-                            <li>Advanced VLAN configuration and inter-VLAN routing</li>
-                            <li>QoS policy implementation</li>
-                            <li>Security feature activation</li>
-                            <li>Performance monitoring setup</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="considerations" class="content-section">
-            <h2 class="section-title">Key Considerations</h2>
-            
-            <div class="considerations-grid">
-                <div class="consideration-card">
-                    <h4>🔒 Scalability</h4>
-                    <p>Design network architecture with growth in mind. Implement modular designs that can accommodate additional users, devices, and applications without major infrastructure overhauls.</p>
-                </div>
-                
-                <div class="consideration-card">
-                    <h4>⚡ Reliability</h4>
-                    <p>Ensure high availability through redundant paths, equipment redundancy, and comprehensive monitoring. Implement failover mechanisms and disaster recovery procedures.</p>
-                </div>
-                
-                <div class="consideration-card">
-                    <h4>🛡️ Cybersecurity</h4>
-                    <p>Integrate security measures at every network layer. Implement network segmentation, access controls, and continuous monitoring to protect against threats.</p>
-                </div>
-            </div>
-
-            <div class="tech-card">
-                <h3><span class="tech-icon">📈</span>Scalability Strategies</h3>
-                <p>Network scalability requires careful planning and implementation of technologies that can grow with business needs. <span class="citation">Using VLANs allows for network segmentation that keeps different traffic types separate, ensuring smooth and efficient data flow</span> (Meter, 2024).</p>
-                
-                <div class="implementation-steps">
-                    <h4>Scalability Best Practices:</h4>
-                    <ul>
-                        <li>Implement hierarchical network design principles</li>
-                        <li>Use stackable switches for easy capacity expansion</li>
-                        <li>Plan for future bandwidth requirements</li>
-                        <li>Implement network automation for configuration management</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="tech-card">
-                <h3><span class="tech-icon">🔧</span>Reliability and High Availability</h3>
-                <p>Reliability is achieved through redundant systems, proper monitoring, and proactive maintenance. <span class="citation">Adhering to fundamental principles of network design including redundancy, scalability, and modularity can significantly enhance network robustness and reliability</span> (NSC, 2024).</p>
-                
-                <div class="implementation-steps">
-                    <h4>Reliability Measures:</h4>
-                    <ul>
-                        <li>Deploy redundant core switches with failover capabilities</li>
-                        <li>Implement Spanning Tree Protocol (STP) for loop prevention</li>
-                        <li>Configure link aggregation for increased bandwidth and redundancy</li>
-                        <li>Establish comprehensive network monitoring and alerting</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="tech-card">
-                <h3><span class="tech-icon">🛡️</span>Cybersecurity Integration</h3>
-                <p>Security must be integrated into every aspect of network design and implementation. Modern networks require layered security approaches that protect against evolving threats.</p>
-                
-                <div class="implementation-steps">
-                    <h4>Security Implementation:</h4>
-                    <ul>
-                        <li>Implement network access control (NAC) systems</li>
-                        <li>Deploy intrusion detection and prevention systems (IDS/IPS)</li>
-                        <li>Configure port security and MAC address filtering</li>
-                        <li>Establish secure management protocols (SSH, HTTPS)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div id="references" class="content-section">
-            <h2 class="section-title">Academic References</h2>
-            
-           <div class="references">
-                <h3>References (APA 7th Edition)</h3>
-                <ol style="list-style-type:none;">
-                    <li>Meter. (2024). <em>Scalability in networking: 10 best practices to follow</em>. <a href="https://www.meter.com/resources/scalability-in-networking" target="_blank" rel="noopener noreferrer" >https://www.meter.com/resources/scalability-in-networking</a></li>
-                    <li>NSC. (2024). <em>Five important network design principles</em>. <a href="https://netseccloud.com/five-important-network-design-principles" target="_blank" rel="noopener noreferrer" >https://netseccloud.com/five-important-network-design-principles</a></li>
-                    <li>Jonathan P. (2024, December 17). <em>The importance of VLANs and QoS: Why IT admins struggle and what they need to know</em>. OWL360IT. <a href="https://www.owl360it.com/post/the-importance-of-vlans-and-qos-why-it-admins-struggle-and-what-they-need-to-know" target="_blank" rel="noopener noreferrer" >https://www.owl360it.com/post/the-importance-of-vlans-and-qos-why-it-admins-struggle-and-what-they-need-to-know</a></li>
-                    <li>Lutkevich, B. (2024). <em>Quality of service (QoS)</em>. TechTarget. <a href="https://www.techtarget.com/searchunifiedcommunications/definition/QoS-Quality-of-Service" target="_blank" rel="noopener noreferrer" >https://www.techtarget.com/searchunifiedcommunications/definition/QoS-Quality-of-Service</a></li>
-                </ol>
-            </div>
-
-
-            <div class="tech-card">
-                <h3><span class="tech-icon">📚</span>Additional Resources</h3>
-                <p>For further reading on network design best practices and modern LAN technologies, consider exploring recent publications from industry leaders such as Cisco, Juniper, and academic institutions specializing in network engineering.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-        }
-
-        function simulateTraffic(type) {
-            const statusElement = document.getElementById('networkStatus');
-            const bandwidthElement = document.getElementById('bandwidthUsage');
-            const latencyElement = document.getElementById('latency');
-            const throughputElement = document.getElementById('throughput');
-            const packetLossElement = document.getElementById('packetLoss');
-            const progressFill = document.getElementById('progressFill');
-            const statusIndicator = document.getElementById('statusIndicator');
-            
-            // Clear existing network diagram
-            const networkDiagram = document.getElementById('networkDiagram');
-            networkDiagram.innerHTML = '';
-            
-            let status, bandwidth, width, latency, throughput, packetLoss, statusClass;
-            
-            switch(type) {
-                case 'normal':
-                    status = 'Normal Operations';
-                    bandwidth = '45%';
-                    width = '45%';
-                    latency = '5ms';
-                    throughput = '850 Mbps';
-                    packetLoss = '0.1%';
-                    statusClass = 'status-normal';
-                    createNormalTrafficDiagram();
-                    break;
-                case 'high':
-                    status = 'High Traffic Load';
-                    bandwidth = '85%';
-                    width = '85%';
-                    latency = '15ms';
-                    throughput = '650 Mbps';
-                    packetLoss = '2.3%';
-                    statusClass = 'status-high';
-                    createHighTrafficDiagram();
-                    break;
-                case 'qos':
-                    status = 'QoS Optimized';
-                    bandwidth = '60%';
-                    width = '60%';
-                    latency = '8ms';
-                    throughput = '950 Mbps';
-                    packetLoss = '0.3%';
-                    statusClass = 'status-qos';
-                    createQoSTrafficDiagram();
-                    break;
-            }
-            
-            statusElement.textContent = status;
-            bandwidthElement.textContent = bandwidth;
-            latencyElement.textContent = latency;
-            throughputElement.textContent = throughput;
-            packetLossElement.textContent = packetLoss;
-            progressFill.style.width = width;
-            
-            // Update status indicator
-            statusIndicator.className = 'status-indicator ' + statusClass;
-            
-            // Add animation effect
-            progressFill.style.transition = 'width 0.8s ease';
-        }
-
-        function createNormalTrafficDiagram() {
-            const diagram = document.getElementById('networkDiagram');
-            
-            // Create network nodes
-            const switch1 = createNetworkNode('SW1', 'switch-node', 50, 100);
-            const switch2 = createNetworkNode('SW2', 'switch-node', 250, 100);
-            const server = createNetworkNode('SRV', 'server-node', 450, 100);
-            const device1 = createNetworkNode('PC1', 'device-node', 50, 50);
-            const device2 = createNetworkNode('PC2', 'device-node', 50, 150);
-            const device3 = createNetworkNode('PC3', 'device-node', 250, 50);
-            const device4 = createNetworkNode('PC4', 'device-node', 250, 150);
-            
-            diagram.appendChild(switch1);
-            diagram.appendChild(switch2);
-            diagram.appendChild(server);
-            diagram.appendChild(device1);
-            diagram.appendChild(device2);
-            diagram.appendChild(device3);
-            diagram.appendChild(device4);
-            
-            // Create traffic lines
-            createTrafficLine(70, 75, 150, 0);
-            createTrafficLine(70, 125, 150, 0);
-            createTrafficLine(270, 75, 150, 0);
-            createTrafficLine(270, 125, 150, 0);
-            createTrafficLine(290, 100, 140, 0);
-            
-            // Create normal traffic packets
-            setTimeout(() => {
-                createTrafficPackets('normal', 3);
-            }, 500);
-        }
-
-        function createHighTrafficDiagram() {
-            const diagram = document.getElementById('networkDiagram');
-            
-            // Create network nodes (same as normal but with congestion indicators)
-            const switch1 = createNetworkNode('SW1', 'switch-node', 50, 100);
-            const switch2 = createNetworkNode('SW2', 'switch-node', 250, 100);
-            const server = createNetworkNode('SRV', 'server-node', 450, 100);
-            const device1 = createNetworkNode('PC1', 'device-node', 50, 50);
-            const device2 = createNetworkNode('PC2', 'device-node', 50, 150);
-            const device3 = createNetworkNode('PC3', 'device-node', 250, 50);
-            const device4 = createNetworkNode('PC4', 'device-node', 250, 150);
-            
-            // Make nodes pulse to indicate high traffic
-            [switch1, switch2].forEach(node => {
-                node.style.animation = 'pulse 1s infinite';
-            });
-            
-            diagram.appendChild(switch1);
-            diagram.appendChild(switch2);
-            diagram.appendChild(server);
-            diagram.appendChild(device1);
-            diagram.appendChild(device2);
-            diagram.appendChild(device3);
-            diagram.appendChild(device4);
-            
-            // Create thicker traffic lines for high traffic
-            createTrafficLine(70, 75, 150, 0, 5);
-            createTrafficLine(70, 125, 150, 0, 5);
-            createTrafficLine(270, 75, 150, 0, 5);
-            createTrafficLine(270, 125, 150, 0, 5);
-            createTrafficLine(290, 100, 140, 0, 5);
-            
-            // Create heavy traffic packets
-            setTimeout(() => {
-                createTrafficPackets('heavy', 8);
-            }, 500);
-        }
-
-        function createQoSTrafficDiagram() {
-            const diagram = document.getElementById('networkDiagram');
-            
-            // Create network nodes
-            const switch1 = createNetworkNode('SW1', 'switch-node', 50, 100);
-            const switch2 = createNetworkNode('SW2', 'switch-node', 250, 100);
-            const server = createNetworkNode('SRV', 'server-node', 450, 100);
-            const device1 = createNetworkNode('PC1', 'device-node', 50, 50);
-            const device2 = createNetworkNode('PC2', 'device-node', 50, 150);
-            const device3 = createNetworkNode('PC3', 'device-node', 250, 50);
-            const device4 = createNetworkNode('PC4', 'device-node', 250, 150);
-            
-            // Add QoS indicators to switches
-            switch1.style.borderColor = '#3498db';
-            switch2.style.borderColor = '#3498db';
-            switch1.style.borderWidth = '4px';
-            switch2.style.borderWidth = '4px';
-            
-            diagram.appendChild(switch1);
-            diagram.appendChild(switch2);
-            diagram.appendChild(server);
-            diagram.appendChild(device1);
-            diagram.appendChild(device2);
-            diagram.appendChild(device3);
-            diagram.appendChild(device4);
-            
-            // Create traffic lines with QoS colors
-            createTrafficLine(70, 75, 150, 0, 3, '#27ae60');
-            createTrafficLine(70, 125, 150, 0, 3, '#f39c12');
-            createTrafficLine(270, 75, 150, 0, 3, '#e74c3c');
-            createTrafficLine(270, 125, 150, 0, 3, '#3498db');
-            createTrafficLine(290, 100, 140, 0, 4, '#9b59b6');
-            
-            // Create QoS managed traffic packets
-            setTimeout(() => {
-                createTrafficPackets('qos', 5);
-            }, 500);
-        }
-
-        function createNetworkNode(label, className, x, y) {
-            const node = document.createElement('div');
-            node.className = `network-node ${className}`;
-            node.style.left = x + 'px';
-            node.style.top = y + 'px';
-            node.textContent = label;
-            return node;
-        }
-
-        function createTrafficLine(x, y, width, angle, thickness = 3, color = '#3498db') {
-            const line = document.createElement('div');
-            line.className = 'traffic-line';
-            line.style.left = x + 'px';
-            line.style.top = y + 'px';
-            line.style.width = width + 'px';
-            line.style.height = thickness + 'px';
-            line.style.background = color;
-            line.style.transform = `rotate(${angle}deg)`;
-            document.getElementById('networkDiagram').appendChild(line);
-        }
-
-        function createTrafficPackets(type, count) {
-            const diagram = document.getElementById('networkDiagram');
-            const paths = [
-                { x: 70, y: 70 },
-                { x: 70, y: 120 },
-                { x: 270, y: 70 },
-                { x: 270, y: 120 },
-                { x: 290, y: 95 }
-            ];
-            
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    const packet = document.createElement('div');
-                    packet.className = `traffic-packet traffic-${type}`;
-                    
-                    const path = paths[i % paths.length];
-                    packet.style.left = path.x + 'px';
-                    packet.style.top = path.y + 'px';
-                    
-                    if (type === 'qos' && i % 2 === 0) {
-                        packet.classList.add('qos-priority');
-                    }
-                    
-                    diagram.appendChild(packet);
-                    
-                    // Remove packet after animation
-                    setTimeout(() => {
-                        if (packet.parentNode) {
-                            packet.parentNode.removeChild(packet);
-                        }
-                    }, 2500);
-                }, i * 200);
-            }
-        }
-
-        function showPhaseDetails(phase) {
-            const detailsId = `phase${phase}Details`;
-            const detailsElement = document.getElementById(detailsId);
-            
-            if (detailsElement.style.display === 'none') {
-                detailsElement.style.display = 'block';
-                detailsElement.style.animation = 'fadeIn 0.3s ease-in-out';
-            } else {
-                detailsElement.style.display = 'none';
-            }
-        }
-
-        // Initialize with overview section
-        document.addEventListener('DOMContentLoaded', function() {
-            showSection('overview');
-        });
-    </script>
-</body>
-</html>
+                <div class="references">
+                    <h3>References (APA 7th Edition)</h3>
+                    <ol style="list-style-type:none;">
+                        <li>Meter. (2024). <em>Scalability in networking: 10 best practices to follow</em>. <a href="https://www.meter.com/resources/scalability-in-networking" target="_blank" rel="noopener noreferrer">https://www.meter.com/resources/scalability-in-networking</a></li>
+                        <li>NSC. (2024). <em>Five important network design principles
