@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Network Infrastructure Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .network-diagram {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .section {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #34495e;
+            font-size: 1.4em;
+            border-bottom: 3px solid;
+            padding-bottom: 10px;
+        }
+
+        .vlan-section h2 { border-color: #e74c3c; }
+        .scalable-section h2 { border-color: #3498db; }
+        .qos-section h2 { border-color: #27ae60; }
+
+        /* VLAN Section */
+        .vlan-zone {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .vlan-zone:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .finance { background: #ffebee; border-color: #f44336; }
+        .hr { background: #e8f5e8; border-color: #4caf50; }
+        .operations { background: #e3f2fd; border-color: #2196f3; }
+        .guest { background: #fff3e0; border-color: #ff9800; }
+
+        .vlan-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .vlan-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .security-layer {
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #34495e;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .vlan-zone:hover .security-layer {
+            opacity: 1;
+        }
+
+        /* Scalable Section */
+        .switch-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .switch {
+            width: 80%;
+            height: 40px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .switch:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .switch::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #3498db;
+        }
+
+        .redundant-link {
+            width: 2px;
+            height: 30px;
+            background: #e74c3c;
+            margin: 0 auto;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* QoS Section */
+        .traffic-flow {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .traffic-arrow {
+            height: 20px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            margin: 10px 0;
+            border-radius: 10px;
+            position: relative;
+            animation: flow 3s infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .traffic-arrow:hover {
+            transform: scale(1.1);
+        }
+
+        .high-priority { 
+            height: 30px; 
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+        }
+
+        .medium-priority { 
+            height: 25px; 
+            background: linear-gradient(to right, #f39c12, #e67e22);
+        }
+
+        .low-priority { 
+            height: 15px; 
+            background: linear-gradient(to right, #95a5a6, #7f8c8d);
+        }
+
+        .traffic-arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+        }
+
+        .high-priority::after { border-left-color: #c0392b; }
+        .medium-priority::after { border-left-color: #e67e22; }
+        .low-priority::after { border-left-color: #7f8c8d; }
+
+        @keyframes flow {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .traffic-label {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #e74c3c;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #2c3e50;
+        }
+
+        /* Interactive Elements */
+        .clickable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .clickable::before {
+            content: '🔍';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.8em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .clickable:hover::before {
+            opacity: 1;
+        }
+
+        .expand-section {
+            background: #ecf0f1;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3498db;
+        }
+
+        .expand-section:hover {
+            background: #d5dbdb;
+            transform: translateX(5px);
+        }
+
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .expand-content.active {
+            max-height: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .network-diagram {
+                flex-direction: column;
+            }
+            
+            .section {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Network Infrastructure Diagram</h1>
+        
+        <div class="network-diagram">
+            <!-- VLAN Segmentation Section -->
+            <div class="section vlan-section">
+                <h2>VLAN Segmentation</h2>
+                
+                <div class="vlan-zone finance clickable" data-modal="finance-modal">
+                    <div class="vlan-label">Finance Department</div>
+                    <div class="vlan-description">Secure • Isolated • Controlled Access</div>
+                    <div class="security-layer">ACL + Firewall</div>
+                </div>
+                
+                <div class="vlan-zone hr clickable" data-modal="hr-modal">
+                    <div class="vlan-label">HR Department</div>
+                    <div class="vlan-description">Secure • Isolated • Performance Optimized</div>
+                    <div class="security-layer">ACL + Firewall</div>
+                </div>
+                
+                <div class="vlan-zone operations clickable" data-modal="operations-modal">
+                    <div class="vlan-label">Operations</div>
+                    <div class="vlan-description">Secure • Isolated • High Availability</div>
+                    <div class="security-layer">ACL + Firewall</div>
+                </div>
+                
+                <div class="vlan-zone guest clickable" data-modal="guest-modal">
+                    <div class="vlan-label">Guest Wi-Fi</div>
+                    <div class="vlan-description">Isolated • Limited Access • Bandwidth Controlled</div>
+                    <div class="security-layer">ACL + Firewall</div>
+                </div>
+            </div>
+            
+            <!-- Scalable Network Design Section -->
+            <div class="section scalable-section">
+                <h2>Scalable Network Design</h2>
+                
+                <div class="switch-stack">
+                    <div class="switch clickable" data-tooltip="Core Switch - 48 ports" data-modal="core-modal">
+                        Core Switch
+                    </div>
+                    <div class="redundant-link"></div>
+                    <div class="switch clickable" data-tooltip="Distribution Switch - 24 ports" data-modal="distribution-modal">
+                        Distribution
+                    </div>
+                    <div class="redundant-link"></div>
+                    <div class="switch clickable" data-tooltip="Access Switch - 12 ports" data-modal="access-modal">
+                        Access Layer
+                    </div>
+                </div>
+                
+                <div class="expand-section" onclick="toggleExpand('stp-expand')">
+                    <strong>🔄 Spanning Tree Protocol (STP)</strong>
+                    <div class="expand-content" id="stp-expand">
+                        <p>STP prevents network loops and provides redundancy by automatically disabling redundant paths while maintaining backup routes for failover scenarios.</p>
+                    </div>
+                </div>
+                
+                <div class="expand-section" onclick="toggleExpand('stack-expand')">
+                    <strong>📚 Stackable Design Benefits</strong>
+                    <div class="expand-content" id="stack-expand">
+                        <p>Add new switches seamlessly without complex rewiring. Stackable switches appear as a single logical unit, simplifying management and reducing downtime during expansion.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- QoS and Prioritization Section -->
+            <div class="section qos-section">
+                <h2>QoS & Traffic Prioritization</h2>
+                
+                <div class="traffic-flow">
+                    <div class="traffic-arrow high-priority clickable" data-modal="voip-modal">
+                        <div class="traffic-label">VoIP - High Priority</div>
+                    </div>
+                    
+                    <div class="traffic-arrow medium-priority clickable" data-modal="video-modal">
+                        <div class="traffic-label">Video Conferencing</div>
+                    </div>
+                    
+                    <div class="traffic-arrow low-priority clickable" data-modal="web-modal">
+                        <div class="traffic-label">Web Traffic</div>
+                    </div>
+                </div>
+                
+                <div class="expand-section" onclick="toggleExpand('qos-expand')">
+                    <strong>⚡ Quality of Service (QoS)</strong>
+                    <div class="expand-content" id="qos-expand">
+                        <p>QoS ensures critical applications receive priority access to network resources. Traffic is classified and prioritized based on application requirements.</p>
+                    </div>
+                </div>
+                
+                <div class="expand-section" onclick="toggleExpand('bandwidth-expand')">
+                    <strong>📊 Bandwidth Management</strong>
+                    <div class="expand-content" id="bandwidth-expand">
+                        <p>Bandwidth reservation ensures critical applications maintain consistent performance even during network congestion periods.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="finance-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Finance Department VLAN</h2>
+            <p><strong>Security Features:</strong></p>
+            <ul>
+                <li>Dedicated VLAN isolates financial data from other departments</li>
+                <li>Access Control Lists (ACLs) restrict inter-VLAN communication</li>
+                <li>Firewall rules prevent unauthorized access to sensitive financial records</li>
+                <li>Enhanced monitoring and logging for compliance requirements</li>
+            </ul>
+            <p><strong>Benefits:</strong> Reduced risk of data breaches, compliance with financial regulations, and controlled access to sensitive information.</p>
+        </div>
+    </div>
+
+    <div id="hr-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>HR Department VLAN</h2>
+            <p><strong>Security Features:</strong></p>
+            <ul>
+                <li>Isolated network segment for employee data protection</li>
+                <li>Strict access controls for personal information</li>
+                <li>Separate from other departments to prevent data leakage</li>
+                <li>Optimized for HR applications and databases</li>
+            </ul>
+            <p><strong>Benefits:</strong> Employee privacy protection, GDPR compliance, and secure access to HR systems.</p>
+        </div>
+    </div>
+
+    <div id="operations-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Operations VLAN</h2>
+            <p><strong>Network Features:</strong></p>
+            <ul>
+                <li>High availability for critical operational systems</li>
+                <li>Redundant connections to prevent downtime</li>
+                <li>Optimized for real-time operational data</li>
+                <li>Isolated from guest and external networks</li>
+            </ul>
+            <p><strong>Benefits:</strong> Continuous operations, reduced downtime, and optimized performance for business-critical applications.</p>
+        </div>
+    </div>
+
+    <div id="guest-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Guest Wi-Fi VLAN</h2>
+            <p><strong>Security Features:</strong></p>
+            <ul>
+                <li>Completely isolated from internal networks</li>
+                <li>Limited internet access only</li>
+                <li>Bandwidth restrictions to prevent network congestion</li>
+                <li>Time-based access controls</li>
+            </ul>
+            <p><strong>Benefits:</strong> Secure guest access without compromising internal network security or performance.</p>
+        </div>
+    </div>
+
+    <div id="voip-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>VoIP Traffic Priority</h2>
+            <p><strong>QoS Configuration:</strong></p>
+            <ul>
+                <li>Highest priority classification (EF - Expedited Forwarding)</li>
+                <li>Guaranteed bandwidth reservation</li>
+                <li>Low latency and jitter requirements</li>
+                <li>Packet loss prevention mechanisms</li>
+            </ul>
+            <p><strong>Result:</strong> Crystal clear voice quality with minimal delays and interruptions.</p>
+        </div>
+    </div>
+
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Video Conferencing Priority</h2>
+            <p><strong>QoS Configuration:</strong></p>
+            <ul>
+                <li>High priority classification (AF41 - Assured Forwarding)</li>
+                <li>Adaptive bandwidth allocation</li>
+                <li>Optimized for video streaming requirements</li>
+                <li>Buffer management for smooth playback</li>
+            </ul>
+            <p><strong>Result:</strong> Smooth video conferences with minimal buffering and high quality.</p>
+        </div>
+    </div>
+
+    <div id="web-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Web Traffic Management</h2>
+            <p><strong>QoS Configuration:</strong></p>
+            <ul>
+                <li>Standard priority classification (BE - Best Effort)</li>
+                <li>Shared bandwidth allocation</li>
+                <li>Background processing during congestion</li>
+                <li>Elastic traffic that adapts to available resources</li>
+            </ul>
+            <p><strong>Result:</strong> Reliable web browsing while prioritizing critical applications.</p>
+        </div>
+    </div>
+
+    <div id="core-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Core Switch Layer</h2>
+            <p><strong>Network Role:</strong></p>
+            <ul>
+                <li>Central backbone of the network infrastructure</li>
+                <li>High-speed packet forwarding and routing</li>
+                <li>48 ports with 10Gbps uplinks for maximum throughput</li>
+                <li>Redundant power supplies and hot-swappable modules</li>
+                <li>Advanced routing protocols (OSPF, BGP) support</li>
+            </ul>
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li>Layer 3 switching with wire-speed performance</li>
+                <li>Load balancing across multiple paths</li>
+                <li>Network convergence and failover capabilities</li>
+                <li>Centralized policy enforcement</li>
+            </ul>
+            <p><strong>Benefits:</strong> Maximum performance, scalability, and reliability for enterprise networks.</p>
+        </div>
+    </div>
+
+    <div id="distribution-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Distribution Switch Layer</h2>
+            <p><strong>Network Role:</strong></p>
+            <ul>
+                <li>Aggregates traffic from access layer switches</li>
+                <li>Implements network policies and security controls</li>
+                <li>24 ports with 1Gbps connections to access layer</li>
+                <li>VLAN routing and inter-VLAN communication</li>
+                <li>Quality of Service (QoS) policy enforcement</li>
+            </ul>
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li>Layer 2/3 switching with advanced features</li>
+                <li>Access Control Lists (ACL) implementation</li>
+                <li>Spanning Tree Protocol (STP) root bridge</li>
+                <li>Network segmentation and VLAN management</li>
+            </ul>
+            <p><strong>Benefits:</strong> Efficient traffic aggregation, policy enforcement, and network segmentation.</p>
+        </div>
+    </div>
+
+    <div id="access-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Access Layer Switch</h2>
+            <p><strong>Network Role:</strong></p>
+            <ul>
+                <li>Direct connection point for end devices</li>
+                <li>Port-level security and access control</li>
+                <li>12 ports with Power over Ethernet (PoE) support</li>
+                <li>VLAN assignment and port authentication</li>
+                <li>Basic switching and forwarding functions</li>
+            </ul>
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li>Layer 2 switching with port security</li>
+                <li>IEEE 802.1X authentication support</li>
+                <li>Dynamic VLAN assignment</li>
+                <li>Port mirroring for monitoring</li>
+                <li>Energy-efficient operation</li>
+            </ul>
+            <p><strong>Benefits:</strong> Secure device connectivity, flexible port configuration, and cost-effective access.</p>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const modals = document.querySelectorAll('.modal');
+        const clickableElements = document.querySelectorAll('.clickable[data-modal]');
+        const closeButtons = document.querySelectorAll('.close');
+
+        clickableElements.forEach(element => {
+            element.addEventListener('click', () => {
+                const modalId = element.getAttribute('data-modal');
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'block';
+                }
+            });
+        });
+
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.closest('.modal').style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+
+        // Tooltip functionality
+        const tooltipElements = document.querySelectorAll('[data-tooltip]');
+        const tooltip = document.getElementById('tooltip');
+
+        tooltipElements.forEach(element => {
+            element.addEventListener('mouseenter', (e) => {
+                const tooltipText = element.getAttribute('data-tooltip');
+                tooltip.textContent = tooltipText;
+                tooltip.style.display = 'block';
+                
+                const rect = element.getBoundingClientRect();
+                tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+            });
+
+            element.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        });
+
+        // Expand section functionality
+        function toggleExpand(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('active');
+        }
+
+        // Add some interactive animations
+        document.querySelectorAll('.vlan-zone').forEach(zone => {
+            zone.addEventListener('mouseenter', () => {
+                zone.style.borderWidth = '3px';
+            });
+            
+            zone.addEventListener('mouseleave', () => {
+                zone.style.borderWidth = '2px';
+            });
+        });
+
+        // Add click effects for switches with enhanced interactivity
+        document.querySelectorAll('.switch').forEach(switch_ => {
+            switch_.addEventListener('click', () => {
+                // Visual feedback animation
+                switch_.style.transform = 'scale(1.15)';
+                switch_.style.boxShadow = '0 10px 25px rgba(52, 152, 219, 0.6)';
+                
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.marginLeft = '-10px';
+                ripple.style.marginTop = '-10px';
+                
+                switch_.appendChild(ripple);
+                
+                setTimeout(() => {
+                    switch_.style.transform = 'scale(1)';
+                    switch_.style.boxShadow = '0 5px 15px rgba(52, 152, 219, 0.4)';
+                    ripple.remove();
+                }, 200);
+            });
+            
+            // Enhanced hover effects
+            switch_.addEventListener('mouseenter', () => {
+                switch_.style.background = 'linear-gradient(45deg, #2980b9, #3498db)';
+                switch_.style.transform = 'scale(1.05) translateY(-2px)';
+            });
+            
+            switch_.addEventListener('mouseleave', () => {
+                switch_.style.background = 'linear-gradient(45deg, #3498db, #2980b9)';
+                switch_.style.transform = 'scale(1) translateY(0)';
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+</body>
+</html>
