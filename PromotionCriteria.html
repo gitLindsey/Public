@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Promotion Timeline - Lindsey Wilson University</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding: 0 1.5rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(52, 152, 219, 0.1);
+            border-left-color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(52, 152, 219, 0.2);
+            border-left-color: #3498db;
+            color: #2980b9;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: white;
+            padding: 1.5rem 2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .section-content {
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: #3498db;
+            min-width: 120px;
+            font-size: 1.1rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+            margin-left: 1rem;
+        }
+
+        .timeline-content h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .rank-card {
+            background: rgba(52, 152, 219, 0.05);
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .rank-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.2);
+        }
+
+        .rank-card h3 {
+            color: #2980b9;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .criteria-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .criteria-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .criteria-list li:before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .salary-increase {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .important-note {
+            background: rgba(231, 76, 60, 0.1);
+            border-left: 5px solid #e74c3c;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .important-note strong {
+            color: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Navigation</h2>
+            <a href="#overview" class="nav-item active" onclick="showSection('overview', this)">Overview</a>
+            <a href="#timeline" class="nav-item" onclick="showSection('timeline', this)">Timeline</a>
+            <a href="#criteria" class="nav-item" onclick="showSection('criteria', this)">Rank Criteria</a>
+            <a href="#requirements" class="nav-item" onclick="showSection('requirements', this)">Requirements</a>
+            <a href="#salary" class="nav-item" onclick="showSection('salary', this)">Salary Increases</a>
+        </nav>
+
+        <main class="main-content">
+            <div class="header">
+                <h1>Faculty Promotion Process</h1>
+                <p>Lindsey Wilson University Board of Trustees Promotion Criteria and Timeline</p>
+            </div>
+
+            <section id="overview" class="section active">
+                <div class="section-header">
+                    <h2>Overview</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>Authority:</strong> Promotion in rank shall be awarded by the Lindsey Wilson University Board of Trustees based upon the application by the faculty member to the Promotion Committee and subsequent recommendations from the Promotion Committee, VPAA, and president.</p>
+                    
+                    <h3 style="margin-top: 2rem; color: #2c3e50;">Evaluation Categories</h3>
+                    <div class="criteria-list" style="margin-top: 1rem;">
+                        <li>Teaching and mentoring</li>
+                        <li>Service to the academic program, school, and college</li>
+                        <li>Scholarship</li>
+                    </div>
+                    
+                    <div class="important-note">
+                        <strong>Important:</strong> The higher the faculty rank, the greater the expectations. Additionally, there are commitment to excellence expectations defined in section 4 of the handbook for each rank in each category.
+                    </div>
+                </div>
+            </section>
+
+            <section id="timeline" class="section">
+                <div class="section-header">
+                    <h2>Promotion Timeline</h2>
+                </div>
+                <div class="section-content">
+                    <div class="timeline-item">
+                        <div class="timeline-date">August</div>
+                        <div class="timeline-content">
+                            <h3>Promotion Training</h3>
+                            <p>Representatives from the Promotion Committee and Faculty Affairs Council conduct training during the August Faculty Retreat to orient potential applicants and review process requirements. Open to all faculty members.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">September 15</div>
+                        <div class="timeline-content">
+                            <h3>Application Submission</h3>
+                            <p>Submit electronically to promotion@lindsey.edu:</p>
+                            <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                                <li>Letter of Intent (including rank applying for, minimum criteria met, transcript confirmation, portfolio due date acknowledgment)</li>
+                                <li>Curriculum vitae</li>
+                            </ul>
+                            <p><em>Deadline: 4:30 p.m. Central time</em></p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">September 30</div>
+                        <div class="timeline-content">
+                            <h3>Eligibility Notification</h3>
+                            <p>Promotion Committee chair notifies applicant of eligibility status after reviewing documentation with VPAA. Status will be either "meets requirements" or "does not meet requirements" with disqualifying details if applicable.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">January 24</div>
+                        <div class="timeline-content">
+                            <h3>Recommendation Letter Status</h3>
+                            <p>One week prior to deadline, Promotion Committee chair sends email regarding current status of letters of recommendation received and confirms once all three letters are received.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">January 31</div>
+                        <div class="timeline-content">
+                            <h3>Portfolio & Letters Due</h3>
+                            <p><strong>Two key submissions required:</strong></p>
+                            <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                                <li>Three letters of recommendation (confidential, signed within past 6 months)</li>
+                                <li>Electronic promotion portfolio using approved Google Sites template (max 100 MB)</li>
+                            </ul>
+                            <div class="important-note" style="margin-top: 1rem;">
+                                <strong>Note:</strong> After submission, applicant will never again have access to the portfolio and it will not be returned. Maintain personal copies for future reference.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">February 7</div>
+                        <div class="timeline-content">
+                            <h3>Receipt Confirmation</h3>
+                            <p>Promotion Committee chair sends email confirmation of portfolio receipt within one week. This acknowledgment does not provide feedback on completeness or quality.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">March 7</div>
+                        <div class="timeline-content">
+                            <h3>Committee Review Complete</h3>
+                            <p>Promotion Committee completes review using Promotion Portfolio Evaluation Rubric and submits scores, comments, and recommendation to VPAA. Chair notifies applicant of completion but does not reveal recommendation.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">March 15</div>
+                        <div class="timeline-content">
+                            <h3>Administrative Review</h3>
+                            <p>VPAA forwards portfolio and Committee recommendations with their own recommendation to president. President forwards all materials with their recommendation to Board of Trustees.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">Spring Board Meeting</div>
+                        <div class="timeline-content">
+                            <h3>Final Decision</h3>
+                            <p>Board of Trustees reviews all materials and recommendations to either award or deny promotion. Applicants notified in writing within one week of the meeting.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">May 15</div>
+                        <div class="timeline-content">
+                            <h3>Feedback Provided</h3>
+                            <p>Applicants receive:</p>
+                            <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                                <li>Promotion Portfolio Evaluation Rubric scores (without reviewer names)</li>
+                                <li>Written summary of comments (without reviewer names)</li>
+                                <li>Written summary of all recommendations indicating "supportive" or "not supportive"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="criteria" class="section">
+                <div class="section-header">
+                    <h2>Rank Criteria</h2>
+                </div>
+                <div class="section-content">
+                    <div class="rank-card">
+                        <h3>Instructor</h3>
+                        <p>There is an expectation that instructors will complete the requirements to move to assistant professor rank.</p>
+                    </div>
+
+                    <div class="rank-card">
+                        <h3>Assistant Professor</h3>
+                        <p><strong>Minimum criteria required by September 15:</strong></p>
+                        <ul class="criteria-list">
+                            <li>Earned doctorate/terminal degree (Instructors move to assistant professor upon completion), OR</li>
+                            <li>Master's degree; AND</li>
+                            <li>Minimum of three years of full-time college teaching experience completed at LWU with the rank of instructor</li>
+                        </ul>
+                    </div>
+
+                    <div class="rank-card">
+                        <h3>Associate Professor</h3>
+                        <p><strong>Minimum criteria required by September 15:</strong></p>
+                        <ul class="criteria-list">
+                            <li>Earned doctorate/terminal degree; AND</li>
+                            <li>Minimum of five years of full-time college teaching completed with a rank of assistant professor; AND</li>
+                            <li>Minimum of three years of full-time college teaching experience completed at LWU</li>
+                        </ul>
+                    </div>
+
+                    <div class="rank-card">
+                        <h3>Professor</h3>
+                        <p><strong>Minimum criteria required by September 15:</strong></p>
+                        <ul class="criteria-list">
+                            <li>Earned doctorate/terminal degree; AND</li>
+                            <li>Minimum of ten years of full-time college teaching experience completed; AND</li>
+                            <li>Minimum of seven years of full-time teaching experience completed with the rank of associate professor; AND</li>
+                            <li>Minimum of five years of full-time college teaching experience completed at LWU</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="requirements" class="section">
+                <div class="section-header">
+                    <h2>Letter of Recommendation Requirements</h2>
+                </div>
+                <div class="section-content">
+                    <p><strong>Three letters of recommendation required by January 31:</strong></p>
+                    
+                    <div class="rank-card">
+                        <h3>Letter Requirements</h3>
+                        <ul class="criteria-list">
+                            <li>Must be signed within the past six months</li>
+                            <li>Must be received by January 31</li>
+                            <li>Letters are confidential and shared only with Promotion Committee members, VPAA, president, and Board of Trustees</li>
+                        </ul>
+                    </div>
+
+                    <div class="rank-card">
+                        <h3>Required Letter Sources</h3>
+                        <p><strong>Letter 1:</strong> Must be from the applicant's dean, director of Counseling (M.Ed.), director of HS, or RAD. (Deans applying for promotion must submit a letter from another school's dean.)</p>
+                        
+                        <p><strong>Letters 2 & 3:</strong> Must be written by full-time Lindsey Wilson University faculty (not staff or adjunct instructors).</p>
+                    </div>
+
+                    <div class="important-note">
+                        <strong>Portfolio Submission:</strong> Electronic promotion portfolio must be submitted using the approved Google Sites template, shared with promotion@lindsey.edu, and must not exceed 100 MB.
+                    </div>
+                </div>
+            </section>
+
+            <section id="salary" class="section">
+                <div class="section-header">
+                    <h2>Salary Increases</h2>
+                </div>
+                <div class="section-content">
+                    <p>Promotion takes effect the next contract year immediately following the application year. A revised contract awarding a change in rank will be issued before the beginning of the fall term.</p>
+                    
+                    <div class="rank-card">
+                        <h3>Instructor to Assistant Professor</h3>
+                        <div class="salary-increase">Up to $2,000 increase</div>
+                    </div>
+
+                    <div class="rank-card">
+                        <h3>Assistant Professor to Associate Professor</h3>
+                        <div class="salary-increase">Up to $3,500 increase</div>
+                    </div>
+
+                    <div class="rank-card">
+                        <h3>Associate Professor to Professor</h3>
+                        <div class="salary-increase">Up to $5,000 increase</div>
+                    </div>
+
+                    <div class="important-note">
+                        <strong>Reapplication:</strong> Unsuccessful applicants for promotion may reapply the subsequent year, abiding by the guidelines and requirements stated in that subsequent year's Faculty Handbook.
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(sectionId, navItem) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section and mark nav item as active
+            document.getElementById(sectionId).classList.add('active');
+            navItem.classList.add('active');
+        }
+
+        // Add smooth scrolling effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const rankCards = document.querySelectorAll('.rank-card');
+            
+            // Add staggered animation to timeline items
+            timelineItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+
+            // Add hover effects
+            rankCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
