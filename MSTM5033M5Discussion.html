@@ -1,0 +1,222 @@
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, RotateCcw, BookOpen, Shield, Users, AlertTriangle, CheckCircle } from 'lucide-react';
+
+const IAMFlashcards = () => {
+  const [currentCard, setCurrentCard] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+  const [studiedCards, setStudiedCards] = useState(new Set());
+
+  const flashcards = [
+    {
+      id: 1,
+      category: "System Design",
+      icon: <Shield className="w-6 h-6" />,
+      question: "What are the core components of an IAM system design for a financial institution?",
+      answer: "• Authentication mechanisms (MFA, biometrics, SSO)\n• Authorization controls (RBAC, ABAC)\n• Identity lifecycle management\n• Privileged access management (PAM)\n• Session management\n• Audit and compliance logging\n• Integration with existing systems\n• Zero-trust architecture principles"
+    },
+    {
+      id: 2,
+      category: "Security Measures",
+      icon: <Shield className="w-6 h-6" />,
+      question: "How do you ensure secure access to sensitive financial data?",
+      answer: "• Implement multi-factor authentication (MFA)\n• Use risk-based authentication\n• Apply principle of least privilege\n• Implement data encryption (at rest and in transit)\n• Regular access reviews and certifications\n• Real-time monitoring and anomaly detection\n• Network segmentation\n• Strong password policies and rotation"
+    },
+    {
+      id: 3,
+      category: "User Experience",
+      icon: <Users className="w-6 h-6" />,
+      question: "How do you balance security with user convenience in IAM?",
+      answer: "• Single Sign-On (SSO) implementation\n• Adaptive authentication based on risk\n• Self-service password reset capabilities\n• Mobile-friendly authentication options\n• Contextual access (location, device, time)\n• Progressive profiling\n• Clear user training and communication\n• Streamlined onboarding processes"
+    },
+    {
+      id: 4,
+      category: "Regulatory Compliance",
+      icon: <AlertTriangle className="w-6 h-6" />,
+      question: "What regulatory compliance challenges exist for financial IAM systems?",
+      answer: "• SOX (Sarbanes-Oxley) compliance requirements\n• PCI DSS for payment card data\n• GDPR for EU customer data\n• FFIEC guidelines for financial institutions\n• NIST Cybersecurity Framework\n• Regular compliance audits and reporting\n• Data residency and sovereignty requirements\n• Breach notification requirements"
+    },
+    {
+      id: 5,
+      category: "Implementation Challenges",
+      icon: <AlertTriangle className="w-6 h-6" />,
+      question: "What are key implementation challenges for financial IAM systems?",
+      answer: "• Legacy system integration complexities\n• High availability requirements (99.9%+)\n• Scalability for thousands of users\n• Cost management and ROI justification\n• Change management and user adoption\n• Vendor selection and management\n• Data migration and synchronization\n• Performance optimization"
+    },
+    {
+      id: 6,
+      category: "Technical Solutions",
+      icon: <CheckCircle className="w-6 h-6" />,
+      question: "How do you address technical challenges in IAM implementation?",
+      answer: "• Phased rollout approach\n• API-first architecture for integration\n• Cloud-hybrid deployment models\n• Automated provisioning and deprovisioning\n• Identity federation standards (SAML, OAuth)\n• Directory synchronization tools\n• Load balancing and failover mechanisms\n• Comprehensive testing strategies"
+    },
+
+  ];
+
+  const nextCard = () => {
+    setFlipped(false);
+    setCurrentCard((prev) => (prev + 1) % flashcards.length);
+  };
+
+  const prevCard = () => {
+    setFlipped(false);
+    setCurrentCard((prev) => (prev - 1 + flashcards.length) % flashcards.length);
+  };
+
+  const flipCard = () => {
+    setFlipped(!flipped);
+    if (!flipped) {
+      setStudiedCards(prev => new Set([...prev, currentCard]));
+    }
+  };
+
+  const resetProgress = () => {
+    setStudiedCards(new Set());
+    setCurrentCard(0);
+    setFlipped(false);
+  };
+
+  const currentFlashcard = flashcards[currentCard];
+  const progress = (studiedCards.size / flashcards.length) * 100;
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-indigo-800 mb-2 flex items-center justify-center gap-3">
+          <Shield className="w-8 h-8" />
+          IAM System Design Flashcards
+        </h1>
+        <p className="text-indigo-600">Master the concepts for your financial IAM assignment</p>
+      </div>
+
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-medium text-indigo-700">Study Progress</span>
+          <span className="text-sm text-indigo-600">{studiedCards.size}/{flashcards.length} cards studied</span>
+        </div>
+        <div className="w-full bg-indigo-200 rounded-full h-3">
+          <div 
+            className="bg-gradient-to-r from-indigo-500 to-purple-600 h-3 rounded-full transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Flashcard */}
+      <div className="relative mb-8">
+        <div 
+          className={`bg-white rounded-xl shadow-2xl p-8 min-h-96 cursor-pointer transform transition-all duration-500 hover:scale-105 ${
+            flipped ? 'rotate-y-180' : ''
+          }`}
+          onClick={flipCard}
+          style={{ 
+            transformStyle: 'preserve-3d',
+            perspective: '1000px'
+          }}
+        >
+          {/* Card Number and Category */}
+          <div className="absolute top-4 right-4 flex items-center gap-2">
+            <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+              {currentFlashcard.icon}
+              {currentFlashcard.category}
+            </span>
+            <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-sm">
+              {currentCard + 1}/{flashcards.length}
+            </span>
+          </div>
+
+          {/* Studied Indicator */}
+          {studiedCards.has(currentCard) && (
+            <div className="absolute top-4 left-4">
+              <CheckCircle className="w-6 h-6 text-green-500" />
+            </div>
+          )}
+
+          <div className="mt-12">
+            {!flipped ? (
+              <div className="text-center">
+                <h2 className="text-xl font-semibold text-gray-800 mb-6">Question</h2>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  {currentFlashcard.question}
+                </p>
+                <div className="mt-8 text-indigo-500 text-sm">
+                  Click to reveal answer
+                </div>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">Answer</h2>
+                <div className="text-gray-700 leading-relaxed">
+                  {currentFlashcard.answer.split('\n').map((line, index) => (
+                    <div key={index} className="mb-2">
+                      {line.startsWith('•') ? (
+                        <div className="flex items-start gap-2">
+                          <span className="text-indigo-500 mt-1">•</span>
+                          <span>{line.substring(1).trim()}</span>
+                        </div>
+                      ) : (
+                        <div className={line.trim() === '' ? 'h-2' : 'font-medium text-indigo-800'}>
+                          {line}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="flex justify-center items-center gap-4 mb-6">
+        <button
+          onClick={prevCard}
+          className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          Previous
+        </button>
+        
+        <button
+          onClick={flipCard}
+          className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+        >
+          {flipped ? 'Show Question' : 'Show Answer'}
+        </button>
+        
+        <button
+          onClick={nextCard}
+          className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+        >
+          Next
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Reset Button */}
+      <div className="text-center">
+        <button
+          onClick={resetProgress}
+          className="flex items-center gap-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors mx-auto"
+        >
+          <RotateCcw className="w-4 h-4" />
+          Reset Progress
+        </button>
+      </div>
+
+      {/* Study Tips */}
+      <div className="mt-8 bg-white rounded-lg p-6 shadow-lg">
+        <h3 className="text-lg font-semibold text-indigo-800 mb-3">Assignment Success Tips:</h3>
+        <ul className="text-gray-700 space-y-2">
+          <li>• Study all cards to cover comprehensive IAM topics</li>
+          <li>• Focus on financial industry-specific challenges and solutions</li>
+          <li>• Write your response using 250-300 words</li>
+          <li>• Remember to include in-text citations and 2 references in APA format</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default IAMFlashcards;
