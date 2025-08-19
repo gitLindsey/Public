@@ -860,17 +860,22 @@
             updateProgress();
         });
 
-        // Add keyboard shortcuts for better user experience
-        document.addEventListener('keydown', function(event) {
-            // Navigate sections with number keys
-            if (event.key >= '1' && event.key <= '9') {
-                const buttons = document.querySelectorAll('.nav-btn');
-                const index = parseInt(event.key) - 1;
-                if (buttons[index]) {
-                    buttons[index].click();
-                }
-            }
-        });
+      document.addEventListener('keydown', function(event) {
+    // Ignore if typing inside an input, textarea, or contenteditable element
+    const active = document.activeElement;
+    if (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable) {
+        return;
+    }
+
+    // Navigate sections with number keys
+    if (event.key >= '1' && event.key <= '9') {
+        const buttons = document.querySelectorAll('.nav-btn');
+        const index = parseInt(event.key) - 1;
+        if (buttons[index]) {
+            buttons[index].click();
+        }
+    }
+});
 
         // Add smooth scrolling behavior
         document.querySelectorAll('.nav-btn').forEach(button => {
