@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Security Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar h1 {
+            text-align: center;
+            color: #4169e1;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            padding: 0 15px;
+        }
+
+        .nav-btn {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            background: transparent;
+            color: #ffffff;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(65, 105, 225, 0.2);
+            border-left-color: #4169e1;
+            color: #4169e1;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            flex: 1;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #4169e1;
+        }
+
+        .card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(65, 105, 225, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .card h2 {
+            color: #4169e1;
+            margin-bottom: 15px;
+        }
+
+        .quiz-container {
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            padding: 10px;
+            background: rgba(65, 105, 225, 0.2);
+            border: 1px solid rgba(65, 105, 225, 0.4);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: rgba(65, 105, 225, 0.4);
+        }
+
+        .option.selected {
+            background: #4169e1;
+            color: white;
+        }
+
+        .option.correct {
+            background: #28a745;
+            color: white;
+        }
+
+        .option.incorrect {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn {
+            background: #4169e1;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #2c5282;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #4169e1;
+        }
+
+        .flashcard {
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 15px 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.02);
+        }
+
+        .flashcard-content {
+            text-align: center;
+        }
+
+        .flip-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #4169e1;
+        }
+
+        .timeline-year {
+            color: #4169e1;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .cia-triangle {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .cia-element {
+            background: rgba(65, 105, 225, 0.2);
+            border: 2px solid #4169e1;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cia-element:hover {
+            background: rgba(65, 105, 225, 0.4);
+            transform: scale(1.1);
+        }
+
+        .model-diagram {
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .security-layer {
+            background: rgba(65, 105, 225, 0.3);
+            border: 1px solid #4169e1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            transition: background 0.3s ease;
+        }
+
+        .security-layer:hover {
+            background: rgba(65, 105, 225, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .container {
+                flex-direction: column;
+            }
+            
+            .cia-triangle {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h1>Computer Security</h1>
+            <button class="nav-btn active" onclick="showSection('home')">🏠 Home</button>
+            <button class="nav-btn" onclick="showSection('fundamentals')">📚 Security Fundamentals</button>
+            <button class="nav-btn" onclick="showSection('cia')">🔒 CIA Triad</button>
+            <button class="nav-btn" onclick="showSection('principles')">⚖️ Security Principles</button>
+            <button class="nav-btn" onclick="showSection('models')">🏗️ Security Models</button>
+            <button class="nav-btn" onclick="showSection('threats')">⚠️ Threats & History</button>
+            <button class="nav-btn" onclick="showSection('approaches')">🛡️ Security Approaches</button>
+            <button class="nav-btn" onclick="showSection('flashcards')">🎴 Flashcards</button>
+            <button class="nav-btn" onclick="showSection('quiz')">❓ Interactive Quiz</button>
+            <button class="nav-btn" onclick="showSection('timeline')">📅 Security Timeline</button>
+        </nav>
+
+        <main class="main-content">
+            <section id="home" class="section active">
+                <div class="hero">
+                    <h1>Computer Security Learning Platform</h1>
+                    <p>Master the fundamentals of computer and network security</p>
+                </div>
+                <div class="card">
+                    <h2>Welcome to Interactive Security Learning</h2>
+                    <p>This platform covers essential computer security concepts from the Principles of Computer Security textbook. Navigate through different sections to explore security fundamentals, principles, models, and test your knowledge.</p>
+                </div>
+                <div class="card">
+                    <h2>What You'll Learn</h2>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li>🔐 Core security concepts (CIA Triad)</li>
+                        <li>⚡ Security principles and best practices</li>
+                        <li>🏛️ Security models (Bell-LaPadula, Biba, etc.)</li>
+                        <li>🎯 Threat landscape and attack vectors</li>
+                        <li>🛡️ Defense strategies and approaches</li>
+                        <li>📖 Historical security incidents</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="fundamentals" class="section">
+                <div class="card">
+                    <h2>Security Fundamentals</h2>
+                    <p><strong>Computer Security:</strong> Methods used to ensure a secure system that addresses authentication and access controls.</p>
+                    <p><strong>Network Security:</strong> Protection of multiple computers and devices that connect together.</p>
+                    <p><strong>Information Security:</strong> Focus on protecting the data itself from unauthorized access or alteration while maintaining availability.</p>
+                    <p><strong>Cybersecurity:</strong> Field covering availability of systems and information when needed.</p>
+                </div>
+                
+                <div class="card">
+                    <h2>Operational Model of Computer Security</h2>
+                    <p><strong>Protection = Prevention + (Detection + Response)</strong></p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div class="security-layer">
+                            <h3>Prevention</h3>
+                            <p>Firewalls, Access Controls, Encryption</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Detection</h3>
+                            <p>IDS, Monitoring, Auditing</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Response</h3>
+                            <p>Incident Response, Recovery, Forensics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Cybersecurity Framework Core Functions</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                        <div class="security-layer">Identify</div>
+                        <div class="security-layer">Protect</div>
+                        <div class="security-layer">Detect</div>
+                        <div class="security-layer">Respond</div>
+                        <div class="security-layer">Recover</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cia" class="section">
+                <div class="card">
+                    <h2>The CIA Triad of Security</h2>
+                    <div class="cia-triangle">
+                        <div class="cia-element" onclick="showCIADetails('confidentiality')">
+                            <div>
+                                <h3>Confidentiality</h3>
+                                <p>Authorized access only</p>
+                            </div>
+                        </div>
+                        <div class="cia-element" onclick="showCIADetails('integrity')">
+                            <div>
+                                <h3>Integrity</h3>
+                                <p>Data accuracy & completeness</p>
+                            </div>
+                        </div>
+                        <div class="cia-element" onclick="showCIADetails('availability')">
+                            <div>
+                                <h3>Availability</h3>
+                                <p>Accessible when needed</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="cia-details" class="card" style="margin-top: 20px; display: none;">
+                        <div id="cia-content"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Additional Security Goals</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div class="security-layer">
+                            <h3>Authentication</h3>
+                            <p>Verifying identity claims</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Nonrepudiation</h3>
+                            <p>Proving message transmission</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Auditability</h3>
+                            <p>Verifying control functionality</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="principles" class="section">
+                <div class="card">
+                    <h2>Core Security Principles</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                        <div class="security-layer">
+                            <h3>Least Privilege</h3>
+                            <p>Minimum necessary rights and privileges</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Separation of Privilege</h3>
+                            <p>Multiple pieces of information for access decisions</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Fail-Safe Defaults</h3>
+                            <p>Default deny, explicit permission required</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Economy of Mechanism</h3>
+                            <p>Keep solutions simple, eliminate unnecessary services</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Complete Mediation</h3>
+                            <p>Verify every request through protection mechanisms</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Open Design</h3>
+                            <p>Security shouldn't rely on mechanism secrecy</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Defense in Depth</h3>
+                            <p>Multiple layered security mechanisms</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Psychological Acceptability</h3>
+                            <p>Security measures must be user-friendly</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="models" class="section">
+                <div class="card">
+                    <h2>Security Models</h2>
+                    <div class="model-diagram">
+                        <h3>Bell-LaPadula Model (Confidentiality)</h3>
+                        <p><strong>Simple Security Rule:</strong> "No read up"</p>
+                        <p><strong>*-Property:</strong> "No write down"</p>
+                        <div style="margin: 10px 0; padding: 10px; background: rgba(65,105,225,0.2); border-radius: 5px;">
+                            Focuses on data confidentiality in operating systems
+                        </div>
+                    </div>
+                    
+                    <div class="model-diagram">
+                        <h3>Biba Model (Integrity)</h3>
+                        <p><strong>Low-Water-Mark Policy:</strong> "No write up"</p>
+                        <p><strong>Ring Policy:</strong> "No read down"</p>
+                        <div style="margin: 10px 0; padding: 10px; background: rgba(65,105,225,0.2); border-radius: 5px;">
+                            Protects data integrity through access controls
+                        </div>
+                    </div>
+
+                    <div class="model-diagram">
+                        <h3>Brewer-Nash Model (Chinese Wall)</h3>
+                        <p>Controls access based on conflict of interest rules</p>
+                        <div style="margin: 10px 0; padding: 10px; background: rgba(65,105,225,0.2); border-radius: 5px;">
+                            Prevents information flow when conflicts exist
+                        </div>
+                    </div>
+
+                    <div class="model-diagram">
+                        <h3>Clark-Wilson Model</h3>
+                        <p>Transaction-based integrity model</p>
+                        <p><strong>CDI:</strong> Constrained Data Items</p>
+                        <p><strong>UDI:</strong> Unconstrained Data Items</p>
+                        <div style="margin: 10px 0; padding: 10px; background: rgba(65,105,225,0.2); border-radius: 5px;">
+                            Uses transactions and processes to maintain integrity
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="threats" class="section">
+                <div class="card">
+                    <h2>Threat Categories</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                        <div class="security-layer">
+                            <h3>Unstructured Threats</h3>
+                            <p>Script kiddies, individual hackers</p>
+                            <p>Short duration, limited resources</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Structured Threats</h3>
+                            <p>Criminal organizations</p>
+                            <p>More planning, financial backing</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Highly Structured Threats</h3>
+                            <p>Nation-states, information warfare</p>
+                            <p>Years of preparation, massive resources</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Types of Attackers</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div class="security-layer">
+                            <h3>Script Kiddies</h3>
+                            <p>Use existing tools, low technical skill</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Hackers</h3>
+                            <p>Can write scripts, moderate skill</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Elite Hackers</h3>
+                            <p>High technical expertise, discover new vulnerabilities</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Insiders</h3>
+                            <p>Most dangerous - have access and knowledge</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="approaches" class="section">
+                <div class="card">
+                    <h2>Security Approaches</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div class="security-layer">
+                            <h3>Host Security</h3>
+                            <p>Granular, per-device protection</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Network Security</h3>
+                            <p>Perimeter defense, access control</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Combined Approach</h3>
+                            <p>Host + Network security together</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Defense Strategies</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div class="security-layer">
+                            <h3>Correctness</h3>
+                            <p>Keep systems updated and properly configured</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Isolation</h3>
+                            <p>Access control and physical security</p>
+                        </div>
+                        <div class="security-layer">
+                            <h3>Obfuscation</h3>
+                            <p>Make success detection difficult</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="flashcards" class="section">
+                <div class="card">
+                    <h2>Security Flashcards</h2>
+                    <p>Click each card to flip between term and definition</p>
+                </div>
+                <div id="flashcard-container"></div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <button class="btn" onclick="shuffleFlashcards()">Shuffle Cards</button>
+                </div>
+            </section>
+
+            <section id="quiz" class="section">
+                <div class="card">
+                    <h2>Interactive Security Quiz</h2>
+                    <div id="quiz-container"></div>
+                    <div class="score" id="score-display">Score: 0/0</div>
+                    <div style="text-align: center;">
+                        <button class="btn" onclick="startQuiz()">Start New Quiz</button>
+                        <button class="btn" onclick="resetQuiz()">Reset</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="timeline" class="section">
+                <div class="card">
+                    <h2>Computer Security Timeline</h2>
+                    <div class="timeline" id="security-timeline"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked nav button
+            event.target.classList.add('active');
+        }
+
+        // CIA Triad details
+        function showCIADetails(type) {
+            const details = {
+                confidentiality: {
+                    title: "Confidentiality",
+                    content: "Ensures that only authorized individuals can view information. Protects against unauthorized disclosure of sensitive data through encryption, access controls, and classification systems."
+                },
+                integrity: {
+                    title: "Integrity",
+                    content: "Ensures data accuracy and completeness. Only authorized individuals can create, modify, or delete information. Protects against unauthorized changes through checksums, digital signatures, and version control."
+                },
+                availability: {
+                    title: "Availability",
+                    content: "Ensures systems and data are accessible when needed by authorized users. Protects against service disruptions through redundancy, backup systems, and disaster recovery plans."
+                }
+            };
+            
+            const detailsDiv = document.getElementById('cia-details');
+            const contentDiv = document.getElementById('cia-content');
+            
+            contentDiv.innerHTML = `
+                <h3>${details[type].title}</h3>
+                <p>${details[type].content}</p>
+            `;
+            
+            detailsDiv.style.display = 'block';
+        }
+
+        // Flashcards data and functionality
+        const flashcardsData = [
+            { term: "Authentication", definition: "The process of verifying that an individual is who they claim to be" },
+            { term: "CIA Triad", definition: "Confidentiality, Integrity, and Availability - the three pillars of information security" },
+            { term: "Least Privilege", definition: "Granting users only the minimum access rights needed to perform their job functions" },
+            { term: "Defense in Depth", definition: "Using multiple layers of security controls to protect against threats" },
+            { term: "Fail-Safe Defaults", definition: "Systems should default to a secure state when they fail" },
+            { term: "Separation of Duties", definition: "Dividing critical functions among multiple people to prevent fraud and errors" },
+            { term: "Bell-LaPadula Model", definition: "A security model focused on confidentiality with 'no read up' and 'no write down' rules" },
+            { term: "Biba Model", definition: "A security model focused on integrity with 'no write up' and 'no read down' rules" },
+            { term: "Nonrepudiation", definition: "The ability to verify that a message was sent and received by the claimed parties" },
+            { term: "Attack Surface", definition: "The total number of possible entry points where an attacker could try to enter or extract data" },
+            { term: "Threat Intelligence", definition: "Actionable information about current and potential security threats" },
+            { term: "APT", definition: "Advanced Persistent Threat - sophisticated, long-term cyberattack campaigns" }
+        ];
+
+        let currentFlashcards = [...flashcardsData];
+
+        function initializeFlashcards() {
+            const container = document.getElementById('flashcard-container');
+            container.innerHTML = '';
+            
+            currentFlashcards.forEach((card, index) => {
+                const flashcard = document.createElement('div');
+                flashcard.className = 'flashcard';
+                flashcard.innerHTML = `
+                    <div class="flashcard-content" id="card-${index}">
+                        <h3>${card.term}</h3>
+                    </div>
+                    <div class="flip-indicator">Click to flip</div>
+                `;
+                
+                flashcard.onclick = () => flipCard(index);
+                container.appendChild(flashcard);
+            });
+        }
+
+        function flipCard(index) {
+            const cardContent = document.getElementById(`card-${index}`);
+            const isShowingTerm = cardContent.innerHTML.includes(currentFlashcards[index].term);
+            
+            if (isShowingTerm) {
+                cardContent.innerHTML = `<p>${currentFlashcards[index].definition}</p>`;
+            } else {
+                cardContent.innerHTML = `<h3>${currentFlashcards[index].term}</h3>`;
+            }
+        }
+
+        function shuffleFlashcards() {
+            currentFlashcards = [...flashcardsData].sort(() => Math.random() - 0.5);
+            initializeFlashcards();
+        }
+
+        // Quiz functionality
+        const quizQuestions = [
+            {
+                question: "What does the 'C' in CIA Triad stand for?",
+                options: ["Confidentiality", "Consistency", "Correctness", "Control"],
+                correct: 0
+            },
+            {
+                question: "Which security principle states that users should have only the minimum necessary permissions?",
+                options: ["Defense in Depth", "Separation of Duties", "Least Privilege", "Fail-Safe Defaults"],
+                correct: 2
+            },
+            {
+                question: "What is the Bell-LaPadula model primarily concerned with?",
+                options: ["Availability", "Integrity", "Confidentiality", "Authentication"],
+                correct: 2
+            },
+            {
+                question: "Which rule is associated with the Bell-LaPadula model?",
+                options: ["No write up", "No read up", "No execute down", "No modify up"],
+                correct: 1
+            },
+            {
+                question: "What does APT stand for in cybersecurity?",
+                options: ["Automated Penetration Testing", "Advanced Persistent Threat", "Application Protection Tool", "Active Protocol Testing"],
+                correct: 1
+            },
+            {
+                question: "Which security model is also known as the Chinese Wall model?",
+                options: ["Bell-LaPadula", "Biba", "Brewer-Nash", "Clark-Wilson"],
+                correct: 2
+            },
+            {
+                question: "What is the primary focus of the Biba security model?",
+                options: ["Confidentiality", "Availability", "Integrity", "Authentication"],
+                correct: 2
+            },
+            {
+                question: "Which type of threat is characterized by script kiddies?",
+                options: ["Structured Threat", "Highly Structured Threat", "Unstructured Threat", "Advanced Persistent Threat"],
+                correct: 2
+            }
+        ];
+
+        let currentQuiz = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            currentQuiz = [...quizQuestions].sort(() => Math.random() - 0.5).slice(0, 5);
+            currentQuestionIndex = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= currentQuiz.length) {
+                showQuizResults();
+                return;
+            }
+
+            const question = currentQuiz[currentQuestionIndex];
+            const container = document.getElementById('quiz-container');
+            
+            container.innerHTML = `
+                <div class="quiz-container">
+                    <div class="question">
+                        Question ${currentQuestionIndex + 1} of ${currentQuiz.length}: ${question.question}
+                    </div>
+                    <div class="options" id="options-${currentQuestionIndex}">
+                        ${question.options.map((option, index) => 
+                            `<div class="option" onclick="selectOption(${index})" id="option-${index}">${option}</div>`
+                        ).join('')}
+                    </div>
+                    <button class="btn" onclick="submitAnswer()" id="submit-btn" disabled>Submit Answer</button>
+                </div>
+            `;
+        }
+
+        function selectOption(index) {
+            // Remove previous selections
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select current option
+            document.getElementById(`option-${index}`).classList.add('selected');
+            document.getElementById('submit-btn').disabled = false;
+            
+            // Store selected answer
+            window.selectedAnswer = index;
+        }
+
+        function submitAnswer() {
+            const question = currentQuiz[currentQuestionIndex];
+            const correctAnswer = question.correct;
+            const selectedAnswer = window.selectedAnswer;
+            
+            // Show correct and incorrect answers
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                if (index === correctAnswer) {
+                    opt.classList.add('correct');
+                } else if (index === selectedAnswer && index !== correctAnswer) {
+                    opt.classList.add('incorrect');
+                }
+                opt.onclick = null; // Disable further clicks
+            });
+            
+            if (selectedAnswer === correctAnswer) {
+                score++;
+            }
+            
+            // Update score display
+            document.getElementById('score-display').textContent = `Score: ${score}/${currentQuestionIndex + 1}`;
+            
+            // Show next question button
+            document.getElementById('submit-btn').outerHTML = `
+                <button class="btn" onclick="nextQuestion()">
+                    ${currentQuestionIndex + 1 < currentQuiz.length ? 'Next Question' : 'View Results'}
+                </button>
+            `;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function showQuizResults() {
+            const container = document.getElementById('quiz-container');
+            const percentage = Math.round((score / currentQuiz.length) * 100);
+            let message = '';
+            
+            if (percentage >= 80) {
+                message = 'Excellent! You have a strong understanding of computer security concepts.';
+            } else if (percentage >= 60) {
+                message = 'Good job! You have a solid grasp of the fundamentals.';
+            } else {
+                message = 'Keep studying! Review the materials and try again.';
+            }
+            
+            container.innerHTML = `
+                <div class="quiz-container" style="text-align: center;">
+                    <h3>Quiz Complete!</h3>
+                    <div class="score" style="font-size: 2rem; margin: 20px 0;">
+                        ${score}/${currentQuiz.length} (${percentage}%)
+                    </div>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-container').innerHTML = '';
+            document.getElementById('score-display').textContent = 'Score: 0/0';
+        }
+
+        // Security Timeline
+        const timelineEvents = [
+            { year: "1988", event: "Morris Worm", description: "First major internet worm, infected 10% of internet-connected computers" },
+            { year: "1994", event: "Citibank Hack", description: "Vladimir Levin steals $10 million through fraudulent wire transfers" },
+            { year: "1995", event: "Kevin Mitnick Arrest", description: "Most wanted computer criminal captured after years of hacking" },
+            { year: "1999", event: "Melissa Virus", description: "First major email-propagated virus, caused millions in damages" },
+            { year: "2000", event: "Love Letter Virus", description: "Spread through email attachments, caused billions in damages worldwide" },
+            { year: "2001", event: "Code Red Worm", description: "Exploited Microsoft IIS vulnerability, defaced websites" },
+            { year: "2003", event: "SQL Slammer", description: "Fastest spreading worm in history, infected 75,000 hosts in 10 minutes" },
+            { year: "2008", event: "Conficker Worm", description: "Created massive botnet, infected millions of computers" },
+            { year: "2009", event: "Operation Aurora", description: "Sophisticated attacks against Google and other companies" },
+            { year: "2010", event: "Stuxnet", description: "First known cyberweapon, targeted Iranian nuclear facilities" },
+            { year: "2012", event: "Saudi Aramco Attack", description: "Shamoon malware destroyed 35,000 computers" },
+            { year: "2013-Present", event: "Data Breaches Era", description: "Massive data breaches become commonplace" },
+            { year: "2015", event: "Ukraine Grid Attack", description: "First successful cyberattack on a power grid" },
+            { year: "2017", event: "WannaCry Ransomware", description: "Global ransomware attack affected hundreds of thousands of computers" }
+        ];
+
+        function initializeTimeline() {
+            const timeline = document.getElementById('security-timeline');
+            timeline.innerHTML = timelineEvents.map(event => `
+                <div class="timeline-item">
+                    <div class="timeline-year">${event.year}</div>
+                    <h3>${event.event}</h3>
+                    <p>${event.description}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize components when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFlashcards();
+            initializeTimeline();
+        });
+    </script>
+</body>
+</html>
