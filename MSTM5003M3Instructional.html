@@ -663,7 +663,521 @@
                         <div class="cert-arrow">→</div>
                         <div class="cert-box" style="background: #17a2b8;">Generation</div>
                         <div class="cert-arrow">→</div>
-                        <div class="cert-box" style="background: #ffc107; color: #333;">Active Use</div>
+                        <div class="cert-box" style="background: #ffc107; color: #333;">Building</div>
+                        <div class="cert-arrow">→</div>
+                        <div class="cert-box" style="background: #dc3545;">Server Room</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Electronic Access Controls</h3>
+                    <div class="key-terms">
+                        <div class="key-term">
+                            <strong>Smart Cards</strong>
+                            Integrated circuits for cryptographic authentication
+                        </div>
+                        <div class="key-term">
+                            <strong>Contactless Cards</strong>
+                            RFID-based access tokens
+                        </div>
+                        <div class="key-term">
+                            <strong>Biometrics</strong>
+                            Fingerprints, iris scans, facial recognition
+                        </div>
+                        <div class="key-term">
+                            <strong>PIV Cards</strong>
+                            Personal Identity Verification (FIPS 201 standard)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Physical Barriers</h3>
+                    <p><strong>Mantraps:</strong> Two doors requiring sequential card access</p>
+                    <p><strong>Turnstiles:</strong> Physical barriers allowing one person at a time</p>
+                    <p><strong>Locks:</strong> High-security locks with key control and bump-key resistance</p>
+                    <p><strong>CCTV:</strong> Closed-circuit television for monitoring and deterrence</p>
+                </div>
+            </div>
+
+            <!-- Environmental Controls Section -->
+            <div id="environmental" class="content-section">
+                <div class="section-header">
+                    <h2>Environmental Controls</h2>
+                    <p>Managing the physical environment for optimal security and operations</p>
+                </div>
+
+                <div class="card">
+                    <h3>HVAC Systems</h3>
+                    <p><strong>Temperature Control:</strong> Maintain 70-74°F for optimal equipment operation</p>
+                    <p><strong>Hot Aisle/Cold Aisle:</strong> Layout design to manage increased data center density</p>
+                    <p><strong>Security Concerns:</strong> HVAC systems can be targets for theft (copper) and vandalism leading to DoS attacks</p>
+                </div>
+
+                <div class="card">
+                    <h3>Power Protection</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="background: white; padding: 15px; border-radius: 8px;">
+                            <strong style="color: #4169e1;">UPS Systems</strong><br>
+                            Online vs Standby types for short-duration failures
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px;">
+                            <strong style="color: #4169e1;">Backup Power</strong><br>
+                            Generators for long-duration outages
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px;">
+                            <strong style="color: #4169e1;">Power Conditioning</strong><br>
+                            Voltage regulators and line conditioners
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px;">
+                            <strong style="color: #4169e1;">Emergency Shutdown</strong><br>
+                            EPO switches for quick power termination
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Electromagnetic Environment</h3>
+                    <p><strong>EMI:</strong> Electromagnetic interference affecting electrical circuits</p>
+                    <p><strong>TEMPEST:</strong> Technology to control electromagnetic emissions (Van Eck emissions)</p>
+                    <p><strong>Faraday Cage:</strong> Enclosure that blocks electromagnetic fields</p>
+                    <p><strong>Cable Shielding:</strong> Protection against interference and eavesdropping</p>
+                </div>
+            </div>
+
+            <!-- Fire Safety Section -->
+            <div id="fire-safety" class="content-section">
+                <div class="section-header">
+                    <h2>Fire Safety Systems</h2>
+                    <p>Detection and suppression systems for data centers</p>
+                </div>
+
+                <div class="card">
+                    <h3>Fire Classes</h3>
+                    <div class="fire-types">
+                        <div class="fire-type" onclick="showFireInfo('A')">
+                            <div class="fire-class">Class A</div>
+                            <div>Common Combustibles</div>
+                            <small>Wood, paper, cloth</small>
+                        </div>
+                        <div class="fire-type" onclick="showFireInfo('B')">
+                            <div class="fire-class">Class B</div>
+                            <div>Combustible Liquids</div>
+                            <small>Petroleum, solvents</small>
+                        </div>
+                        <div class="fire-type" onclick="showFireInfo('C')">
+                            <div class="fire-class">Class C</div>
+                            <div>Electrical</div>
+                            <small>Wiring, equipment</small>
+                        </div>
+                        <div class="fire-type" onclick="showFireInfo('D')">
+                            <div class="fire-class">Class D</div>
+                            <div>Flammable Metals</div>
+                            <small>Magnesium, titanium</small>
+                        </div>
+                    </div>
+                    <div id="fire-info" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        Click on a fire class to see suppression methods
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Suppression Systems</h3>
+                    <p><strong>Water-Based:</strong> Traditional sprinklers - effective but damaging to electronics</p>
+                    <p><strong>Clean-Agent Systems:</strong> CO₂, Argon, Inergen, FM-200 - protect equipment and people</p>
+                    <p><strong>Detection:</strong> Smoke (photoelectric/ionization), heat (fixed/rate-of-rise), flame (infrared)</p>
+                </div>
+            </div>
+
+            <!-- Security Convergence Section -->
+            <div id="convergence" class="content-section">
+                <div class="section-header">
+                    <h2>Security Convergence</h2>
+                    <p>Integrating physical and information security</p>
+                </div>
+
+                <div class="card">
+                    <h3>Convergence Benefits</h3>
+                    <p>Convergence combines physical and information security to improve identification of unauthorized activity. For example:</p>
+                    <div class="scenario-box">
+                        <h4>Scenario: Anomaly Detection</h4>
+                        <p>If an access control system approves access from an outside IP address, but the physical security system shows the user is in the building, an anomaly exists and should be investigated.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Protection Against Cloned Credentials</h3>
+                    <p>Convergence significantly improves defenses against cloned credentials by correlating physical presence with logical access attempts.</p>
+                </div>
+
+                <div class="card">
+                    <h3>TEMPEST and Electronic Emanations</h3>
+                    <p><strong>TEMPEST:</strong> Technology to prevent disclosure through electronic emanations</p>
+                    <p><strong>Van Eck Emissions:</strong> Electromagnetic radiation that can be intercepted to reconstruct displayed information</p>
+                    <p><strong>Countermeasures:</strong> Faraday cages, proper cable shielding, and controlled electromagnetic environments</p>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quiz" class="content-section">
+                <div class="section-header">
+                    <h2>Knowledge Assessment</h2>
+                    <p>Test your understanding of PKI and Physical Security concepts</p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quiz-progress"></div>
+                    </div>
+                    
+                    <div id="quiz-question-1" class="quiz-question active">
+                        <h4>Question 1: What is the primary role of a Certificate Authority (CA)?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">Generate symmetric encryption keys</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Certify identities and create digital certificates</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Store private keys securely</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Monitor network traffic</div>
+                        </div>
+                        <div class="feedback-box" id="feedback-1"></div>
+                    </div>
+
+                    <div id="quiz-question-2" class="quiz-question">
+                        <h4>Question 2: Which trust model uses cross-certification between CAs?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">Hierarchical</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Peer-to-peer</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Hybrid</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Bridge CA</div>
+                        </div>
+                        <div class="feedback-box" id="feedback-2"></div>
+                    </div>
+
+                    <div id="quiz-question-3" class="quiz-question">
+                        <h4>Question 3: What is the fundamental principle of physical security?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">Firewalls are the most important defense</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Physical access negates all other security measures</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Biometrics provide complete security</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Software controls are sufficient</div>
+                        </div>
+                        <div class="feedback-box" id="feedback-3"></div>
+                    </div>
+
+                    <div id="quiz-question-4" class="quiz-question">
+                        <h4>Question 4: Which protocol provides real-time certificate status checking?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">CRL</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">OCSP</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">ISAKMP</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">XKMS</div>
+                        </div>
+                        <div class="feedback-box" id="feedback-4"></div>
+                    </div>
+
+                    <div id="quiz-question-5" class="quiz-question">
+                        <h4>Question 5: What type of fire suppression is recommended for electrical equipment?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">Water-based sprinklers</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Clean-agent systems (CO₂, FM-200)</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Halon-based systems</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Foam-based systems</div>
+                        </div>
+                        <div class="feedback-box" id="feedback-5"></div>
+                    </div>
+
+                    <div class="quiz-controls">
+                        <button class="btn btn-secondary" onclick="prevQuestion()" id="prev-btn" disabled>Previous</button>
+                        <span id="question-counter">Question 1 of 5</span>
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="next-btn">Next</button>
+                    </div>
+
+                    <div class="score-display" id="final-score" style="display: none;">
+                        <h3>Quiz Complete!</h3>
+                        <div class="score-circle" id="score-circle">0%</div>
+                        <p id="score-text">You scored 0 out of 5 questions correctly.</p>
+                        <button class="btn btn-primary" onclick="resetQuiz()">Retake Quiz</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenarios Section -->
+            <div id="scenarios" class="content-section">
+                <div class="section-header">
+                    <h2>Security Scenarios</h2>
+                    <p>Apply your knowledge to real-world situations</p>
+                </div>
+
+                <div class="card">
+                    <h3>Scenario 1: Certificate Compromise</h3>
+                    <div class="scenario-box">
+                        <p><strong>Situation:</strong> An employee reports their laptop was stolen from their car. The laptop contained their digital certificate and private key.</p>
+                        <p><strong>Question:</strong> What immediate actions should be taken?</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="showScenarioSolution(1)">Show Solution</button>
+                    <div id="scenario-1-solution" style="display: none; margin-top: 15px; background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                        <strong>Solution:</strong>
+                        <ol style="margin-left: 20px;">
+                            <li>Immediately revoke the certificate (add to CRL)</li>
+                            <li>Notify the Certificate Authority</li>
+                            <li>Generate new key pair and request new certificate</li>
+                            <li>Update OCSP status if available</li>
+                            <li>Investigate potential data exposure</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Scenario 2: Physical Security Breach</h3>
+                    <div class="scenario-box">
+                        <p><strong>Situation:</strong> Security cameras show an unauthorized person in the server room at 2 AM. They were seen inserting a USB device into a server.</p>
+                        <p><strong>Question:</strong> What security controls failed and what should be the response?</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="showScenarioSolution(2)">Show Solution</button>
+                    <div id="scenario-2-solution" style="display: none; margin-top: 15px; background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                        <strong>Failed Controls & Response:</strong>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Failed:</strong> Layered access, after-hours monitoring, USB port security</li>
+                            <li><strong>Response:</strong> Immediate server isolation, forensic imaging, malware scanning, access log review, strengthen USB policies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Scenario 3: Trust Model Selection</h3>
+                    <div class="scenario-box">
+                        <p><strong>Situation:</strong> A company with 5 subsidiaries needs to implement PKI. Each subsidiary wants autonomy but they need to share certificates for B2B transactions.</p>
+                        <p><strong>Question:</strong> Which trust model would be most appropriate?</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="showScenarioSolution(3)">Show Solution</button>
+                    <div id="scenario-3-solution" style="display: none; margin-top: 15px; background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                        <strong>Recommended:</strong> Hybrid trust model with a bridge CA. Each subsidiary maintains its own hierarchical CA structure while the bridge CA handles cross-certification between subsidiaries, providing scalability and autonomy.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        let totalQuestions = 5;
+        let score = 0;
+        let answers = [];
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked nav button
+            event.target.classList.add('active');
+        }
+
+        function showDefinition(term) {
+            const definitions = {
+                'ca': 'A Certificate Authority (CA) is a trusted third party that verifies identities and issues digital certificates. The CA digitally signs certificates using its private key, ensuring authenticity.',
+                'ra': 'A Registration Authority (RA) accepts certificate requests and performs identity verification before forwarding requests to the CA. It acts as an interface between users and the CA.',
+                'crl': 'A Certificate Revocation List (CRL) contains serial numbers of certificates that have been revoked before their expiration date, along with revocation reasons and dates.',
+                'repo': 'A Certificate Repository is a centralized, usually LDAP-compliant directory that stores certificates and public keys for PKI participants.'
+            };
+            
+            alert(definitions[term] || 'Definition not available.');
+        }
+
+        function showTrustModel(model) {
+            const explanations = {
+                'hierarchical': '<h4>Hierarchical Trust Model</h4><p>Uses an inverted tree structure with a root CA at the top, intermediate CAs in the middle, and leaf CAs issuing end-entity certificates. The root CA is the ultimate trust anchor.</p>',
+                'peer': '<h4>Peer-to-Peer Trust Model</h4><p>CAs are not subordinate to each other. Cross-certification creates bidirectional trust relationships. Main drawback is scalability in large environments.</p>',
+                'hybrid': '<h4>Hybrid Trust Model</h4><p>Combines hierarchical models within organizations connected through peer-to-peer cross-certification or a bridge CA that manages cross-certification between trust domains.</p>'
+            };
+            
+            document.getElementById('trust-explanation').innerHTML = explanations[model];
+        }
+
+        function showFireInfo(fireClass) {
+            const fireInfo = {
+                'A': '<strong>Class A Fires:</strong> Common combustibles like wood, paper, cloth. <br><strong>Suppression:</strong> Water or dry chemical agents are effective.',
+                'B': '<strong>Class B Fires:</strong> Combustible liquids like petroleum products. <br><strong>Suppression:</strong> CO₂ or dry chemical agents (never water).',
+                'C': '<strong>Class C Fires:</strong> Electrical equipment and wiring. <br><strong>Suppression:</strong> CO₂ or dry chemical agents (never water on live electrical).',
+                'D': '<strong>Class D Fires:</strong> Flammable metals like magnesium. <br><strong>Suppression:</strong> Special metal suppression agents like copper or sodium chloride.'
+            };
+            
+            document.getElementById('fire-info').innerHTML = fireInfo[fireClass];
+        }
+
+        function selectOption(element, isCorrect) {
+            // Remove previous selections
+            element.parentNode.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Mark current selection
+            element.classList.add('selected');
+            
+            // Store answer
+            answers[currentQuestion - 1] = isCorrect;
+        }
+
+        function showFeedback(questionNum, isCorrect) {
+            const feedbackBox = document.getElementById(`feedback-${questionNum}`);
+            feedbackBox.style.display = 'block';
+            
+            if (isCorrect) {
+                feedbackBox.className = 'feedback-box feedback-correct';
+                feedbackBox.innerHTML = '✓ Correct! Well done.';
+            } else {
+                feedbackBox.className = 'feedback-box feedback-incorrect';
+                feedbackBox.innerHTML = '✗ Incorrect. Review the material and try again.';
+            }
+        }
+
+        function nextQuestion() {
+            // Check if an option is selected
+            const currentQuestionDiv = document.getElementById(`quiz-question-${currentQuestion}`);
+            const selectedOption = currentQuestionDiv.querySelector('.quiz-option.selected');
+            
+            if (!selectedOption) {
+                alert('Please select an answer before proceeding.');
+                return;
+            }
+
+            // Show feedback
+            const isCorrect = answers[currentQuestion - 1];
+            showFeedback(currentQuestion, isCorrect);
+            if (isCorrect) score++;
+
+            // Mark correct answer
+            const options = currentQuestionDiv.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                if (option.onclick.toString().includes('true')) {
+                    option.classList.add('correct');
+                } else if (option.classList.contains('selected') && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            setTimeout(() => {
+                if (currentQuestion < totalQuestions) {
+                    // Move to next question
+                    document.getElementById(`quiz-question-${currentQuestion}`).classList.remove('active');
+                    currentQuestion++;
+                    document.getElementById(`quiz-question-${currentQuestion}`).classList.add('active');
+                    
+                    // Update progress
+                    updateProgress();
+                    updateControls();
+                } else {
+                    // Show final score
+                    showFinalScore();
+                }
+            }, 2000);
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                document.getElementById(`quiz-question-${currentQuestion}`).classList.remove('active');
+                currentQuestion--;
+                document.getElementById(`quiz-question-${currentQuestion}`).classList.add('active');
+                updateProgress();
+                updateControls();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('quiz-progress').style.width = progress + '%';
+            document.getElementById('question-counter').textContent = `Question ${currentQuestion} of ${totalQuestions}`;
+        }
+
+        function updateControls() {
+            document.getElementById('prev-btn').disabled = currentQuestion === 1;
+            document.getElementById('next-btn').textContent = currentQuestion === totalQuestions ? 'Finish' : 'Next';
+        }
+
+        function showFinalScore() {
+            document.querySelectorAll('.quiz-question').forEach(q => q.style.display = 'none');
+            document.querySelector('.quiz-controls').style.display = 'none';
+            document.getElementById('final-score').style.display = 'block';
+            
+            const percentage = Math.round((score / totalQuestions) * 100);
+            document.getElementById('score-circle').textContent = percentage + '%';
+            document.getElementById('score-circle').style.background = 
+                `conic-gradient(#4169e1 ${percentage * 3.6}deg, #e0e0e0 ${percentage * 3.6}deg)`;
+            document.getElementById('score-text').textContent = 
+                `You scored ${score} out of ${totalQuestions} questions correctly.`;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            answers = [];
+            
+            // Reset all questions
+            document.querySelectorAll('.quiz-question').forEach((q, index) => {
+                q.classList.remove('active');
+                if (index === 0) q.classList.add('active');
+                
+                // Reset options
+                q.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                // Hide feedback
+                const feedback = document.getElementById(`feedback-${index + 1}`);
+                if (feedback) feedback.style.display = 'none';
+            });
+            
+            // Reset controls
+            document.getElementById('final-score').style.display = 'none';
+            document.querySelector('.quiz-controls').style.display = 'flex';
+            updateProgress();
+            updateControls();
+        }
+
+        function showScenarioSolution(scenarioNum) {
+            const solution = document.getElementById(`scenario-${scenarioNum}-solution`);
+            solution.style.display = solution.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Initialize
+        updateProgress();
+        updateControls();
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.6s ease-out';
+                    }
+                });
+            });
+            
+            cards.forEach(card => observer.observe(card));
+        });
+
+        // Add click animations to nav buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>;">Active Use</div>
                         <div class="cert-arrow">→</div>
                         <div class="cert-box" style="background: #fd7e14;">Renewal</div>
                         <div class="cert-arrow">→</div>
