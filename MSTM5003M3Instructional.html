@@ -572,53 +572,34 @@ Company CA setup and internal certificate generation
 
 <!-- Certificate Lifecycle Section -->
 <div id="certificate-lifecycle" class="content-section">
-<div class="section-header">
-<h2>Certificate Lifecycle</h2>
-<p>From registration to revocation</p>
-</div>
-<div class="card">
-<h3>Lifecycle Stages</h3>
-<div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; flex-wrap: wrap;">
-<div class="cert-box" style="background: #28a745;">Registration</div>
-<div class="cert-arrow">→</div>
-<div class="cert-box" style="background: #17a2b8;">Generation</div>
-<div class="cert-arrow">→</div>
-<div class="cert-box" style="background: #ffc107; color: #333;">Active Use</div>
-<div class="cert-arrow">→</div>
-<div class="cert-box" style="background: #fd7e14;">Renewal</div>
-<div class="cert-arrow">→</div>
-<div class="cert-box" style="background: #dc3545;">Revocation</div>
-</div>
-</div>
-<div class="card">
-<h3>Certificate Revocation</h3>
-<p><strong>Reasons for Revocation:</strong></p>
-<ul style="margin: 10px 0 10px 20px;">
-<li>Lost laptop or smart card containing private key</li>
-<li>Improper software implementation affecting key security</li>
-<li>Social engineering attack compromising private key</li>
-<li>Certificate data no longer applies to individual</li>
-<li>Employee departure</li>
-</ul>
-<p><strong>Note:</strong> Certificate revocation is permanent and final - once revoked, a certificate cannot be reinstated.</p>
-</div>
-<div class="card">
-<h3>OCSP vs CRL</h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
-<div style="background: white; padding: 15px; border-radius: 8px;">
-<h4 style="color: #4169e1;">Certificate Revocation List (CRL)</h4>
-<p>• List of revoked certificate serial numbers</p>
-<p>• Downloaded periodically</p>
-<p>• Can grow large in size</p>
-</div>
-<div style="background: white; padding: 15px; border-radius: 8px;">
-<h4 style="color: #4169e1;">Online Certificate Status Protocol (OCSP)</h4>
-<p>• Real-time certificate status checking</p>
-<p>• Returns: revoked, valid, or unknown</p>
-<p>• Reduces client processing overhead</p>
-</div>
-</div>
-</div>
+    <div class="section-header">
+        <h2>Certificate Lifecycle</h2>
+        <p>From registration to revocation</p>
+    </div>
+
+    <div class="card">
+        <h3>Lifecycle Stages</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; flex-wrap: wrap;">
+            <div class="cert-box" style="background: #28a745;">Registration</div>
+            <div class="cert-arrow">→</div>
+            <div class="cert-box" style="background: #17a2b8;">Generation</div>
+            <div class="cert-arrow">→</div>
+            <div class="cert-box" style="background: #ffc107; color: #333;">Distribution & Usage</div>
+            <div class="cert-arrow">→</div>
+            <div class="cert-box" style="background: #dc3545;">Revocation / Expiration</div>
+        </div>
+        <p style="text-align: center;">Certificates move through these stages to ensure security and trustworthiness over time.</p>
+    </div>
+
+    <div class="card">
+        <h3>Key Points</h3>
+        <ul>
+            <li><strong>Registration:</strong> User or device identity verified by a Registration Authority (RA) before a certificate is issued.</li>
+            <li><strong>Generation:</strong> Certificate Authority (CA) creates the certificate and digitally signs it with its private key.</li>
+            <li><strong>Distribution & Usage:</strong> Certificates are distributed and used for encryption, authentication, and digital signatures.</li>
+            <li><strong>Revocation / Expiration:</strong> Certificates can expire or be revoked (via CRL or OCSP) if compromised or no longer needed.</li>
+        </ul>
+    </div>
 </div>
 
 <!-- PKI Standards Section -->
@@ -821,6 +802,13 @@ System-enforced access based on security labels
 </div>
 </div>
 </div>
+<div class="card">
+    <h3>Additional Physical Barriers</h3>
+    <p><strong>Mantraps:</strong> Two sequential doors requiring card access.</p>
+    <p><strong>Turnstiles:</strong> Restrict entry to one person at a time.</p>
+    <p><strong>Locks:</strong> High-security locks with key control and bump-key resistance.</p>
+    <p><strong>CCTV:</strong> Monitoring and deterrence through surveillance cameras.</p>
+</div>  
 <div class="card">
 <h3>Tailgating Prevention</h3>
 <div class="scenario-box">
