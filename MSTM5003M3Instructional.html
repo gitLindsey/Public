@@ -581,13 +581,13 @@ Company CA setup and internal certificate generation
   <h3>Interactive Layers of Physical Access</h3>
 
   <div class="diagram layers-diagram" role="group" aria-label="Physical security layers">
-    <button class="layer-node" data-layer="perimeter" aria-pressed="true">Perimeter</button>
+    <button class="cert-box" style="background: #28a745;" aria-pressed="true">Perimeter</button>
+    <span  class="cert-box" style="background: #28a745;" aria-hidden="true">→</span>
+    <button  class="cert-box" style="background: #17a2b8;" data-layer="entry">Building Entry</button>
+    <span  class="cert-box" style="background: #17a2b8;" aria-hidden="true">→</span>
+    <button class="cert-box" style="background: #ffc107;" color: #333;" data-layer="secure">Secure Area</button>
     <span class="layer-arrow" aria-hidden="true">→</span>
-    <button class="layer-node" data-layer="entry">Building Entry</button>
-    <span class="layer-arrow" aria-hidden="true">→</span>
-    <button class="layer-node" data-layer="secure">Secure Area</button>
-    <span class="layer-arrow" aria-hidden="true">→</span>
-    <button class="layer-node" data-layer="server">Server Room</button>
+    <button class="cert-box" style="background: #dc3545;" data-layer="server">Server Room</button>
   </div>
 
   <div id="layers-detail" class="card layers-detail" aria-live="polite">
@@ -602,7 +602,7 @@ Company CA setup and internal certificate generation
             <div class="cert-arrow">→</div>
             <div class="cert-box" style="background: #17a2b8;">Generation</div>
             <div class="cert-arrow">→</div>
-            <div class="cert-box" style="background: #ffc107; color: #333;">Distribution & Usage</div>
+            <div class="cert-box" style="background: #ffc107;" color: #333;">Distribution & Usage</div>
             <div class="cert-arrow">→</div>
             <div class="cert-box" style="background: #dc3545;">Revocation / Expiration</div>
         </div>
