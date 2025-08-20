@@ -576,7 +576,25 @@ Company CA setup and internal certificate generation
         <h2>Certificate Lifecycle</h2>
         <p>From registration to revocation</p>
     </div>
+<!-- Interactive: Layered Physical Access -->
+<div class="card">
+  <h3>Interactive Layers of Physical Access</h3>
 
+  <div class="diagram layers-diagram" role="group" aria-label="Physical security layers">
+    <button class="layer-node" data-layer="perimeter" aria-pressed="true">Perimeter</button>
+    <span class="layer-arrow" aria-hidden="true">→</span>
+    <button class="layer-node" data-layer="entry">Building Entry</button>
+    <span class="layer-arrow" aria-hidden="true">→</span>
+    <button class="layer-node" data-layer="secure">Secure Area</button>
+    <span class="layer-arrow" aria-hidden="true">→</span>
+    <button class="layer-node" data-layer="server">Server Room</button>
+  </div>
+
+  <div id="layers-detail" class="card layers-detail" aria-live="polite">
+    <h4 style="margin-top:0">Perimeter</h4>
+    <p>Deterrence and detection: fences, lighting, signage, bollards, cameras, and patrols establish the first layer and reduce casual intrusion.</p>
+  </div>
+</div>
     <div class="card">
         <h3>Lifecycle Stages</h3>
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; flex-wrap: wrap;">
@@ -776,6 +794,7 @@ Restricted access during specific hours
 </div>
 </div>
 </div>
+    
 <div class="card">
 <h3>Physical Barriers</h3>
 <p><strong>Mantraps:</strong> Two doors requiring sequential card access - prevents tailgating</p>
@@ -953,17 +972,17 @@ Click on a fire class to see suppression methods
 <h4>Question 2: Which trust model uses cross-certification between CAs?</h4>
 <div class="quiz-options">
 <div class="quiz-option" onclick="selectOption(this, false)">Hierarchical</div>
-<div class="quiz-option" onclick="selectOption(this, true)">Peer-to-peer</div>
-<div class="quiz-option" onclick="selectOption(this, false)">Hybrid</div>
 <div class="quiz-option" onclick="selectOption(this, false)">Bridge CA</div>
+<div class="quiz-option" onclick="selectOption(this, false)">Hybrid</div>
+<div class="quiz-option" onclick="selectOption(this, true)">Peer-to-peer</div>
 </div>
 <div class="feedback-box" id="feedback-2"></div>
 </div>
 <div id="quiz-question-3" class="quiz-question">
 <h4>Question 3: What is the fundamental principle of physical security?</h4>
 <div class="quiz-options">
-<div class="quiz-option" onclick="selectOption(this, false)">Firewalls are the most important defense</div>
 <div class="quiz-option" onclick="selectOption(this, true)">Physical access negates all other security measures</div>
+<div class="quiz-option" onclick="selectOption(this, false)">Firewalls are the most important defense</div>
 <div class="quiz-option" onclick="selectOption(this, false)">Biometrics provide complete security</div>
 <div class="quiz-option" onclick="selectOption(this, false)">Software controls are sufficient</div>
 </div>
@@ -973,8 +992,8 @@ Click on a fire class to see suppression methods
 <h4>Question 4: Which protocol provides real-time certificate status checking?</h4>
 <div class="quiz-options">
 <div class="quiz-option" onclick="selectOption(this, false)">CRL</div>
-<div class="quiz-option" onclick="selectOption(this, true)">OCSP</div>
 <div class="quiz-option" onclick="selectOption(this, false)">ISAKMP</div>
+<div class="quiz-option" onclick="selectOption(this, true)">OCSP</div>
 <div class="quiz-option" onclick="selectOption(this, false)">XKMS</div>
 </div>
 <div class="feedback-box" id="feedback-4"></div>
