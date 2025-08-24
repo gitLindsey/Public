@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Security & Digital Forensics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, rgb(0, 99, 150) 0%, rgb(84, 84, 75) 50%, rgb(197, 183, 131) 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+            backdrop-filter: blur(10px);
+        }
+        .sidebar {
+            width: 300px;
+            background: rgba(0, 99, 150, 0.95);
+            backdrop-filter: blur(15px);
+            border-right: 3px solid rgba(197, 183, 131, 0.7);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            padding: 20px 0;
+            z-index: 100;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+        }
+        .nav-section {
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+        .nav-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: rgb(197, 183, 131);
+            border-bottom: 1px solid rgba(197, 183, 131, 0.5);
+            padding-bottom: 5px;
+        }
+        .nav-button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            background: rgba(197, 183, 131, 0.3);
+            transform: translateX(5px);
+        }
+        .nav-button.active {
+            background: rgba(197, 183, 131, 0.5);
+            font-weight: bold;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h2 {
+            color: rgb(0, 99, 150);
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgb(197, 183, 131);
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: rgb(84, 84, 75);
+            margin: 25px 0 15px;
+        }
+        h4 {
+            color: rgb(0, 99, 150);
+            margin: 20px 0 10px;
+        }
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .highlight-box {
+            background: rgba(197, 183, 131, 0.2);
+            border-left: 4px solid rgb(197, 183, 131);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .code-block {
+            font-family: monospace;
+            background: #333;
+            color: #f8f8f8;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        .glossary-term {
+            text-decoration: underline dotted;
+            cursor: help;
+            color: rgb(0, 99, 150);
+        }
+        .interactive-demo {
+            background: rgba(0, 99, 150, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .demo-button {
+            background: rgb(0, 99, 150);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        .demo-button:hover {
+            background: rgb(0, 75, 115);
+        }
+        .progress-bar {
+            height: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: rgb(0, 99, 150);
+            transition: width 0.5s ease;
+        }
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: rgba(197, 183, 131, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float linear infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="particle-container">
+        <nav class="sidebar">
+            <div class="nav-section">
+                <h3>Web Security</h3>
+                <button class="nav-button" onclick="showSection('intro-web')">Introduction</button>
+                <button class="nav-button" onclick="showSection('ssl-tls')">SSL/TLS Protocols</button>
+                <button class="nav-button" onclick="showSection('vulnerabilities')">Web Vulnerabilities</button>
+                <button class="nav-button" onclick="showSection('client-attacks')">Client-Side Attacks</button>
+                <button class="nav-button" onclick="showSection('browser-security')">Browser Security</button>
+            </div>
+            <div class="nav-section">
+                <h3>Digital Forensics</h3>
+                <button class="nav-button" onclick="showSection('intro-forensics')">Forensics Introduction</button>
+                <button class="nav-button" onclick="showSection('evidence')">Evidence Types & Standards</button>
+                <button class="nav-button" onclick="showSection('forensic-process')">Forensic Process</button>
+                <button class="nav-button" onclick="showSection('chain-custody')">Chain of Custody</button>
+                <button class="nav-button" onclick="showSection('host-forensics')">Host Forensics</button>
+                <button class="nav-button" onclick="showSection('network-forensics')">Network Forensics</button>
+                <button class="nav-button" onclick="showSection('e-discovery')">E-Discovery</button>
+            </div>
+            <div class="nav-section">
+                <h3>Interactive Tools</h3>
+                <button class="nav-button" onclick="showSection('hash-demo')">Hash Verification Demo</button>
+                <button class="nav-button" onclick="showSection('ssl-analyzer')">SSL/TLS Analyzer</button>
+                <button class="nav-button" onclick="showSection('glossary')">Glossary</button>
+            </div>
+        </nav>
+        <main class="main-content">
+            <div id="intro-web" class="content-section active">
+                <h2>Web Components Security Overview</h2>
+                <p>The evolution of web technologies has fundamentally transformed how we interact with digital information, yet this transformation has introduced complex security challenges that require sophisticated understanding and mitigation strategies.</p>
+                <h3>Historical Context and Architecture</h3>
+                <p>Before the advent of the World Wide Web, network protocols operated in relative isolation. <span class="glossary-term" title="File Transfer Protocol - Application layer protocol for transferring files">FTP</span> facilitated file transfers, while Telnet provided remote terminal access. The web's innovation was in creating a unified interface for diverse services, but this integration created new attack surfaces and security considerations.</p>
+                <div class="highlight-box">
+                    <h4>Core Web Components</h4>
+                    <ul>
+                        <li><strong>HTTP/HTTPS:</strong> The foundation protocols for web communication</li>
+                        <li><strong>HTML/CSS/JavaScript:</strong> Client-side rendering and functionality</li>
+                        <li><strong>Server-side technologies:</strong> Processing logic and data management</li>
+                        <li><strong>Databases:</strong> Persistent storage for web applications</li>
+                    </ul>
+                </div>
+                <p>Each component introduces specific security considerations that must be addressed holistically to create secure web applications.</p>
+                <h3>Web 2.0 Security Challenges</h3>
+                <p>The evolution toward dynamic, interactive web applications has introduced additional complexity layers that compound existing security challenges. Technologies such as AJAX, WebSockets, and client-side frameworks create new attack surfaces requiring specialized security considerations.</p>
+                <p>The integration of user-generated content, social networking features, and mashup applications creates emergent security risks that require continuous assessment and adaptation of security controls.</p>
+                <div class="interactive-demo">
+                    <h4>Attack Vector Simulation</h4>
+                    <p>Understanding common web attack patterns:</p>
+                    <button class="demo-button" onclick="demonstrateXSS()">XSS Demo</button>
+                    <button class="demo-button" onclick="demonstrateCSRF()">CSRF Demo</button>
+                    <div id="attack-demo-result" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.8); border-radius: 5px;"></div>
+                </div>
+            </div>
+
+            <div id="ssl-tls" class="content-section">
+                <h2>SSL/TLS Protocols</h2>
+                <p>Secure Sockets Layer (SSL) and its successor Transport Layer Security (TLS) provide the cryptographic foundation for secure web communications. These protocols ensure confidentiality, integrity, and authentication for data transmitted between clients and servers.</p>
+                <h3>Protocol Evolution</h3>
+                <ul>
+                    <li><strong>SSL 2.0 (1995):</strong> Initial public release, now deprecated due to security flaws</li>
+                    <li><strong>SSL 3.0 (1996):</strong> Significant redesign, vulnerable to POODLE attack</li>
+                    <li><strong>TLS 1.0 (1999):</strong> Standardized by IETF, vulnerable to BEAST attack</li>
+                    <li><strong>TLS 1.1 (2006):</strong> Protection against CBC attacks</li>
+                    <li><strong>TLS 1.2 (2008):</strong> Improved cryptographic algorithms</li>
+                    <li><strong>TLS 1.3 (2018):</strong> Streamlined handshake, removed legacy algorithms</li>
+                </ul>
+                <div class="interactive-demo">
+                    <h4>TLS Handshake Visualization</h4>
+                    <p>Understanding the key exchange process:</p>
+                    <button class="demo-button" onclick="visualizeTLSHandshake()">Show Handshake</button>
+                    <div id="tls-handshake-visual" style="margin-top: 15px;"></div>
+                </div>
+                <div class="interactive-demo">
+                    <h4>SSL/TLS Knowledge Check</h4>
+                    <p>Test your understanding of SSL/TLS concepts:</p>
+                    <button class="demo-button" onclick="checkSSLKnowledge()">Random Question</button>
+                    <div id="ssl-result" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div id="vulnerabilities" class="content-section">
+                <h2>Web Vulnerabilities</h2>
+                <p>Modern web applications face numerous security challenges that require systematic identification and mitigation strategies.</p>
+                <h3>OWASP Top 10</h3>
+                <p>The Open Web Application Security Project (OWASP) maintains a list of the most critical web application security risks:</p>
+                <div class="code-block">
+1. Injection
+2. Broken Authentication
+3. Sensitive Data Exposure
+4. XML External Entities (XXE)
+5. Broken Access Control
+6. Security Misconfiguration
+7. Cross-Site Scripting (XSS)
+8. Insecure Deserialization
+9. Using Components with Known Vulnerabilities
+10. Insufficient Logging & Monitoring</div>
+                <h3>Injection Vulnerabilities</h3>
+                <p>Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query:</p>
+                <ul>
+                    <li><strong>SQL Injection:</strong> Manipulation of database queries</li>
+                    <li><strong>Command Injection:</strong> Execution of operating system commands</li>
+                    <li><strong>LDAP Injection:</strong> Manipulation of directory service queries</li>
+                </ul>
+                <div class="highlight-box">
+                    <h4>Session Management Best Practices</h4>
+                    <ul>
+                        <li><strong>Secure Cookie Attributes:</strong> HttpOnly, Secure, SameSite flags</li>
+                        <li><strong>Session Timeout:</strong> Limiting session duration</li>
+                        <li><strong>Session Regeneration:</strong> Creating new session identifiers after authentication</li>
+                        <li><strong>Proper Logout Procedures:</strong> Invalidating sessions on both client and server sides</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="client-attacks" class="content-section">
+                <h2>Client-Side Attacks</h2>
+                <p>Client-side attacks target vulnerabilities in the user's browser or related components, often exploiting trust relationships and user interaction.</p>
+                <h3>Cross-Site Scripting (XSS)</h3>
+                <p>XSS attacks inject malicious scripts into trusted websites, executing in victims' browsers:</p>
+                <ul>
+                    <li><strong>Reflected XSS:</strong> Malicious script reflected from web server</li>
+                    <li><strong>Stored XSS:</strong> Malicious script stored on target server</li>
+                    <li><strong>DOM-based XSS:</strong> Vulnerability in client-side JavaScript</li>
+                </ul>
+                <div class="highlight-box">
+                    <h4>XSS Prevention</h4>
+                    <ul>
+                        <li>Input validation and sanitization</li>
+                        <li>Output encoding</li>
+                        <li>Content Security Policy (CSP) implementation</li>
+                        <li>Use of modern frameworks with built-in XSS protection</li>
+                    </ul>
+                </div>
+                <h3>Cross-Site Request Forgery (CSRF)</h3>
+                <p>CSRF attacks trick users into performing unwanted actions on authenticated websites:</p>
+                <div class="interactive-demo">
+                    <h4>CSRF Attack Simulation</h4>
+                    <button class="demo-button" onclick="simulateCSRF()">Demonstrate CSRF</button>
+                    <div id="csrf-demo-result" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div id="browser-security" class="content-section">
+                <h2>Browser Security</h2>
+                <p>Modern browsers implement multiple security mechanisms to protect users from malicious websites and content.</p>
+                <h3>Same-Origin Policy</h3>
+                <p>The Same-Origin Policy restricts how documents or scripts from one origin can interact with resources from another origin, preventing malicious sites from accessing sensitive data.</p>
+                <h3>Content Security Policy</h3>
+                <p>CSP allows website administrators to control which resources can be loaded and executed, mitigating XSS and data injection attacks.</p>
+                <h3>Security Headers</h3>
+                <ul>
+                    <li><strong>Strict-Transport-Security:</strong> Forces HTTPS connections</li>
+                    <li><strong>X-Content-Type-Options:</strong> Prevents MIME type sniffing</li>
+                    <li><strong>X-Frame-Options:</strong> Controls iframe embedding permissions</li>
+                    <li><strong>X-XSS-Protection:</strong> Enables browser's XSS filtering</li>
+                </ul>
+                <h3>Browser Hardening Recommendations</h3>
+                <ul>
+                    <li>Keep browsers and extensions updated</li>
+                    <li>Use privacy-focused extensions</li>
+                    <li>Configure appropriate security settings</li>
+                    <li>Regularly verify certificate chains for critical sites</li>
+                </ul>
+                <div class="interactive-demo">
+                    <h4>Browser Security Assessment</h4>
+                    <p>Evaluate your browser's security configuration:</p>
+                    <button class="demo-button" onclick="checkBrowserSecurity()">Security Check</button>
+                    <div id="browser-security-result" style="margin-top: 15px; font-weight: bold;"></div>
+                </div>
+            </div>
+
+            <div id="intro-forensics" class="content-section">
+                <h2>Digital Forensics: Scientific Investigation of Digital Evidence</h2>
+                <h3>Forensics vs. Incident Response</h3>
+                <p>Digital forensics represents the application of scientific methodologies to legal and investigative problems involving digital evidence. This discipline must be distinguished from incident response, which focuses on immediate system restoration and operational continuity.</p>
+                <div class="highlight-box">
+                    <h4>Forensic Investigation Objectives</h4>
+                    <ul>
+                        <li><strong>Preservation:</strong> Maintaining evidence integrity throughout the investigation lifecycle</li>
+                        <li><strong>Identification:</strong> Locating and cataloging relevant digital artifacts</li>
+                        <li><strong>Documentation:</strong> Creating comprehensive records of all findings and procedures</li>
+                        <li><strong>Collection:</strong> Acquiring evidence using forensically sound methods</li>
+                        <li><strong>Analysis:</strong> Examining evidence to establish facts and draw conclusions</li>
+                    </ul>
+                </div>
+                <h3>Scientific Methodology in Digital Forensics</h3>
+                <p>Digital forensics applies the scientific method to digital investigations:</p>
+                <h4>Scientific Process in Forensic Analysis</h4>
+                <div class="code-block">
+1. Formulate testable hypotheses about incident causation
+2. Design experiments to test hypotheses using available evidence
+3. Collect and analyze data systematically
+4. Draw conclusions based on empirical evidence
+5. Document methodology for peer review and replication</div>
+                <h4>Quality Assurance and Validation</h4>
+                <p>Forensic methodologies must incorporate quality assurance measures to ensure reliability and reproducibility:</p>
+                <ul>
+                    <li><strong>Tool Validation:</strong> Verification that forensic tools produce accurate and consistent results</li>
+                    <li><strong>Procedure Documentation:</strong> Detailed documentation of all investigative procedures</li>
+                    <li><strong>Peer Review:</strong> Independent verification of findings and methodology</li>
+                    <li><strong>Proficiency Testing:</strong> Regular assessment of investigator competency</li>
+                </ul>
+                <div class="interactive-demo">
+                    <h4>Forensic Investigation Workflow</h4>
+                    <p>Understanding the systematic approach to digital investigations:</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%" id="forensic-progress"></div>
+                    </div>
+                    <button class="demo-button" onclick="advanceForensicWorkflow()">Next Step</button>
+                    <div id="forensic-workflow-step" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div id="evidence" class="content-section">
+                <h2>Evidence Types & Standards</h2>
+                <p>Digital evidence encompasses a wide range of electronic artifacts that may be relevant to an investigation or legal proceeding.</p>
+                <h3>Categories of Digital Evidence</h3>
+                <ul>
+                    <li><strong>Persistent Data:</strong> Information stored on physical media (hard drives, SSDs, USB drives)</li>
+                    <li><strong>Volatile Data:</strong> Information stored in memory (RAM, cache, registers)</li>
+                    <li><strong>Network Data:</strong> Information transmitted over networks (packets, logs, connection records)</li>
+                    <li><strong>Application Data:</strong> Information created and managed by software applications</li>
+                </ul>
+                <h3>Legal Standards for Digital Evidence</h3>
+                <p>For digital evidence to be admissible in court, it must meet several criteria:</p>
+                <div class="highlight-box">
+                    <h4>Admissibility Requirements</h4>
+                    <ul>
+                        <li><strong>Authenticity:</strong> Evidence must be what it purports to be</li>
+                        <li><strong>Reliability:</strong> Evidence collection and analysis methods must be trustworthy</li>
+                        <li><strong>Completeness:</strong> Evidence must not be selectively presented</li>
+                        <li><strong>Compliance with Rules of Evidence:</strong> Must adhere to jurisdictional requirements</li>
+                        <li><strong>Expert Testimony:</strong> Often required to explain technical aspects to the court</li>
+                    </ul>
+                </div>
+                <h3>Best Practices for Evidence Handling</h3>
+                <p>Proper evidence handling is critical to maintaining admissibility:</p>
+                <ul>
+                    <li>Use write blockers when acquiring storage media</li>
+                    <li>Create and verify forensic images</li>
+                    <li>Maintain detailed chain of custody documentation</li>
+                    <li>Work from copies, never original evidence</li>
+                    <li>Document all actions taken with evidence</li>
+                </ul>
+            </div>
+
+            <div id="forensic-process" class="content-section">
+                <h2>Forensic Process</h2>
+                <p>The digital forensic process follows a structured methodology to ensure thoroughness, accuracy, and defensibility of findings.</p>
+                <h3>Standard Forensic Methodology</h3>
+                <ol>
+                    <li><strong>Preparation:</strong> Planning, tool selection, and authorization</li>
+                    <li><strong>Identification:</strong> Recognizing potential sources of evidence</li>
+                    <li><strong>Collection:</strong> Acquiring data using forensically sound methods</li>
+                    <li><strong>Preservation:</strong> Maintaining evidence integrity</li>
+                    <li><strong>Analysis:</strong> Examining evidence to extract relevant information</li>
+                    <li><strong>Documentation:</strong> Recording findings and methodology</li>
+                    <li><strong>Presentation:</strong> Communicating results to stakeholders</li>
+                </ol>
+                <div class="interactive-demo">
+                    <h4>Timeline Analysis Tool</h4>
+                    <p>Visualize event sequences in an investigation:</p>
+                    <button class="demo-button" onclick="showTimelineAnalysis()">Generate Timeline</button>
+                    <div id="timeline-analysis" style="margin-top: 15px;"></div>
+                </div>
+                <h3>Forensic Acquisition Methods</h3>
+                <p>Evidence acquisition must balance completeness, speed, and minimal impact:</p>
+                <ul>
+                    <li><strong>Physical Acquisition:</strong> Bit-by-bit copy of physical storage media</li>
+                    <li><strong>Logical Acquisition:</strong> Collection of files and directories</li>
+                    <li><strong>Memory Acquisition:</strong> Capture of volatile system memory</li>
+                    <li><strong>Network Acquisition:</strong> Capture of network traffic</li>
+                </ul>
+            </div>
+
+            <div id="chain-custody" class="content-section">
+                <h2>Chain of Custody</h2>
+                <p>Chain of custody documents the chronological history of evidence, tracking its handling and storage from collection to presentation.</p>
+                <h3>Elements of Chain of Custody</h3>
+                <p>A proper chain of custody record includes:</p>
+                <ul>
+                    <li>Description of the evidence</li>
+                    <li>Name and signature of each person handling the evidence</li>
+                    <li>Date and time of collection and each transfer</li>
+                    <li>Locations where evidence was stored</li>
+                    <li>Purpose for each transfer of possession</li>
+                </ul>
+                <div class="highlight-box">
+                    <h4>Legal Importance</h4>
+                    <p>Chain of custody documentation is critical for:</p>
+                    <ul>
+                        <li>Establishing evidence authenticity</li>
+                        <li>Demonstrating evidence has not been tampered with</li>
+                        <li>Supporting admissibility in legal proceedings</li>
+                        <li>Defending against claims of evidence mishandling</li>
+                    </ul>
+                </div>
+                <div class="interactive-demo">
+                    <h4>Chain of Custody Documentation</h4>
+                    <p>Practice creating proper documentation:</p>
+                    <button class="demo-button" onclick="showCustodyForm()">Open Documentation Form</button>
+                    <div id="custody-form" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div id="host-forensics" class="content-section">
+                <h2>Host Forensics</h2>
+                <p>Host forensics involves the examination of individual computing devices to identify evidence of activities, intrusions, or policy violations.</p>
+                <h3>Key Artifacts in Host Forensics</h3>
+                <ul>
+                    <li><strong>File System:</strong> File metadata, deleted files, file fragments</li>
+                    <li><strong>Operating System:</strong> Registry (Windows), logs, configuration files</li>
+                    <li><strong>Application Data:</strong> Browser history, email, chat logs, documents</li>
+                    <li><strong>User Activity:</strong> Login/logout times, command history, accessed files</li>
+                </ul>
+                <h3>Windows Forensics</h3>
+                <p>Windows systems contain numerous forensic artifacts:</p>
+                <div class="code-block">
+- Registry: NTUSER.DAT, SYSTEM, SOFTWARE hives
+- Event Logs: Application, Security, System
+- Prefetch: Application execution history
+- $MFT: Master File Table containing file metadata
+- Windows.edb: Search index with file content
+- Shellbags: Explorer viewing preferences
+- Jump Lists: Recently accessed documents
+- SRUM: System Resource Usage Monitor</div>
+                <h3>Linux/Unix Forensics</h3>
+                <p>Linux systems provide different forensic challenges and opportunities:</p>
+                <ul>
+                    <li>System logs in /var/log</li>
+                    <li>Bash history and other shell histories</li>
+                    <li>User configuration files in home directories</li>
+                    <li>Scheduled tasks in crontab</li>
+                    <li>Process accounting logs</li>
+                </ul>
+            </div>
+
+            <div id="network-forensics" class="content-section">
+                <h2>Network Forensics</h2>
+                <p>Network forensics involves capturing, recording, and analyzing network traffic to discover the source of security attacks or other incidents.</p>
+                <h3>Network Evidence Sources</h3>
+                <ul>
+                    <li><strong>Packet Captures:</strong> Raw network traffic data</li>
+                    <li><strong>NetFlow/IPFIX:</strong> Network connection metadata</li>
+                    <li><strong>Firewall Logs:</strong> Connection attempts and policy enforcement</li>
+                    <li><strong>IDS/IPS Alerts:</strong> Detected suspicious activities</li>
+                    <li><strong>Proxy Logs:</strong> Web browsing and content filtering</li>
+                    <li><strong>DNS Logs:</strong> Domain resolution requests</li>
+                </ul>
+                <h3>Network Traffic Analysis</h3>
+                <p>Analyzing network traffic requires understanding protocols and normal behavior:</p>
+                <div class="highlight-box">
+                    <h4>Analysis Techniques</h4>
+                    <ul>
+                        <li>Protocol analysis and decoding</li>
+                        <li>Session reconstruction</li>
+                        <li>Anomaly detection</li>
+                        <li>Signature-based detection</li>
+                        <li>Behavioral analysis</li>
+                    </ul>
+                </div>
+                <div class="interactive-demo">
+                    <h4>Packet Analysis Demonstration</h4>
+                    <p>Examine a sample packet capture:</p>
+                    <button class="demo-button" onclick="analyzePackets()">Analyze Packets</button>
+                    <div id="packet-analysis" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div id="e-discovery" class="content-section">
+                <h2>E-Discovery</h2>
+                <p>Electronic discovery (e-discovery) is the process of identifying, collecting, and producing electronically stored information in response to legal proceedings.</p>
+                <h3>E-Discovery Process</h3>
+                <ol>
+                    <li><strong>Identification:</strong> Locating potential sources of relevant information</li>
+                    <li><strong>Preservation:</strong> Implementing legal holds to prevent data destruction</li>
+                    <li><strong>Collection:</strong> Gathering relevant ESI from identified sources</li>
+                    <li><strong>Processing:</strong> Converting collected data to usable formats</li>
+                    <li><strong>Review:</strong> Examining data for relevance and privilege</li>
+                    <li><strong>Analysis:</strong> Evaluating data for case strategy development</li>
+                    <li><strong>Production:</strong> Delivering relevant data to requesting parties</li>
+                    <li><strong>Presentation:</strong> Using ESI in depositions, hearings, or trials</li>
+                </ol>
+                <h3>E-Discovery Challenges</h3>
+                <ul>
+                    <li>Volume of electronic data</li>
+                    <li>Diverse data formats and sources</li>
+                    <li>Preservation of metadata</li>
+                    <li>Privacy and confidentiality concerns</li>
+                    <li>Cost and proportionality considerations</li>
+                </ul>
+                <div class="highlight-box">
+                    <h4>E-Discovery Technologies</h4>
+                    <ul>
+                        <li><strong>Predictive Coding:</strong
