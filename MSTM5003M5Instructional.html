@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Foundations</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #006396 0%, #545451 50%, #c5b783 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #006396 0%, #545451 100%);
+            padding: 2rem 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            padding: 0 1rem 2rem;
+            border-bottom: 2px solid rgba(197, 183, 131, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            color: #c5b783;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-button:hover {
+            background: rgba(197, 183, 131, 0.2);
+            border-left-color: #c5b783;
+            transform: translateX(5px);
+        }
+
+        .nav-button.active {
+            background: rgba(197, 183, 131, 0.3);
+            border-left-color: #c5b783;
+            font-weight: bold;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 3rem;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #006396;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #c5b783;
+            padding-bottom: 1rem;
+        }
+
+        h2 {
+            color: #545451;
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid #006396;
+        }
+
+        h3 {
+            color: #006396;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem;
+        }
+
+        p, li {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        ul {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 99, 150, 0.1), rgba(197, 183, 131, 0.1));
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #006396;
+            margin: 1.5rem 0;
+        }
+
+        .threat-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .threat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .threat-title {
+            color: #006396;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .attack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .protocol-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+        }
+
+        .protocol-table th {
+            background: #545451;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .protocol-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .protocol-table tr:hover {
+            background: rgba(197, 183, 131, 0.1);
+        }
+
+        .interactive-demo {
+            background: #f8f9fa;
+            border: 2px dashed #545451;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .demo-button {
+            background: linear-gradient(135deg, #006396, #545451);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #006396, #c5b783);
+            margin-bottom: 2rem;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>Cybersecurity Foundations</h1>
+            </div>
+            <button class="nav-button active" onclick="showSection('foundations')">
+                Malware & Attack Foundations
+            </button>
+            <button class="nav-button" onclick="showSection('network')">
+                Network-Level Attacks
+            </button>
+            <button class="nav-button" onclick="showSection('email')">
+                Email & Messaging Security
+            </button>
+            <button class="nav-button" onclick="showSection('wireless')">
+                Wireless & Mobile Security
+            </button>
+            <button class="nav-button" onclick="showSection('integration')">
+                Human-Technology Integration
+            </button>
+        </nav>
+
+        <main class="main-content">
+            <div class="progress-bar"></div>
+
+            <section id="foundations" class="content-section active">
+                <h1>Foundations of Attacks and Malicious Software</h1>
+                
+                <div class="highlight-box">
+                    <h3>Attack Taxonomy Overview</h3>
+                    <p>Contemporary cyber threats operate through two primary vectors: <strong>targeted attacks</strong> that pursue specific organizational assets for political, financial, or espionage objectives, and <strong>opportunistic attacks</strong> that exploit known vulnerabilities across systems with inadequate defensive postures.</p>
+                </div>
+
+                <h2>Malware Classification Framework</h2>
+                
+                <div class="attack-grid">
+                    <div class="threat-card">
+                        <div class="threat-title">Viruses & Worms</div>
+                        <p>Self-replicating malicious code with distinct propagation mechanisms. Viruses require host file attachment (boot sector, executable, or macro-based), while worms achieve autonomous network propagation.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Trojans & RATs</div>
+                        <p>Remote Access Trojans disguise malicious functionality within legitimate software facades, enabling persistent unauthorized system access and data exfiltration.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Rootkits</div>
+                        <p>Advanced malware that modifies operating system functionality to maintain stealth, concealing processes, files, and network connections from standard detection mechanisms.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Logic Bombs</div>
+                        <p>Dormant malicious code activated by specific temporal or event-based triggers, often deployed by insider threats with intimate system knowledge.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Ransomware</div>
+                        <p>Cryptographic extortion malware that encrypts victim data, demanding financial payment for decryption keys. Represents significant organizational and societal threat vector.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Botnets</div>
+                        <p>Distributed networks of compromised "zombie" devices orchestrated for large-scale DDoS attacks, spam distribution, cryptocurrency mining, or fraud operations.</p>
+                    </div>
+                </div>
+
+                <h2>Advanced Evasion Techniques</h2>
+                <ul>
+                    <li><strong>Polymorphic Malware:</strong> Dynamically modifies code structure while preserving functional behavior to evade signature-based detection systems.</li>
+                    <li><strong>Metamorphic Malware:</strong> Completely rewrites code between infections, creating functionally equivalent but structurally distinct variants.</li>
+                    <li><strong>Armored Viruses:</strong> Employ anti-reverse engineering techniques including code obfuscation, packing, and anti-debugging mechanisms.</li>
+                </ul>
+
+                <div class="interactive-demo">
+                    <h3>Malware Analysis Simulator</h3>
+                    <p>Interactive demonstration of malware detection techniques</p>
+                    <button class="demo-button" onclick="simulateDetection()">Run Detection Analysis</button>
+                    <div id="detection-result"></div>
+                </div>
+            </section>
+
+            <section id="network" class="content-section">
+                <h1>Network and Application-Level Attacks</h1>
+                
+                <h2>Denial-of-Service Attack Vectors</h2>
+                <div class="highlight-box">
+                    <p>DoS and DDoS attacks represent fundamental availability threats, overwhelming target resources through various mechanisms including SYN floods, amplification attacks (Smurf), and protocol exploitation (Ping of Death).</p>
+                </div>
+
+                <h2>Protocol Manipulation Attacks</h2>
+                
+                <table class="protocol-table">
+                    <thead>
+                        <tr>
+                            <th>Attack Type</th>
+                            <th>Mechanism</th>
+                            <th>Primary Mitigation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IP Spoofing</td>
+                            <td>Falsification of source IP addresses</td>
+                            <td>Ingress/egress filtering, BCP38 compliance</td>
+                        </tr>
+                        <tr>
+                            <td>TCP Hijacking</td>
+                            <td>Session state manipulation post-authentication</td>
+                            <td>IPSec, TLS encryption, sequence randomization</td>
+                        </tr>
+                        <tr>
+                            <td>ARP Poisoning</td>
+                            <td>Link-layer address resolution corruption</td>
+                            <td>Static ARP entries, DAI implementation</td>
+                        </tr>
+                        <tr>
+                            <td>DNS Poisoning</td>
+                            <td>Domain resolution manipulation</td>
+                            <td>DNSSEC deployment, resolver validation</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Man-in-the-Middle Threat Landscape</h2>
+                <p>MITM attacks exploit communication channel vulnerabilities through various techniques including ARP poisoning, DNS manipulation, and SSL stripping. Advanced adversaries deploy sophisticated certificate authority compromise and BGP hijacking for large-scale interception campaigns.</p>
+
+                <h3>Advanced Persistent Threats (APTs)</h3>
+                <div class="threat-card">
+                    <div class="threat-title">APT Characteristics</div>
+                    <ul>
+                        <li>Extended operational timelines (months to years)</li>
+                        <li>Initial compromise via spear phishing and social engineering</li>
+                        <li>Lateral movement through credential harvesting and privilege escalation</li>
+                        <li>Persistent presence via rootkits, backdoors, and legitimate tool abuse</li>
+                        <li>Data exfiltration through covert channels and staging areas</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="email" class="content-section">
+                <h1>Security of E-mail and Instant Messaging</h1>
+                
+                <h2>Email Infrastructure Security Model</h2>
+                <div class="highlight-box">
+                    <p>Email security encompasses the entire message lifecycle, from composition through delivery, involving Mail User Agents (MUA), Mail Transfer Agents (MTA), and Mail Delivery Agents (MDA) operating across SMTP, POP3, and IMAP protocols.</p>
+                </div>
+
+                <h2>Contemporary Email Threat Vectors</h2>
+                
+                <div class="attack-grid">
+                    <div class="threat-card">
+                        <div class="threat-title">Phishing & Spear Phishing</div>
+                        <p>Sophisticated social engineering campaigns targeting credential harvesting through domain spoofing, visual deception, and contextually relevant pretext development.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Business Email Compromise (BEC)</div>
+                        <p>Advanced threat actors impersonate executives or trusted partners to manipulate financial transactions and data disclosure through carefully crafted social engineering.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Malware Distribution</div>
+                        <p>Email-based malware delivery through sophisticated attachment techniques, embedded scripts, and preview pane exploitation targeting client vulnerabilities.</p>
+                    </div>
+                </div>
+
+                <h2>Cryptographic Email Security</h2>
+                
+                <h3>S/MIME Implementation</h3>
+                <p>Secure/Multipurpose Internet Mail Extensions provides certificate-based authentication, integrity verification, and confidentiality through public key infrastructure integration. Organizational deployment requires comprehensive certificate lifecycle management.</p>
+
+                <h3>PGP/OpenPGP Framework</h3>
+                <p>Pretty Good Privacy implements decentralized trust models through web-of-trust mechanisms, offering strong cryptographic protection but requiring sophisticated key management practices for enterprise deployment.</p>
+
+                <h2>Instant Messaging Security Architecture</h2>
+                <ul>
+                    <li><strong>End-to-End Encryption:</strong> Modern protocols (Signal Protocol, OMEMO) provide forward secrecy and message authentication</li>
+                    <li><strong>Metadata Protection:</strong> Advanced implementations minimize metadata exposure while maintaining functional requirements</li>
+                    <li><strong>Group Communication Security:</strong> Multi-party encryption protocols with dynamic membership management</li>
+                </ul>
+
+                <div class="interactive-demo">
+                    <h3>Email Security Assessment Tool</h3>
+                    <p>Analyze email headers and security indicators</p>
+                    <button class="demo-button" onclick="analyzeEmail()">Analyze Email Security</button>
+                    <div id="email-analysis"></div>
+                </div>
+            </section>
+
+            <section id="wireless" class="content-section">
+                <h1>Wireless Security and Mobile Device Management</h1>
+                
+                <h2>Wireless Protocol Security Framework</h2>
+                <div class="highlight-box">
+                    <p>Contemporary wireless security encompasses multiple protocol stacks including IEEE 802.11 (Wi-Fi), Bluetooth, NFC, cellular networks (3G/4G/5G), and emerging IoT protocols (Zigbee, LoRaWAN), each presenting unique attack surfaces and defensive requirements.</p>
+                </div>
+
+                <h2>Wi-Fi Security Evolution</h2>
+                
+                <table class="protocol-table">
+                    <thead>
+                        <tr>
+                            <th>Protocol</th>
+                            <th>Security Features</th>
+                            <th>Known Vulnerabilities</th>
+                            <th>Deployment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WEP</td>
+                            <td>RC4 encryption, shared key auth</td>
+                            <td>IV reuse, weak key scheduling</td>
+                            <td>Deprecated</td>
+                        </tr>
+                        <tr>
+                            <td>WPA2</td>
+                            <td>AES-CCMP, 4-way handshake</td>
+                            <td>KRACK, offline PSK attacks</td>
+                            <td>Legacy support</td>
+                        </tr>
+                        <tr>
+                            <td>WPA3</td>
+                            <td>SAE, forward secrecy, PMF</td>
+                            <td>DragonBlood (implementation)</td>
+                            <td>Current standard</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Advanced Wireless Attack Methodologies</h2>
+                
+                <div class="attack-grid">
+                    <div class="threat-card">
+                        <div class="threat-title">Evil Twin Attacks</div>
+                        <p>Malicious access point deployment mimicking legitimate networks to capture authentication credentials and intercept communications through MITM positioning.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Deauthentication Attacks</div>
+                        <p>802.11 management frame manipulation forcing client disconnection, enabling downgrade attacks or facilitating handshake capture for offline analysis.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Cellular Protocol Exploitation</div>
+                        <p>SS7 and Diameter protocol vulnerabilities enabling location tracking, call interception, and SMS manipulation through signaling system compromise.</p>
+                    </div>
+                </div>
+
+                <h2>Enterprise Mobile Device Management</h2>
+                
+                <h3>MDM Architecture and Capabilities</h3>
+                <p>Modern Mobile Device Management platforms provide centralized policy enforcement, including device encryption mandates, application restriction, remote wipe capabilities, and comprehensive compliance monitoring across heterogeneous device ecosystems.</p>
+
+                <h3>Deployment Models Comparison</h3>
+                <ul>
+                    <li><strong>BYOD (Bring Your Own Device):</strong> Employee-owned devices requiring data containerization and policy enforcement separation</li>
+                    <li><strong>COPE (Company-Owned, Personally Enabled):</strong> Organizational device ownership with personal usage permissions</li>
+                    <li><strong>COBO (Company-Owned, Business Only):</strong> Strict corporate control with minimal personal functionality</li>
+                </ul>
+
+                <h2>Mobile Application Security Framework</h2>
+                <div class="threat-card">
+                    <div class="threat-title">Application Security Threats</div>
+                    <ul>
+                        <li>Insecure data storage and inadequate encryption implementation</li>
+                        <li>Insufficient transport layer security and certificate validation</li>
+                        <li>Improper session management and authentication bypass</li>
+                        <li>Code injection vulnerabilities and reverse engineering exposure</li>
+                        <li>Malicious application distribution through unofficial channels</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="integration" class="content-section">
+                <h1>Integrative Perspective: Technology Meets Human Factors</h1>
+                
+                <div class="highlight-box">
+                    <h3>Convergence of Technical and Social Attack Vectors</h3>
+                    <p>Contemporary threat landscapes demonstrate the sophisticated integration of technical exploitation with psychological manipulation, where advanced persistent threats combine zero-day vulnerabilities with carefully crafted social engineering campaigns targeting human cognitive biases and organizational trust relationships.</p>
+                </div>
+
+                <h2>Human-Centric Security Challenges</h2>
+                
+                <div class="attack-grid">
+                    <div class="threat-card">
+                        <div class="threat-title">Cognitive Security</div>
+                        <p>Understanding how cognitive biases (authority, urgency, social proof) are exploited in phishing, pretexting, and influence campaigns targeting decision-makers and technical personnel.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Organizational Psychology</div>
+                        <p>Threat actors exploit hierarchical structures, communication patterns, and trust relationships within organizations to achieve lateral movement and privilege escalation.</p>
+                    </div>
+                    
+                    <div class="threat-card">
+                        <div class="threat-title">Technology Adoption Risk</div>
+                        <p>Rapid technology deployment often outpaces security awareness, creating exploitable gaps between technical capabilities and user understanding.</p>
+                    </div>
+                </div>
+
+                <h2>Comprehensive Defense Strategy</h2>
+                
+                <h3>Technical Control Integration</h3>
+                <ul>
+                    <li><strong>Defense in Depth:</strong> Layered security architecture combining network segmentation, endpoint protection, and application security</li>
+                    <li><strong>Zero Trust Architecture:</strong> Continuous verification of devices, users, and applications regardless of network location</li>
+                    <li><strong>Threat Intelligence Integration:</strong> Real-time incorporation of global threat indicators into defensive systems</li>
+                </ul>
+
+                <h3>Human-Centered Security Design</h3>
+                <ul>
+                    <li><strong>Security Awareness Training:</strong> Regular, scenario-based training addressing current threat landscapes and attack methodologies</li>
+                    <li><strong>Usable Security:</strong> Interface design that promotes secure behavior without creating excessive friction</li>
+                    <li><strong>Incident Response Preparedness:</strong> Regular exercises combining technical response with human communication and coordination</li>
+                </ul>
+
+                <h2>Organizational Security Maturity</h2>
+                <p>Effective cybersecurity requires organizational commitment to continuous improvement, incorporating regular security audits, red team exercises, vulnerability assessments, and culture development that prioritizes security awareness alongside operational objectives.</p>
+
+                <div class="interactive-demo">
+                    <h3>Security Maturity Assessment</h3>
+                    <p>Evaluate organizational cybersecurity readiness</p>
+                    <button class="demo-button" onclick="assessMaturity()">Begin Assessment</button>
+                    <div id="maturity-results"></div>
+                </div>
+
+                <h2>Future Considerations</h2>
+                <div class="threat-card">
+                    <div class="threat-title">Emerging Threat Vectors</div>
+                    <ul>
+                        <li>Artificial Intelligence and Machine Learning attack integration</li>
+                        <li>Quantum computing implications for cryptographic systems</li>
+                        <li>IoT device proliferation and attack surface expansion</li>
+                        <li>Cloud security architecture evolution and shared responsibility models</li>
+                        <li>Supply chain security and third-party risk management</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Smooth scroll to top
+            document.querySelector('.main-content').scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function simulateDetection() {
+            const results = [
+                "Static Analysis: Suspicious API calls detected (CreateFile, WriteFile, RegCreateKey)",
+                "Dynamic Analysis: Network connections to suspicious domains identified",
+                "Heuristic Analysis: Packed executable with anti-debugging techniques detected",
+                "Behavioral Analysis: File encryption patterns consistent with ransomware",
+                "Signature Match: Known malware family variant identified (Confidence: 87%)"
+            ];
+            
+            const resultDiv = document.getElementById('detection-result');
+            resultDiv.innerHTML = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 99, 150, 0.1); border-radius: 5px;"><strong>Detection Results:</strong><br>' + 
+                results.map(result => '• ' + result).join('<br>') + '</div>';
+        }
+
+        function analyzeEmail() {
+            const analysis = {
+                "SPF Record": "PASS - Authorized sending server",
+                "DKIM Signature": "PASS - Message integrity verified",
+                "DMARC Policy": "PASS - Domain alignment confirmed",
+                "SSL/TLS": "Encrypted transport (TLS 1.3)",
+                "Attachment Scan": "2 attachments - No threats detected",
+                "Link Analysis": "3 external links - Reputation verified",
+                "Risk Score": "LOW (2/10)"
+            };
+            
+            const resultDiv = document.getElementById('email-analysis');
+            let output = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(197, 183, 131, 0.1); border-radius: 5px;"><strong>Email Security Analysis:</strong><br>';
+            for (const [key, value] of Object.entries(analysis)) {
+                output += `<strong>${key}:</strong> ${value}<br>`;
+            }
+            output += '</div>';
+            resultDiv.innerHTML = output;
+        }
+
+        function assessMaturity() {
+            const domains = [
+                "Governance & Risk Management: Level 3 (Defined)",
+                "Asset Management: Level 2 (Reactive)", 
+                "Data Protection: Level 4 (Managed)",
+                "Incident Response: Level 3 (Defined)",
+                "Business Continuity: Level 2 (Reactive)",
+                "Security Awareness: Level 3 (Defined)",
+                "Third-Party Risk: Level 2 (Reactive)"
+            ];
+            
+            const resultDiv = document.getElementById('maturity-results');
+            resultDiv.innerHTML = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(84, 84, 75, 0.1); border-radius: 5px;"><strong>Security Maturity Assessment:</strong><br>' + 
+                domains.join('<br>') + '<br><br><strong>Overall Maturity Level: 2.7/5.0</strong><br><em>Recommendation: Focus on process standardization and automation</em></div>';
+        }
+
+        // Add smooth scrolling animation for navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Add click animation
+                    this.style.transform = 'translateX(10px)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateX(5px)';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
