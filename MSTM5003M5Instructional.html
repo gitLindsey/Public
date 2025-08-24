@@ -632,9 +632,15 @@
                 "Signature Match: Known malware family variant identified (Confidence: 87%)"
             ];
             
-            const resultDiv = document.getElementById('detection-result');
-            resultDiv.innerHTML = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 99, 150, 0.1); border-radius: 5px;"><strong>Detection Results</strong><br>' + 
-                results.map(result => '• ' + result).join('<br>') + '</div>';
+           const resultDiv = document.getElementById('detection-result');
+resultDiv.innerHTML = `
+  <div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 99, 150, 0.1); border-radius: 5px;">
+    <div style="text-align: center;"><strong>Detection Results</strong></div>
+    <div style="text-align: left; margin-top: 0.5rem;">
+      ${results.map(result => '• ' + result).join('<br>')}
+    </div>
+  </div>
+`;
         }
 
         function analyzeEmail() {
