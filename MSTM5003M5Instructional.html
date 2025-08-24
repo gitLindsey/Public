@@ -633,7 +633,7 @@
             ];
             
             const resultDiv = document.getElementById('detection-result');
-            resultDiv.innerHTML = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 99, 150, 0.1); border-radius: 5px;"><strong>Detection Results:</strong><br>' + 
+            resultDiv.innerHTML = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(0, 99, 150, 0.1); border-radius: 5px;"><strong>Detection Results</strong><br>' + 
                 results.map(result => '• ' + result).join('<br>') + '</div>';
         }
 
@@ -649,7 +649,7 @@
             };
             
             const resultDiv = document.getElementById('email-analysis');
-            let output = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(197, 183, 131, 0.1); border-radius: 5px;"><strong>Email Security Analysis:</strong><br>';
+            let output = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(197, 183, 131, 0.1); border-radius: 5px;"><strong>Email Security Analysis</strong><br>';
             for (const [key, value] of Object.entries(analysis)) {
                 output += `<strong>${key}:</strong> ${value}<br>`;
             }
@@ -669,7 +669,7 @@
             ];
             
             const resultDiv = document.getElementById('maturity-results');
-            resultDiv.innerHTML = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(84, 84, 75, 0.1); border-radius: 5px;"><strong>Security Maturity Assessment:</strong><br>' + 
+            resultDiv.innerHTML = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(84, 84, 75, 0.1); border-radius: 5px;"><strong>Security Maturity Assessment</strong><br>' + 
                 domains.join('<br>') + '<br><br><strong>Overall Maturity Level: 2.7/5.0</strong><br><em>Recommendation: Focus on process standardization and automation</em></div>';
         }
 
