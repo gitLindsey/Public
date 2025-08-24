@@ -654,14 +654,22 @@ resultDiv.innerHTML = `
                 "Risk Score": "LOW (2/10)"
             };
             
-            const resultDiv = document.getElementById('email-analysis');
-            let output = '<div style="margin-top: 1rem; padding: 1rem; background: rgba(197, 183, 131, 0.1); border-radius: 5px;"><strong>Email Security Analysis</strong><br>';
-            for (const [key, value] of Object.entries(analysis)) {
-                output += `<strong>${key}:</strong> ${value}<br>`;
-            }
-            output += '</div>';
-            resultDiv.innerHTML = output;
-        }
+       const resultDiv = document.getElementById('email-analysis');
+let output = `
+  <div style="margin-top: 1rem; padding: 1rem; background: rgba(197, 183, 131, 0.1); border-radius: 5px;">
+    <div style="text-align: center; margin-bottom: 0.5rem;">
+      <strong>Email Security Analysis</strong>
+    </div>
+    <div style="text-align: left;">
+`;
+for (const [key, value] of Object.entries(analysis)) {
+    output += `<strong>${key}:</strong> ${value}<br>`;
+}
+output += `
+    </div>
+  </div>
+`;
+resultDiv.innerHTML = output;
 
         function assessMaturity() {
             const domains = [
