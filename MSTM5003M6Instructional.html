@@ -1,530 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Computer Security & Digital Forensics</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: "Georgia", serif;
-      background: linear-gradient(135deg, rgb(0, 99, 150) 0%, rgb(84, 84, 75) 50%, rgb(197, 183, 131) 100%);
-      min-height: 100vh;
-      color: #333;
-    }
-    .container { display: flex; min-height: 100vh; backdrop-filter: blur(10px); }
-    .sidebar {
-      width: 300px; background: rgba(0, 99, 150, 0.95);
-      backdrop-filter: blur(15px); border-right: 3px solid rgba(197, 183, 131, 0.7);
-      position: fixed; height: 100vh; overflow-y: auto; box-shadow: 5px 0 20px rgba(0,0,0,.3);
-      color: #fff; padding: 20px 0; z-index: 100;
-    }
-    .main-content {
-      flex: 1; margin-left: 300px; padding: 40px;
-      background: rgba(255,255,255,0.9); min-height: 100vh;
-    }
-    .nav-section { margin-bottom: 30px; padding: 0 20px; }
-    .nav-section h3 {
-      font-size: 1.2rem; margin-bottom: 15px; color: rgb(197, 183, 131);
-      border-bottom: 1px solid rgba(197, 183, 131, 0.5); padding-bottom: 5px;
-    }
-    .nav-button {
-      display: block; width: 100%; text-align: left; padding: 10px 15px; margin-bottom: 5px;
-      background: rgba(0,0,0,0.2); border: none; color: #fff; border-radius: 4px; cursor: pointer;
-      transition: all .3s ease;
-    }
-    .nav-button:hover { background: rgba(197, 183, 131, 0.3); transform: translateX(5px); }
-    .nav-button.active { background: rgba(197, 183, 131, 0.5); font-weight: bold; }
-    .content-section { display: none; animation: fadeIn .5s ease; }
-    .content-section.active { display: block; }
-    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-    h2 {
-      color: rgb(0, 99, 150); margin-bottom: 20px;
-      border-bottom: 2px solid rgb(197, 183, 131); padding-bottom: 10px;
-    }
-    h3 { color: rgb(84, 84, 75); margin: 25px 0 15px; }
-    h4 { color: rgb(0, 99, 150); margin: 20px 0 10px; }
-    p { line-height: 1.6; margin-bottom: 15px; }
-    ul, ol { margin-left: 20px; margin-bottom: 15px; }
-    li { margin-bottom: 8px; }
-    .highlight-box {
-      background: rgba(197, 183, 131, 0.2); border-left: 4px solid rgb(197, 183, 131);
-      padding: 15px; margin: 20px 0; border-radius: 0 4px 4px 0;
-    }
-    .code-block {
-      font-family: monospace; background: #333; color: #f8f8f8;
-      padding: 15px; border-radius: 4px; margin: 15px 0; white-space: pre-wrap; line-height: 1.4;
-    }
-    .glossary-term { text-decoration: underline dotted; cursor: help; color: rgb(0, 99, 150); }
-    .interactive-demo {
-      background: rgba(0, 99, 150, 0.1); padding: 20px; border-radius: 8px; margin: 25px 0;
-    }
-    .demo-button {
-      background: rgb(0, 99, 150); color: white; border: none; padding: 10px 20px; border-radius: 4px;
-      cursor: pointer; font-weight: bold; transition: background .3s ease;
-    }
-    .demo-button:hover { background: rgb(0, 75, 115); }
-    .progress-bar { height: 20px; background: rgba(0,0,0,0.1); border-radius: 10px; margin: 15px 0; overflow: hidden; }
-    .progress-fill { height: 100%; background: rgb(0, 99, 150); transition: width .5s ease; }
-    .particle {
-      position: absolute; width: 5px; height: 5px; background-color: rgba(197, 183, 131, 0.5);
-      border-radius: 50%; pointer-events: none; animation: float linear infinite;
-    }
-     /* Optional extra CSS for smoother feedback */
-  #custody-form h4 {
-    margin-bottom: 10px;
-  }
-  #custody-form input {
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-    .quiz-btn {
-    display: inline-block;
-    margin: 5px 0;
-    padding: 8px 15px;
-    border: none;
-    background: rgb(0, 99, 150);
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background .3s ease;
-  }
-  .quiz-btn:hover {
-    background: rgb(0, 75, 115);
-  }
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-    }
-    input, textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-    .muted { color: rgb(84, 84, 75); font-size: .95rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Security & Digital Forensics</title>
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {
+  font-family:"Georgia", serif;
+  background: linear-gradient(135deg, rgb(0,99,150) 0%, rgb(84,84,75) 50%, rgb(197,183,131) 100%);
+  min-height: 100vh;
+  color: #333;
+  overflow-x:hidden;
+  position: relative;
+}
+.container { display:flex; min-height:100vh; }
+.sidebar {
+  width:300px; background: rgba(0,99,150,0.95);
+  position:fixed; height:100vh; overflow-y:auto; color:#fff; padding:20px 0; z-index:100;
+  box-shadow:5px 0 20px rgba(0,0,0,.3); backdrop-filter: blur(10px); border-right:3px solid rgba(197,183,131,0.7);
+}
+.main-content {
+  flex:1; margin-left:300px; padding:40px; background: rgba(255,255,255,0.9); min-height:100vh; position: relative; z-index: 1;
+}
+.nav-section {margin-bottom:30px; padding:0 20px;}
+.nav-section h3 {
+  font-size:1.2rem; margin-bottom:15px; color: rgb(197,183,131);
+  border-bottom:1px solid rgba(197,183,131,0.5); padding-bottom:5px;
+}
+.nav-button {
+  display:block; width:100%; text-align:left; padding:10px 15px; margin-bottom:5px;
+  background: rgba(0,0,0,0.2); border:none; color:#fff; border-radius:4px; cursor:pointer;
+  transition: all .3s ease;
+}
+.nav-button:hover { background: rgba(197,183,131,0.3); transform:translateX(5px);}
+.nav-button.active { background: rgba(197,183,131,0.5); font-weight:bold; }
+.content-section { display:none; animation: fadeIn .5s ease; }
+.content-section.active { display:block; }
+@keyframes fadeIn {from{opacity:0;} to{opacity:1;}}
+h2 {color: rgb(0,99,150); margin-bottom:20px; border-bottom:2px solid rgb(197,183,131); padding-bottom:10px;}
+h3 {color: rgb(84,84,75); margin:25px 0 15px;}
+h4 {color: rgb(0,99,150); margin:20px 0 10px;}
+p {line-height:1.6; margin-bottom:15px;}
+ul,ol {margin-left:20px; margin-bottom:15px;}
+li {margin-bottom:8px;}
+.highlight-box { background: rgba(197,183,131,0.2); border-left:4px solid rgb(197,183,131); padding:15px; margin:20px 0; border-radius:0 4px 4px 0;}
+.code-block { font-family: monospace; background:#333; color:#f8f8f8; padding:15px; border-radius:4px; margin:15px 0; white-space:pre-wrap; line-height:1.4;}
+.glossary-term {text-decoration: underline dotted; cursor:help; color: rgb(0,99,150);}
+.interactive-demo {background: rgba(0,99,150,0.1); padding:20px; border-radius:8px; margin:25px 0;}
+.demo-button { background: rgb(0,99,150); color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer; font-weight:bold; transition: background .3s ease;}
+.demo-button:hover { background: rgb(0,75,115);}
+.progress-bar { height:20px; background: rgba(0,0,0,0.1); border-radius:10px; margin:15px 0; overflow:hidden;}
+.progress-fill {height:100%; background: rgb(0,99,150); transition: width .5s ease;}
+.particle {position:absolute; width:5px; height:5px; background-color: rgba(197,183,131,0.5); border-radius:50%; pointer-events:none; animation: float linear infinite;}
+@keyframes float {0% {transform: translateY(0) rotate(0deg); opacity:1;} 100% {transform: translateY(-100vh) rotate(360deg); opacity:0;}}
+input,textarea{width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;}
+.muted {color: rgb(84,84,75); font-size:.95rem;}
+</style>
 </head>
 <body>
-  <div class="container" id="particle-container">
-    <nav class="sidebar">
-      <div class="nav-section">
-        <h3>Web Security</h3>
-        <button class="nav-button" onclick="showSection('intro-web')">Introduction</button>
-        <button class="nav-button" onclick="showSection('ssl-tls')">SSL/TLS Protocols</button>
-        <button class="nav-button" onclick="showSection('vulnerabilities')">Web Vulnerabilities</button>
-        <button class="nav-button" onclick="showSection('client-attacks')">Client-Side Attacks</button>
-        <button class="nav-button" onclick="showSection('browser-security')">Browser Security</button>
-      </div>
+<div class="container" id="particle-container">
+<nav class="sidebar">
+<div class="nav-section">
+<h3>Web Security</h3>
+<button class="nav-button" onclick="showSection('intro-web')">Introduction</button>
+<button class="nav-button" onclick="showSection('ssl-tls')">SSL/TLS Protocols</button>
+<button class="nav-button" onclick="showSection('vulnerabilities')">Web Vulnerabilities</button>
+<button class="nav-button" onclick="showSection('client-attacks')">Client-Side Attacks</button>
+<button class="nav-button" onclick="showSection('browser-security')">Browser Security</button>
+</div>
+<div class="nav-section">
+<h3>Digital Forensics</h3>
+<button class="nav-button" onclick="showSection('intro-forensics')">Forensics Introduction</button>
+<button class="nav-button" onclick="showSection('evidence')">Evidence Types & Standards</button>
+<button class="nav-button" onclick="showSection('forensic-process')">Forensic Process</button>
+<button class="nav-button" onclick="showSection('chain-custody')">Chain of Custody</button>
+<button class="nav-button" onclick="showSection('host-forensics')">Host Forensics</button>
+<button class="nav-button" onclick="showSection('network-forensics')">Network Forensics</button>
+<button class="nav-button" onclick="showSection('e-discovery')">E-Discovery</button>
+</div>
+<div class="nav-section">
+<h3>Interactive Tools</h3>
+<button class="nav-button" onclick="showSection('hash-demo')">Hash Verification Demo</button>
+<button class="nav-button" onclick="showSection('ssl-analyzer')">SSL/TLS Analyzer</button>
+<button class="nav-button" onclick="showSection('glossary')">Glossary</button>
+<button class="nav-button" onclick="showSection('forensic-workflow')">Forensic Workflow</button>
+<button class="nav-button" onclick="showSection('packet-analysis')">Packet Analysis</button>
+</div>
+</nav>
 
-      <div class="nav-section">
-        <h3>Digital Forensics</h3>
-        <button class="nav-button" onclick="showSection('intro-forensics')">Forensics Introduction</button>
-        <button class="nav-button" onclick="showSection('evidence')">Evidence Types & Standards</button>
-        <button class="nav-button" onclick="showSection('forensic-process')">Forensic Process</button>
-        <button class="nav-button" onclick="showSection('chain-custody')">Chain of Custody</button>
-        <button class="nav-button" onclick="showSection('host-forensics')">Host Forensics</button>
-        <button class="nav-button" onclick="showSection('network-forensics')">Network Forensics</button>
-        <button class="nav-button" onclick="showSection('e-discovery')">E-Discovery</button>
-      </div>
-
-      <div class="nav-section">
-        <h3>Interactive Tools</h3>
-        <button class="nav-button" onclick="showSection('hash-demo')">Hash Verification Demo</button>
-        <button class="nav-button" onclick="showSection('ssl-analyzer')">SSL/TLS Analyzer</button>
-        <button class="nav-button" onclick="showSection('glossary')">Glossary</button>
-      </div>
-    </nav>
-
-    <main class="main-content">
-
-      <!-- INTRO WEB -->
-      <div id="intro-web" class="content-section active">
-        <h2>Web Components Security Overview</h2>
-        <p>The evolution of web technologies has fundamentally transformed how we interact with digital information, yet this transformation has introduced complex security challenges that require sophisticated understanding and mitigation strategies.</p>
-
-        <h3>Historical Context and Architecture</h3>
-        <p>
-          Before the advent of the World Wide Web, network protocols operated in relative isolation.
-          <span class="glossary-term" title="File Transfer Protocol - Application layer protocol for transferring files">FTP</span>
-          facilitated file transfers, while Telnet provided remote terminal access. The web's innovation was in creating a unified interface for diverse services, but this integration created new attack surfaces and security considerations.
-        </p>
-
-        <div class="highlight-box">
-          <h4>Core Web Components</h4>
-          <ul>
-            <li><strong>HTTP/HTTPS:</strong> The foundation protocols for web communication</li>
-            <li><strong>HTML/CSS/JavaScript:</strong> Client-side rendering and functionality</li>
-            <li><strong>Server-side technologies:</strong> Processing logic and data management</li>
-            <li><strong>Databases:</strong> Persistent storage for web applications</li>
-          </ul>
-        </div>
-
-        <h3>Web 2.0 Security Challenges</h3>
-        <p>The evolution toward dynamic, interactive web applications has introduced additional complexity layers that compound existing security challenges. Technologies such as AJAX, WebSockets, and client-side frameworks create new attack surfaces requiring specialized security considerations.</p>
-        <p>The integration of user-generated content, social networking features, and mashup applications creates emergent security risks that require continuous assessment and adaptation of security controls.</p>
-
-        <div class="interactive-demo">
-          <h4>Attack Vector Simulation</h4>
-          <p>Understanding common web attack patterns:</p>
-          <button class="demo-button" onclick="demonstrateXSS()">XSS Demo</button>
-          <button class="demo-button" onclick="demonstrateCSRF()">CSRF Demo</button>
-          <div id="attack-demo-result" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.8); border-radius: 5px;"></div>
-        </div>
-      </div>
-
-      <!-- SSL/TLS -->
-      <div id="ssl-tls" class="content-section">
-        <h2>SSL/TLS Protocols</h2>
-        <p>Secure Sockets Layer (SSL) and its successor Transport Layer Security (TLS) provide the cryptographic foundation for secure web communications. These protocols ensure confidentiality, integrity, and authentication for data transmitted between clients and servers.</p>
-
-        <h3>Protocol Evolution</h3>
-        <ul>
-          <li><strong>SSL 2.0 (1995):</strong> Initial public release, now deprecated due to security flaws</li>
-          <li><strong>SSL 3.0 (1996):</strong> Significant redesign, vulnerable to POODLE attack</li>
-          <li><strong>TLS 1.0 (1999):</strong> Standardized by IETF, vulnerable to BEAST attack</li>
-          <li><strong>TLS 1.1 (2006):</strong> Protection against CBC attacks</li>
-          <li><strong>TLS 1.2 (2008):</strong> Improved cryptographic algorithms</li>
-          <li><strong>TLS 1.3 (2018):</strong> Streamlined handshake, removed legacy algorithms</li>
-        </ul>
-
-        <div class="interactive-demo">
-          <h4>TLS Handshake Visualization</h4>
-          <p>Understanding the key exchange process:</p>
-          <button class="demo-button" onclick="visualizeTLSHandshake()">Show Handshake</button>
-          <div id="tls-handshake-visual" style="margin-top: 15px;"></div>
-        </div>
-
-        <div class="interactive-demo">
-          <h4>SSL/TLS Knowledge Check</h4>
-          <p>Test your understanding of SSL/TLS concepts:</p>
-          <button class="demo-button" onclick="checkSSLKnowledge()">Random Question</button>
-          <div id="ssl-result" style="margin-top: 15px;"></div>
-        </div>
-      </div>
-<!-- =========================
-     SSL/TLS Knowledge Check
-     ========================= -->
-<div id="ssl-quiz" style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
-  <h3>SSL/TLS Knowledge Check</h3>
-  <p>Test your understanding of SSL/TLS concepts:</p>
-
-  <div id="quiz-question"></div>
-
-  <div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
+<main class="main-content">
+<div id="intro-web" class="content-section active">
+<h2>Web Components Security Overview</h2>
+<p>The evolution of web technologies has fundamentally transformed how we interact with digital information...</p>
+<div class="interactive-demo">
+<h4>Attack Vector Simulation</h4>
+<button class="demo-button" onclick="demonstrateXSS()">XSS Demo</button>
+<button class="demo-button" onclick="demonstrateCSRF()">CSRF Demo</button>
+<div id="attack-demo-result" style="margin-top:15px; padding:10px; background:rgba(255,255,255,0.8); border-radius:5px;"></div>
+</div>
 </div>
 
-      <!-- VULNERABILITIES -->
-      <div id="vulnerabilities" class="content-section">
-@@ -623,267 +641,304 @@
-      const el = document.getElementById('forensic-progress');
-      if (el) el.style.width = percentage + '%';
-    }
-// Example quiz questions
-  const sslQuestions = [
-    {
-      question: "Which SSL version should never be used?",
-      options: ["SSL 2.0", "TLS 1.2", "TLS 1.3", "All of the above"],
-      answer: "SSL 2.0"
-    },
-    {
-      question: "What is the main purpose of SSL/TLS?",
-      options: ["To speed up websites", "To secure data in transit", "To block ads", "To manage DNS"],
-      answer: "To secure data in transit"
-    },
-    {
-      question: "Which port is typically used for HTTPS with SSL/TLS?",
-      options: ["21", "80", "443", "8080"],
-      answer: "443"
-    }
-  ];
+<div id="ssl-tls" class="content-section">
+<h2>SSL/TLS Protocols</h2>
+<div class="interactive-demo">
+<h4>TLS Handshake Visualization</h4>
+<button class="demo-button" onclick="visualizeTLSHandshake()">Show Handshake</button>
+<div id="tls-handshake-visual" style="margin-top:15px;"></div>
+</div>
+<div class="interactive-demo">
+<h4>SSL/TLS Knowledge Quiz</h4>
+<div id="quiz-question"></div>
+<div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
+</div>
+</div>
 
-  function loadSSLQuiz() {
-    const container = document.getElementById('quiz-question');
-    const feedback = document.getElementById('quiz-feedback');
-    feedback.innerHTML = ""; // clear old feedback
+<div id="forensic-workflow" class="content-section">
+<h2>Forensic Workflow</h2>
+<div class="progress-bar"><div id="forensic-progress" class="progress-fill"></div></div>
+<div id="forensic-workflow-step"></div>
+<button class="demo-button" onclick="advanceForensicWorkflow()">Next Step</button>
+</div>
 
-    // pick random question
-    const q = sslQuestions[Math.floor(Math.random() * sslQuestions.length)];
+<div id="packet-analysis" class="content-section">
+<h2>Packet Analysis</h2>
+<button class="demo-button" onclick="analyzePackets()">Show Sample Packet</button>
+<div id="packet-analysis-output" style="margin-top:15px;"></div>
+</div>
 
-    // render question + options
-    container.innerHTML = `
-      <p><strong>Question:</strong> ${q.question}</p>
-      ${q.options.map(opt => `
-        <button class="quiz-btn" onclick="checkSSLAnswer('${opt}', '${q.answer}')">${opt}</button>
-      `).join("<br>")}
-    `;
+<div id="chain-custody" class="content-section">
+<h2>Chain of Custody</h2>
+<div id="custody-form"></div>
+<button class="demo-button" onclick="showCustodyForm()">Open Form</button>
+</div>
+
+<div id="hash-demo" class="content-section">
+<h2>Hash Verification Demo</h2>
+<input type="text" id="hash-input" placeholder="Enter text">
+<button class="demo-button" onclick="calculateHashes()">Calculate Hashes</button>
+<div id="hash-results" style="margin-top:15px;"></div>
+</div>
+
+<div id="ssl-analyzer" class="content-section">
+<h2>SSL/TLS Analyzer</h2>
+<input type="text" id="domain-input" placeholder="Enter domain">
+<button class="demo-button" onclick="runSSLAnalyzer()">Analyze</button>
+<div id="ssl-analyzer-results" style="margin-top:15px;"></div>
+</div>
+
+<div id="glossary" class="content-section">
+<h2>Glossary</h2>
+<p><span class="glossary-term" title="Hypertext Transfer Protocol Secure">HTTPS</span> is a secure protocol...</p>
+</div>
+</main>
+</div>
+
+<script>
+// ---- Section switching ----
+function showSection(id){
+  document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-button').forEach(b=>b.classList.remove('active'));
+  const btn=[...document.querySelectorAll('.nav-button')].find(b=>b.getAttribute('onclick').includes(id));
+  if(btn) btn.classList.add('active');
+}
+
+// ---- SSL Quiz ----
+const sslQuestions=[
+{question:"Which SSL version should never be used?", options:["SSL 2.0","TLS 1.2","TLS 1.3"], answer:"SSL 2.0"},
+{question:"What is the main purpose of SSL/TLS?", options:["Speed up sites","Secure data in transit","Block ads"], answer:"Secure data in transit"},
+{question:"Which port is typically used for HTTPS?", options:["80","443","21"], answer:"443"}
+];
+function loadSSLQuiz(){
+  const container=document.getElementById('quiz-question');
+  const feedback=document.getElementById('quiz-feedback');
+  feedback.innerHTML="";
+  const q=sslQuestions[Math.floor(Math.random()*sslQuestions.length)];
+  container.innerHTML=`<p><strong>Question:</strong> ${q.question}</p>
+  ${q.options.map(opt=>`<button class="quiz-btn" onclick="checkSSLAnswer('${opt}','${q.answer}')">${opt}</button>`).join("<br>")}`;
+}
+function checkSSLAnswer(selected,correct){
+  const feedback=document.getElementById('quiz-feedback');
+  feedback.style.color = selected===correct?"green":"red";
+  feedback.innerHTML = selected===correct?"✅ Correct! "+correct:"❌ Incorrect. Correct: "+correct;
+}
+
+// ---- XSS/CSRF demos ----
+function demonstrateXSS(){document.getElementById('attack-demo-result').innerHTML="<p>XSS Attack simulated.</p>";}
+function demonstrateCSRF(){document.getElementById('attack-demo-result').innerHTML="<p>CSRF Attack simulated.</p>";}
+
+// ---- TLS handshake ----
+function visualizeTLSHandshake(){document.getElementById('tls-handshake-visual').innerHTML="<p>TLS handshake steps shown here.</p>";}
+
+// ---- Hash ----
+function calculateHashes(){const input=document.getElementById('hash-input').value;if(!input.trim()){document.getElementById('hash-results').innerHTML='Enter text';return;}document.getElementById('hash-results').innerHTML=`<div>Fake hashes for "${input}"</div>`;}
+
+// ---- SSL Analyzer ----
+function runSSLAnalyzer(){const domain=document.getElementById('domain-input').value||'example.com'; document.getElementById('ssl-analyzer-results').innerHTML=`<div>Analyzing ${domain}...</div>`;}
+
+// ---- Forensic Workflow ----
+const workflowSteps=["Evidence Collection","Evidence Preservation","Analysis","Reporting"];
+let currentStep=0;
+function advanceForensicWorkflow(){
+  if(currentStep>=workflowSteps.length){currentStep=0;}
+  document.getElementById('forensic-workflow-step').innerHTML="<p>Current Step: "+workflowSteps[currentStep]+"</p>";
+  document.getElementById('forensic-progress').style.width=((currentStep+1)/workflowSteps.length*100)+"%";
+  currentStep++;
+}
+
+// ---- Packet Analysis ----
+function analyzePackets(){document.getElementById('packet-analysis-output').innerHTML="<pre>Sample Packet: [Src:192.168.0.1 Dst:192.168.0.2 Protocol:TCP]</pre>";}
+
+// ---- Chain of Custody ----
+function showCustodyForm(){
+  document.getElementById('custody-form').innerHTML=`<h4>Evidence Form</h4>
+  <input type="text" placeholder="Evidence ID"><br><br>
+  <input type="text" placeholder="Collected By"><br><br>
+  <input type="text" placeholder="Date"><br><br>
+  <textarea placeholder="Notes"></textarea>`;
+}
+
+// ---- Particle Animation ----
+function createParticles(num=50){
+  const container=document.getElementById('particle-container');
+  for(let i=0;i<num;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*window.innerWidth+'px';
+    p.style.top=Math.random()*window.innerHeight+'px';
+    p.style.width=(2+Math.random()*4)+'px';
+    p.style.height=p.style.width;
+    p.style.animationDuration=(5+Math.random()*10)+'s';
+    container.appendChild(p);
   }
+}
 
-    /* ---- SSL Knowledge Test ---- */
-    function checkSSLKnowledge() {
-      const questions = [
-        "What does TLS stand for?",
-        "Which SSL version should never be used?",
-        "What is Perfect Forward Secrecy?"
-      ];
-      const q = questions[Math.floor(Math.random() * questions.length)];
-      const result = document.getElementById('ssl-result');
-      result.innerHTML = `<div style="color: rgb(0, 99, 150);">Question: ${q}<br>
-        <small class="muted">This would be an interactive quiz in a full implementation.</small></div>`;
-  function checkSSLAnswer(selected, correct) {
-    const feedback = document.getElementById('quiz-feedback');
-    if (selected === correct) {
-      feedback.style.color = "green";
-      feedback.innerHTML = "✅ Correct! " + correct + " is the right answer.";
-    } else {
-      feedback.style.color = "red";
-      feedback.innerHTML = "❌ Incorrect. The correct answer is " + correct + ".";
-    }
-  }
-
-  // Load a question on page load
-  document.addEventListener("DOMContentLoaded", loadSSLQuiz);
-   
-
-    /* ---- XSS & CSRF Demos ---- */
-    function demonstrateXSS() {
-      const result = document.getElementById('attack-demo-result');
-      result.innerHTML = `
-        <h4 style="color: rgb(0, 99, 150);">XSS Attack Simulation</h4>
-        <p><strong>Vulnerable Code:</strong></p>
-        <code style="background: rgba(220,53,69,.1); padding: 5px;">document.write("Hello " + userInput);</code>
-        <p><strong>Attack Vector:</strong></p>
-        <code style="background: rgba(255,193,7,.1); padding: 5px;">&lt;script&gt;alert('XSS')&lt;/script&gt;</code>
-        <p><em>In a real scenario, this could steal cookies or redirect users.</em></p>`;
-    }
-    function demonstrateCSRF() {
-      const result = document.getElementById('attack-demo-result');
-      result.innerHTML = `
-        <h4 style="color: rgb(0, 99, 150);">CSRF Attack Simulation</h4>
-        <p><strong>Attack Scenario:</strong> User visits malicious site while logged into a banking site</p>
-        <p><strong>Hidden Attack Code:</strong></p>
-        <code style="background: rgba(220,53,69,.1); padding: 5px;">
-          &lt;img src="https://bank.example/transfer?to=attacker&amount=1000" style="display:none"&gt;
-        </code>
-        <p><em>The browser automatically sends authentication cookies with the request.</em></p>`;
-    }
-    function simulateCSRF() {
-      const result = document.getElementById('csrf-demo-result');
-      result.innerHTML = `
-        <div style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
-          <p><strong>Step 1:</strong> User logs into legitimate site (bank.example)</p>
-          <p><strong>Step 2:</strong> User visits malicious site in another tab</p>
-          <p><strong>Step 3:</strong> Malicious site contains hidden form that submits to bank.example</p>
-          <p><strong>Result:</strong> Transaction executed with user's authenticated session</p>
-        </div>`;
-    }
-
-    /* ---- TLS Handshake Visual ---- */
-    function visualizeTLSHandshake() {
-      const visual = document.getElementById('tls-handshake-visual');
-      visual.innerHTML = `
-        <div style="background: rgba(0, 99, 150, 0.05); padding: 15px; border-radius: 5px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-            <div style="text-align:center; font-weight:bold;">Client</div>
-            <div style="text-align:center; font-weight:bold;">Server</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-            <div style="width:45%; text-align:right;">Client Hello →</div>
-            <div style="width:45%;">Supported Ciphers, Random</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-            <div style="width:45%; text-align:right;">← Server Hello</div>
-            <div style="width:45%;">Selected Cipher, Certificate</div>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-            <div style="width:45%; text-align:right;">Key Exchange →</div>
-            <div style="width:45%;">Client Key Exchange</div>
-          </div>
-          <div style="display:flex; justify-content:space-between;">
-            <div style="width:45%; text-align:right;">Encrypted Application Data ↔</div>
-            <div style="width:45%;">Encrypted Application Data</div>
-          </div>
-        </div>`;
-    }
-
-    /* ---- Browser Security Check ---- */
-    function checkBrowserSecurity() {
-      const result = document.getElementById('browser-security-result');
-      const checks = [
-        { name: "HTTPS Connection", status: window.location.protocol === "https:" },
-        { name: "Content Security Policy", status: !!document.querySelector('meta[http-equiv="Content-Security-Policy"]') },
-        { name: "Modern Browser", status: !(/MSIE|Trident/.test(navigator.userAgent)) }
-      ];
-      let html = '<ul style="list-style-type:none; padding:0;">';
-      checks.forEach(c => { html += `<li>${c.status ? '✅' : '❌'} ${c.name}: ${c.status ? 'Passed' : 'Failed'}</li>`; });
-      html += '</ul>';
-      result.innerHTML = html;
-    }
-
-    /* ---- Forensic Workflow ---- */
-    let currentStep = 0;
-    const forensicSteps = [
-      { name: "Preparation", desc: "Planning the investigation, obtaining authorization, and preparing tools." },
-      { name: "Identification", desc: "Identifying potential sources of evidence relevant to the investigation." },
-      { name: "Collection", desc: "Acquiring data using forensically sound methods to preserve integrity." },
-      { name: "Preservation", desc: "Ensuring evidence is protected from alteration or damage." },
-      { name: "Analysis", desc: "Examining evidence to extract relevant information and draw conclusions." },
-      { name: "Documentation", desc: "Recording all findings and procedures in detail." },
-      { name: "Presentation", desc: "Communicating results to stakeholders in an understandable format." }
-    ];
-    function advanceForensicWorkflow() {
-      if (currentStep < forensicSteps.length) {
-        const percentage = Math.round((currentStep + 1) / forensicSteps.length * 100);
-        updateProgress(percentage);
-        const step = forensicSteps[currentStep];
-        document.getElementById('forensic-workflow-step').innerHTML = `
-          <div style="border-left: 4px solid rgb(0, 99, 150); padding-left: 10px;">
-            <h4 style="margin-top: 0;">${step.name}</h4>
-            <p>${step.desc}</p>
-          </div>`;
-        currentStep++;
-      } else {
-        currentStep = 0;
-        updateProgress(0);
-        document.getElementById('forensic-workflow-step').innerHTML = `
-          <div style="text-align: center; color: rgb(0, 99, 150);">
-            <p>Workflow complete. Click again to restart.</p>
-          </div>`;
-      }
-    }
-
-    /* ---- Timeline ---- */
-    function showTimelineAnalysis() {
-      const events = [
-        { time: "2023-05-01 08:23:15", event: "Initial system access via compromised credentials" },
-        { time: "2023-05-01 08:25:47", event: "Privilege escalation attempt" },
-        { time: "2023-05-01 08:30:22", event: "Data exfiltration begins" },
-        { time: "2023-05-01 09:15:03", event: "Logs cleared" },
-        { time: "2023-05-01 09:17:45", event: "Backdoor installed" }
-      ];
-      let html = '<div style="border: 1px solid #ddd; border-radius: 5px; overflow: hidden;">';
-      html += '<table style="width: 100%; border-collapse: collapse;">';
-      html += '<tr style="background: rgb(0, 99, 150); color: white;"><th style="padding: 8px; text-align: left;">Timestamp</th><th style="padding: 8px; text-align: left;">Event</th></tr>';
-      events.forEach((e, i) => {
-        const bg = i % 2 === 0 ? 'rgba(0, 99, 150, 0.05)' : 'white';
-        html += `<tr style="background:${bg};"><td style="padding:8px; border-top:1px solid #ddd;">${e.time}</td><td style="padding:8px; border-top:1px solid #ddd;">${e.event}</td></tr>`;
-      });
-      html += '</table></div>';
-      document.getElementById('timeline-analysis').innerHTML = html;
-    }
-
-    /* ---- Custody Form ---- */
-    function showCustodyForm() {
-    const form = document.getElementById('custody-form');
-    form.innerHTML = `
-      <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
-        <h4 style="margin-top: 0;">Evidence Chain of Custody Form</h4>
-        <form id="custodyForm" onsubmit="submitCustodyForm(event)">
-          <div style="margin-bottom: 10px;">
-            <label style="display:block; margin-bottom:5px; font-weight:bold;">Evidence Description:</label>
-            <input type="text" required placeholder="e.g., Western Digital 1TB Hard Drive, SN: WD-123456789">
-          </div>
-          <div style="margin-bottom: 10px;">
-            <label style="display:block; margin-bottom:5px; font-weight:bold;">Collection Information:</label>
-            <div style="display:flex; gap:10px;">
-              <input type="text" style="flex:1" required placeholder="Collected by">
-              <input type="text" style="flex:1" required placeholder="Date/Time">
-            </div>
-          </div>
-          <div style="margin-bottom: 10px;">
-            <label style="display:block; margin-bottom:5px; font-weight:bold;">Transfer History:</label>
-            <table style="width:100%; border-collapse: collapse; border:1px solid #ddd;">
-              <tr style="background: rgba(0, 99, 150, 0.1);">
-                <th style="padding:8px; text-align:left; border:1px solid #ddd;">From</th>
-                <th style="padding:8px; text-align:left; border:1px solid #ddd;">To</th>
-                <th style="padding:8px; text-align:left; border:1px solid #ddd;">Date/Time</th>
-                <th style="padding:8px; text-align:left; border:1px solid #ddd;">Purpose</th>
-              </tr>
-              <tr>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
-              </tr>
-            </table>
-          </div>
-          <button type="submit" class="demo-button" style="margin-top:10px;">Submit Form</button>
-        </form>
-      </div>
-    `;
-  }
-
-  function submitCustodyForm(event) {
-    event.preventDefault();
-    const formContainer = document.getElementById('custody-form');
-    formContainer.innerHTML = `
-      <div style="padding: 20px; text-align: center; border: 1px solid #ddd; border-radius: 5px; background:#f8f9fa;">
-        <h4 style="color: rgb(0, 99, 150);">Form Submitted</h4>
-        <p>Your evidence chain of custody form has been successfully submitted.</p>
-        <button onclick="showCustodyForm()" class="demo-button" style="margin-top:15px;">Back to Form</button>
-      </div>
-    `;
-  }
-
-    /* ---- Packet Analysis ---- */
-    function analyzePackets() {
-      const analysis = document.getElementById('packet-analysis');
-      analysis.innerHTML = `
-        <div style="font-family: monospace; background: #222; color: #eee; padding: 15px; border-radius: 5px; overflow-x: auto;">
-          <div style="color: #8bc34a;">Frame 1: 74 bytes on wire, 74 bytes captured</div>
-          <div style="color: #03a9f4;">Ethernet II, Src: 00:1a:2b:3c:4d:5e, Dst: 00:5e:4d:3c:2b:1a</div>
-          <div style="color: #ff9800;">Internet Protocol Version 4, Src: 192.168.1.100, Dst: 93.184.216.34</div>
-          <div style="color: #e91e63;">Transmission Control Protocol, Src Port: 52431, Dst Port: 443</div>
-          <div style="color: #9c27b0;">Transport Layer Security</div>
-          <div style="padding-left: 20px; color: #9c27b0;">TLSv1.2 Record Layer: Handshake Protocol: Client Hello</div>
-          <div style="padding-left: 40px; color: #9c27b0;">Cipher Suites (16 suites)</div>
-          <div style="padding-left: 60px; color: #9c27b0;">Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384</div>
-        </div>
-        <div style="margin-top: 10px; font-style: italic;">This is a simplified representation of a TLS handshake packet.</div>`;
-    }
-
-    /* ---- Hash Demo (Fake) ---- */
-    function calculateHashes() {
-      const input = document.getElementById('hash-input').value;
-      if (!input.trim()) {
-        document.getElementById('hash-results').innerHTML = '<div style="color:#dc3545;">Please enter text to hash</div>';
-        return;
-      }
-      document.getElementById('hash-results').innerHTML = `
-        <div style="font-family: monospace; background:#f8f9fa; padding:10px; border-radius:5px;">
-          <div><strong>MD5:</strong> ${generateFakeHash(input, 32)}</div>
-          <div><strong>SHA-1:</strong> ${generateFakeHash(input, 40)}</div>
-          <div><strong>SHA-256:</strong> ${generateFakeHash(input, 64)}</div>
-        </div>`;
-    }
-    function generateFakeHash(input, length) {
-      const chars = '0123456789abcdef'; let hash = '';
-      const seed = input.length + input.charCodeAt(0);
-      for (let i = 0; i < length; i++) {
-        const index = (seed + i + (input.charCodeAt(i % input.length) || 0)) % chars.length;
-        hash += chars[index];
-      }
-      return hash;
-    }
-
-    /* ---- SSL Analyzer (Mock) ---- */
-    function runSSLAnalyzer() {
-      const domain = (document.getElementById('domain-input').value || 'example.com').trim();
-      const results = document.getElementById('ssl-analyzer-results');
-      results.innerHTML = `
-        <div style="border:1px solid #ddd; border-radius:5px; padding:12px;">
-          <p><strong>Domain:</strong> ${domain}</p>
-          <ul>
-            <li>Protocol support (simulated): TLS 1.2 ✅, TLS 1.3 ✅, SSLv3 ❌</li>
-            <li>HSTS header present (simulated): ✅</li>
-            <li>Weak ciphers detected (simulated): ❌</li>
-            <li>Certificate chain (simulated): Valid ✅</li>
-          </ul>
-          <p class="muted">This is a static demo for educational purposes.</p>
-        </div>`;
-    }
-
-    /* ---- Init ---- */
-    document.addEventListener('DOMContentLoaded', () => {
-      initParticles();
-      // Set initial active states
-      const firstSection = document.querySelector('.content-section');
-      if (firstSection) firstSection.classList.add('active');
-      const firstButton = document.querySelector('.nav-button');
-      if (firstButton) firstButton.classList.add('active');
-    });
-  </script>
+document.addEventListener("DOMContentLoaded",()=>{
+  loadSSLQuiz();
+  createParticles(80);
+  document.querySelector('.content-section').classList.add('active');
+  document.querySelector('.nav-button').classList.add('active');
+});
+</script>
 </body>
 </html>
