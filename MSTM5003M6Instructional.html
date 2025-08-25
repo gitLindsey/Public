@@ -87,7 +87,7 @@
   }
 
   .quiz-btn {
-    width: 250px; /* fixed width so all buttons are equal */
+    width: 250px;
     padding: 10px;
     border: none;
     background: rgb(0, 99, 150);
@@ -210,16 +210,21 @@
           <div id="tls-handshake-visual" style="margin-top: 15px;"></div>
         </div>
 
-<!-- =========================
-     SSL/TLS Knowledge Check
-     ========================= -->
-<div id="ssl-quiz" style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
-  <h3>SSL/TLS Knowledge Check</h3>
-  <p>Test your understanding of SSL/TLS concepts:</p>
+<div id="ssl" class="content-section">
+  <h2>SSL/TLS</h2>
+  <p>SSL/TLS are cryptographic protocols that secure communications on the internet...</p>
 
-  <div id="quiz-question"></div>
-  <div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
-  <div id="quiz-next" style="margin-top:15px;"></div>
+  <!-- =========================
+       SSL/TLS Knowledge Check
+       ========================= -->
+  <div id="ssl-quiz" style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
+    <h3>SSL/TLS Knowledge Check</h3>
+    <p>Test your understanding of SSL/TLS concepts:</p>
+
+    <div id="quiz-question"></div>
+    <div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
+    <div id="quiz-next" style="margin-top:15px;"></div>
+  </div>
 </div>
 
       <!-- VULNERABILITIES -->
@@ -661,76 +666,7 @@
       if (el) el.style.width = percentage + '%';
     }
 
-  // Example quiz questions
-  const sslQuestions = [
-    {
-      question: "Which SSL version should never be used?",
-      options: ["SSL 2.0", "TLS 1.2", "TLS 1.3", "All of the above"],
-      answer: "SSL 2.0"
-    },
-    {
-      question: "What is the main purpose of SSL/TLS?",
-      options: ["To speed up websites", "To secure data in transit", "To block ads", "To manage DNS"],
-      answer: "To secure data in transit"
-    },
-    {
-      question: "Which port is typically used for HTTPS with SSL/TLS?",
-      options: ["21", "80", "443", "8080"],
-      answer: "443"
-    }
-  ];
-
-  let currentQuestion = null;
-
-  function loadSSLQuiz() {
-    const container = document.getElementById('quiz-question');
-    const feedback = document.getElementById('quiz-feedback');
-    const nextBtn = document.getElementById('quiz-next');
-
-    feedback.innerHTML = ""; // clear old feedback
-    nextBtn.innerHTML = "";  // clear next button
-
-    // pick random question (avoid immediate repeat if possible)
-    let q;
-    do {
-      q = sslQuestions[Math.floor(Math.random() * sslQuestions.length)];
-    } while (q === currentQuestion && sslQuestions.length > 1);
-
-    currentQuestion = q;
-
-    // render question + options
-    container.innerHTML = `
-      <p><strong>Question:</strong> ${q.question}</p>
-      <div class="quiz-options">
-        ${q.options.map(opt => `
-          <button class="quiz-btn" onclick="checkSSLAnswer('${opt}', '${q.answer}')">${opt}</button>
-        `).join("")}
-      </div>
-    `;
-  }
-
-  function checkSSLAnswer(selected, correct) {
-    const feedback = document.getElementById('quiz-feedback');
-    const nextBtn = document.getElementById('quiz-next');
-
-    if (selected === correct) {
-      feedback.style.color = "green";
-      feedback.innerHTML = "✅ Correct! " + correct + " is the right answer.";
-    } else {
-      feedback.style.color = "red";
-      feedback.innerHTML = "❌ Incorrect. The correct answer is " + correct + ".";
-    }
-
-    // show next question button
-    nextBtn.innerHTML = `<button class="quiz-btn next-btn" onclick="loadSSLQuiz()">Next Question</button>`;
-  }
-
-  // Load first question on page load
-  document.addEventListener("DOMContentLoaded", loadSSLQuiz);
-    }
-   
-
-    /* ---- XSS & CSRF Demos ---- */
+   /* ---- XSS & CSRF Demos ---- */
     function demonstrateXSS() {
       const result = document.getElementById('attack-demo-result');
       result.innerHTML = `
@@ -977,6 +913,71 @@
       const firstButton = document.querySelector('.nav-button');
       if (firstButton) firstButton.classList.add('active');
     });
+
+  // Example quiz questions
+  const sslQuestions = [
+    {
+      question: "Which SSL version should never be used?",
+      options: ["SSL 2.0", "TLS 1.2", "TLS 1.3", "All of the above"],
+      answer: "SSL 2.0"
+    },
+    {
+      question: "What is the main purpose of SSL/TLS?",
+      options: ["To speed up websites", "To secure data in transit", "To block ads", "To manage DNS"],
+      answer: "To secure data in transit"
+    },
+    {
+      question: "Which port is typically used for HTTPS with SSL/TLS?",
+      options: ["21", "80", "443", "8080"],
+      answer: "443"
+    }
+  ];
+
+  let currentQuestion = null;
+
+  function loadSSLQuiz() {
+    const container = document.getElementById('quiz-question');
+    const feedback = document.getElementById('quiz-feedback');
+    const nextBtn = document.getElementById('quiz-next');
+
+    feedback.innerHTML = "";
+    nextBtn.innerHTML = "";
+
+    let q;
+    do {
+      q = sslQuestions[Math.floor(Math.random() * sslQuestions.length)];
+    } while (q === currentQuestion && sslQuestions.length > 1);
+
+    currentQuestion = q;
+
+    container.innerHTML = `
+      <p><strong>Question:</strong> ${q.question}</p>
+      <div class="quiz-options">
+        ${q.options.map(opt => `
+          <button class="quiz-btn" onclick="checkSSLAnswer('${opt}', '${q.answer}')">${opt}</button>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function checkSSLAnswer(selected, correct) {
+    const feedback = document.getElementById('quiz-feedback');
+    const nextBtn = document.getElementById('quiz-next');
+
+    if (selected === correct) {
+      feedback.style.color = "green";
+      feedback.innerHTML = "✅ Correct! " + correct + " is the right answer.";
+    } else {
+      feedback.style.color = "red";
+      feedback.innerHTML = "❌ Incorrect. The correct answer is " + correct + ".";
+    }
+
+    nextBtn.innerHTML = `<button class="quiz-btn next-btn" onclick="loadSSLQuiz()">Next Question</button>`;
+  }
+
+  // Load first question on page load
+  document.addEventListener("DOMContentLoaded", loadSSLQuiz);
+
   </script>
 </body>
 </html>
