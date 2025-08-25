@@ -14,7 +14,11 @@ body {
   overflow-x:hidden;
   position: relative;
 }
-.container { display:flex; min-height:100vh; }
+#particle-container {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;
+}
+.container { display:flex; min-height:100vh; position: relative; z-index: 1;}
 .sidebar {
   width:300px; background: rgba(0,99,150,0.95);
   position:fixed; height:100vh; overflow-y:auto; color:#fff; padding:20px 0; z-index:100;
@@ -160,25 +164,32 @@ input,textarea{width:100%; padding:8px; border:1px solid #ccc; border-radius:4px
 function showSection(id){
   document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+
   document.querySelectorAll('.nav-button').forEach(b=>b.classList.remove('active'));
   const btn=[...document.querySelectorAll('.nav-button')].find(b=>b.getAttribute('onclick').includes(id));
   if(btn) btn.classList.add('active');
+
+  if(id === 'ssl-tls') loadSSLQuiz();
 }
 
 // ---- SSL Quiz ----
 const sslQuestions=[
-{question:"Which SSL version should never be used?", options:["SSL 2.0","TLS 1.2","TLS 1.3"], answer:"SSL 2.0"},
-{question:"What is the main purpose of SSL/TLS?", options:["Speed up sites","Secure data in transit","Block ads"], answer:"Secure data in transit"},
-{question:"Which port is typically used for HTTPS?", options:["80","443","21"], answer:"443"}
+  {question:"Which SSL version should never be used?", options:["SSL 2.0","TLS 1.2","TLS 1.3"], answer:"SSL 2.0"},
+  {question:"What is the main purpose of SSL/TLS?", options:["Speed up sites","Secure data in transit","Block ads"], answer:"Secure data in transit"},
+  {question:"Which port is typically used for HTTPS?", options:["80","443","21"], answer:"443"}
 ];
+
+function escapeQuotes(str){ return str.replace(/'/g,"\\'"); }
+
 function loadSSLQuiz(){
   const container=document.getElementById('quiz-question');
   const feedback=document.getElementById('quiz-feedback');
   feedback.innerHTML="";
   const q=sslQuestions[Math.floor(Math.random()*sslQuestions.length)];
   container.innerHTML=`<p><strong>Question:</strong> ${q.question}</p>
-  ${q.options.map(opt=>`<button class="quiz-btn" onclick="checkSSLAnswer('${opt}','${q.answer}')">${opt}</button>`).join("<br>")}`;
+  ${q.options.map(opt=>`<button class="quiz-btn" onclick="checkSSLAnswer('${escapeQuotes(opt)}','${escapeQuotes(q.answer)}')">${opt}</button>`).join("<br>")}`;
 }
+
 function checkSSLAnswer(selected,correct){
   const feedback=document.getElementById('quiz-feedback');
   feedback.style.color = selected===correct?"green":"red";
@@ -193,10 +204,17 @@ function demonstrateCSRF(){document.getElementById('attack-demo-result').innerHT
 function visualizeTLSHandshake(){document.getElementById('tls-handshake-visual').innerHTML="<p>TLS handshake steps shown here.</p>";}
 
 // ---- Hash ----
-function calculateHashes(){const input=document.getElementById('hash-input').value;if(!input.trim()){document.getElementById('hash-results').innerHTML='Enter text';return;}document.getElementById('hash-results').innerHTML=`<div>Fake hashes for "${input}"</div>`;}
+function calculateHashes(){
+  const input=document.getElementById('hash-input').value;
+  if(!input.trim()){document.getElementById('hash-results').innerHTML='Enter text';return;}
+  document.getElementById('hash-results').innerHTML=`<div>Fake hashes for "${input}"</div>`;
+}
 
 // ---- SSL Analyzer ----
-function runSSLAnalyzer(){const domain=document.getElementById('domain-input').value||'example.com'; document.getElementById('ssl-analyzer-results').innerHTML=`<div>Analyzing ${domain}...</div>`;}
+function runSSLAnalyzer(){
+  const domain=document.getElementById('domain-input').value||'example.com';
+  document.getElementById('ssl-analyzer-results').innerHTML=`<div>Analyzing ${domain}...</div>`;
+}
 
 // ---- Forensic Workflow ----
 const workflowSteps=["Evidence Collection","Evidence Preservation","Analysis","Reporting"];
@@ -235,11 +253,15 @@ function createParticles(num=50){
   }
 }
 
+// ---- Initialization ----
 document.addEventListener("DOMContentLoaded",()=>{
   loadSSLQuiz();
   createParticles(80);
-  document.querySelector('.content-section').classList.add('active');
-  document.querySelector('.nav-button').classList.add('active');
+  const firstSection = document.querySelector('.content-section.active');
+  if(firstSection){
+    const btn = [...document.querySelectorAll('.nav-button')].find(b => b.getAttribute('onclick').includes(firstSection.id));
+    if(btn) btn.classList.add('active');
+  }
 });
 </script>
 </body>
