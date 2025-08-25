@@ -79,6 +79,20 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+    .quiz-btn {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 8px 15px;
+    border: none;
+    background: rgb(0, 99, 150);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .3s ease;
+  }
+  .quiz-btn:hover {
+    background: rgb(0, 75, 115);
+  }
     @keyframes float {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
       100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
@@ -177,13 +191,17 @@
           <div id="tls-handshake-visual" style="margin-top: 15px;"></div>
         </div>
 
-        <div class="interactive-demo">
-          <h4>SSL/TLS Knowledge Check</h4>
-          <p>Test your understanding of SSL/TLS concepts:</p>
-          <button class="demo-button" onclick="checkSSLKnowledge()">Random Question</button>
-          <div id="ssl-result" style="margin-top: 15px;"></div>
-        </div>
-      </div>
+<!-- =========================
+     SSL/TLS Knowledge Check
+     ========================= -->
+<div id="ssl-quiz" style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
+  <h3>SSL/TLS Knowledge Check</h3>
+  <p>Test your understanding of SSL/TLS concepts:</p>
+
+  <div id="quiz-question"></div>
+
+  <div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
+</div>
 
       <!-- VULNERABILITIES -->
       <div id="vulnerabilities" class="content-section">
@@ -623,19 +641,56 @@
       const el = document.getElementById('forensic-progress');
       if (el) el.style.width = percentage + '%';
     }
-
-    /* ---- SSL Knowledge Test ---- */
-    function checkSSLKnowledge() {
-      const questions = [
-        "What does TLS stand for?",
-        "Which SSL version should never be used?",
-        "What is Perfect Forward Secrecy?"
-      ];
-      const q = questions[Math.floor(Math.random() * questions.length)];
-      const result = document.getElementById('ssl-result');
-      result.innerHTML = `<div style="color: rgb(0, 99, 150);">Question: ${q}<br>
-        <small class="muted">This would be an interactive quiz in a full implementation.</small></div>`;
+// Example quiz questions
+  const sslQuestions = [
+    {
+      question: "Which SSL version should never be used?",
+      options: ["SSL 2.0", "TLS 1.2", "TLS 1.3", "All of the above"],
+      answer: "SSL 2.0"
+    },
+    {
+      question: "What is the main purpose of SSL/TLS?",
+      options: ["To speed up websites", "To secure data in transit", "To block ads", "To manage DNS"],
+      answer: "To secure data in transit"
+    },
+    {
+      question: "Which port is typically used for HTTPS with SSL/TLS?",
+      options: ["21", "80", "443", "8080"],
+      answer: "443"
     }
+  ];
+
+  function loadSSLQuiz() {
+    const container = document.getElementById('quiz-question');
+    const feedback = document.getElementById('quiz-feedback');
+    feedback.innerHTML = ""; // clear old feedback
+
+    // pick random question
+    const q = sslQuestions[Math.floor(Math.random() * sslQuestions.length)];
+
+    // render question + options
+    container.innerHTML = `
+      <p><strong>Question:</strong> ${q.question}</p>
+      ${q.options.map(opt => `
+        <button class="quiz-btn" onclick="checkSSLAnswer('${opt}', '${q.answer}')">${opt}</button>
+      `).join("<br>")}
+    `;
+  }
+
+  function checkSSLAnswer(selected, correct) {
+    const feedback = document.getElementById('quiz-feedback');
+    if (selected === correct) {
+      feedback.style.color = "green";
+      feedback.innerHTML = "✅ Correct! " + correct + " is the right answer.";
+    } else {
+      feedback.style.color = "red";
+      feedback.innerHTML = "❌ Incorrect. The correct answer is " + correct + ".";
+    }
+  }
+
+  // Load a question on page load
+  document.addEventListener("DOMContentLoaded", loadSSLQuiz);
+   
 
     /* ---- XSS & CSRF Demos ---- */
     function demonstrateXSS() {
