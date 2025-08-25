@@ -595,38 +595,49 @@
         }
         
         function classifyData() {
-            const input = document.getElementById('dataInput').value.toLowerCase();
-            const result = document.getElementById('classificationResult');
-            
-            let classification = '';
-            let reasoning = '';
-            
-            if (input.includes('salary') || input.includes('ssn') || input.includes('social security') || 
-                input.includes('credit card') || input.includes('bank account')) {
-                classification = 'CONFIDENTIAL';
-                reasoning = 'Contains sensitive personal or financial information that could cause harm if disclosed.';
-            } else if (input.includes('employee') || input.includes('internal') || input.includes('meeting') || 
-                       input.includes('strategy') || input.includes('proprietary')) {
-                classification = 'PRIVATE';
-                reasoning = 'Internal information not intended for external sharing without authorization.';
-            } else if (input.includes('trade secret') || input.includes('algorithm') || input.includes('formula')) {
-                classification = 'PROPRIETARY';
-                reasoning = 'Contains trade secrets or intellectual property requiring special protection.';
-            } else if (input.includes('logo') || input.includes('public') || input.includes('website') || 
-                       input.includes('press release') || input.includes('marketing')) {
-                classification = 'PUBLIC';
-                reasoning = 'Information intended for public consumption with no confidentiality requirements.';
-            } else {
-                classification = 'PRIVATE (Default)';
-                reasoning = 'When in doubt, classify as private until proper assessment can be conducted.';
-            }
-            
-            result.innerHTML = `
-                <strong>Classification:</strong> ${classification}<br>
-                <strong>Reasoning:</strong> ${reasoning}
-            `;
-            result.classList.add('show');
-        }
+    const input = document.getElementById('dataInput').value.toLowerCase();
+    const result = document.getElementById('classificationResult');
+
+    let classification = '';
+    let reasoning = '';
+
+    if (
+        input.includes('salary') || input.includes('ssn') || input.includes('social security') || 
+        input.includes('credit card') || input.includes('bank account') ||
+        input.includes('customer email') || input.includes('medical') || input.includes('health')
+    ) {
+        classification = 'CONFIDENTIAL';
+        reasoning = 'Contains sensitive personal, medical, or financial information that could cause serious harm if disclosed.';
+    } else if (
+        input.includes('employee') || input.includes('internal') || input.includes('meeting') || 
+        input.includes('strategy') || input.includes('draft') || input.includes('report')
+    ) {
+        classification = 'PRIVATE';
+        reasoning = 'Internal organizational information not intended for public disclosure.';
+    } else if (
+        input.includes('trade secret') || input.includes('algorithm') || input.includes('formula') || 
+        input.includes('design') || input.includes('prototype')
+    ) {
+        classification = 'PROPRIETARY';
+        reasoning = 'Contains intellectual property or trade secrets that require strong protection to preserve competitive advantage.';
+    } else if (
+        input.includes('logo') || input.includes('public') || input.includes('website') || 
+        input.includes('press release') || input.includes('marketing') || input.includes('brochure')
+    ) {
+        classification = 'PUBLIC';
+        reasoning = 'Information intended for public consumption with no confidentiality requirements.';
+    } else {
+        classification = 'PRIVATE (Default)';
+        reasoning = 'If uncertain, classify as Private until a proper assessment determines otherwise.';
+    }
+
+    result.innerHTML = `
+        <strong>Classification:</strong> ${classification}<br>
+        <strong>Reasoning:</strong> ${reasoning}
+    `;
+    result.classList.add('show');
+}
+
         
         function showPrivacyApproach() {
             const select = document.getElementById('regionSelect');
