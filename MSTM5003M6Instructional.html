@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computer Security & Digital Forensics</title>
+    <title>Computer Security Learning Platform</title>
     <style>
         * {
             margin: 0;
@@ -207,13 +207,24 @@
         }
 
         .quiz-option.correct {
-            border-color: #4CAF50;
-            background: rgba(76, 175, 80, 0.3);
+            border: 3px solid #4CAF50 !important;
+            background: #4CAF50 !important;
+            color: white !important;
+            font-weight: bold;
         }
 
         .quiz-option.incorrect {
-            border-color: #f44336;
-            background: rgba(244, 67, 54, 0.3);
+            border: 3px solid #f44336 !important;
+            background: #f44336 !important;
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .quiz-option.selected {
+            background-color: var(--accent-gold) !important;
+            color: var(--secondary-gray) !important;
+            border: 2px solid var(--primary-blue) !important;
+            font-weight: bold;
         }
 
         .diagram-container {
@@ -372,8 +383,8 @@
     <div class="container">
         <nav class="sidebar">
             <div class="logo">
-                <h1>Computer Security & Digital Forensics</h1>
-                
+                <h1>SecureLearn</h1>
+                <p>Graduate Security Education</p>
             </div>
             
             <div class="nav-section">
@@ -1113,6 +1124,16 @@ curl -I https://bank.com | grep -i strict
                     </div>
                 `;
                 document.getElementById('current-question').innerHTML = questionHTML;
+                
+                // Restore previous selection if user is navigating back
+                if (userAnswers[currentQuestionIndex] !== undefined) {
+                    const options = document.querySelectorAll('#current-question .quiz-option');
+                    const selectedIndex = userAnswers[currentQuestionIndex];
+                    options[selectedIndex].classList.add('selected');
+                    options[selectedIndex].style.backgroundColor = 'var(--accent-gold)';
+                    options[selectedIndex].style.color = 'var(--secondary-gray)';
+                    options[selectedIndex].style.border = '2px solid var(--primary-blue)';
+                }
             } else {
                 showQuizResults();
             }
@@ -1121,8 +1142,17 @@ curl -I https://bank.com | grep -i strict
         function selectAnswer(answerIndex) {
             userAnswers[currentQuestionIndex] = answerIndex;
             const options = document.querySelectorAll('#current-question .quiz-option');
-            options.forEach(option => option.classList.remove('selected'));
+            options.forEach(option => {
+                option.classList.remove('selected');
+                option.style.backgroundColor = '';
+                option.style.border = '';
+            });
+            
+            // Highlight selected answer
             options[answerIndex].classList.add('selected');
+            options[answerIndex].style.backgroundColor = 'var(--accent-gold)';
+            options[answerIndex].style.color = 'var(--secondary-gray)';
+            options[answerIndex].style.border = '2px solid var(--primary-blue)';
         }
 
         function nextQuestion() {
@@ -1160,10 +1190,11 @@ curl -I https://bank.com | grep -i strict
                 if (isCorrect) correctAnswers++;
                 
                 reviewHTML += `
-                    <div style="margin: 10px 0; padding: 10px; border-radius: 5px; background: ${isCorrect ? '#d4edda' : '#f8d7da'};">
-                        <strong>Q${i + 1}:</strong> ${question.question}<br>
-                        <strong>Your Answer:</strong> ${question.options[userAnswer] || 'Not answered'}<br>
-                        <strong>Correct Answer:</strong> ${question.options[question.correct]}
+                    <div style="margin: 15px 0; padding: 15px; border-radius: 8px; border-left: 5px solid ${isCorrect ? '#4CAF50' : '#f44336'}; background: ${isCorrect ? '#e8f5e8' : '#ffeaea'};">
+                        <strong style="color: #333;">Q${i + 1}:</strong> <span style="color: #333;">${question.question}</span><br><br>
+                        <strong style="color: #333;">Your Answer:</strong> <span style="color: ${isCorrect ? '#4CAF50' : '#f44336'}; font-weight: bold;">${question.options[userAnswer] || 'Not answered'}</span><br>
+                        <strong style="color: #333;">Correct Answer:</strong> <span style="color: #4CAF50; font-weight: bold;">${question.options[question.correct]}</span>
+                        ${isCorrect ? '<br><span style="color: #4CAF50; font-weight: bold;">✓ Correct!</span>' : '<br><span style="color: #f44336; font-weight: bold;">✗ Incorrect</span>'}
                     </div>
                 `;
             }
