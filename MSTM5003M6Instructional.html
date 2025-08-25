@@ -1092,13 +1092,23 @@ curl -I https://bank.com | grep -i strict
         let userAnswers = [];
         let quizActive = false;
 
-        function startTopicQuiz(topic) {
-            const filteredQuestions = quizQuestions.filter(q => q.category === topic);
-            if (filteredQuestions.length > 0) {
-                quizQuestions = filteredQuestions;
-                startQuiz();
-            }
-        }
+        // Add this function to your JavaScript code
+function startTopicQuiz(topic) {
+  // Filter questions based on the selected topic
+  const filteredQuestions = quizQuestions.filter(q => q.category === topic);
+  
+  if (filteredQuestions.length > 0) {
+    // Set the quiz questions to only those matching the topic
+    quizQuestions = filteredQuestions;
+    // Start the quiz with the filtered questions
+    startQuiz();
+  } else {
+    // Handle case where no questions match the topic
+    document.getElementById('current-question').innerHTML = 
+      `<div class="quiz-question"><p>No questions available for ${topic} security.</p></div>`;
+    document.getElementById('quiz-results').style.display = 'none';
+  }
+}
 
         function startQuiz() {
             currentQuestionIndex = 0;
