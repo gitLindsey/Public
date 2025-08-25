@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy and Legal Issues in Computer Security</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: rgb(0, 55, 100);
+            background: linear-gradient(135deg, rgb(240, 240, 230) 0%, rgb(197, 183, 131) 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgb(0, 55, 100);
+            color: rgb(240, 240, 230);
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgb(197, 183, 131);
+        }
+        
+        nav {
+            background: rgb(0, 99, 150);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        nav a {
+            color: rgb(240, 240, 230);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: rgb(0, 147, 214);
+        }
+        
+        .section {
+            background: rgba(240, 240, 230, 0.9);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid rgb(0, 147, 214);
+        }
+        
+        .section h2 {
+            color: rgb(0, 55, 100);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .quiz-container {
+            background: rgb(0, 147, 214);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .quiz-question {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: white;
+            text-align: left;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .quiz-option.correct {
+            background: rgb(0, 99, 150);
+            border: 2px solid rgb(197, 183, 131);
+        }
+        
+        .quiz-option.incorrect {
+            background: rgba(139, 0, 0, 0.7);
+        }
+        
+        .quiz-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .quiz-result.show {
+            display: block;
+        }
+        
+        .quiz-result.correct {
+            background: rgba(0, 128, 0, 0.3);
+        }
+        
+        .quiz-result.incorrect {
+            background: rgba(139, 0, 0, 0.3);
+        }
+        
+        .demo-container {
+            background: rgb(0, 99, 150);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .demo-input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .demo-button {
+            background: rgb(197, 183, 131);
+            color: rgb(0, 55, 100);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .demo-button:hover {
+            background: rgb(240, 240, 230);
+        }
+        
+        .demo-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .demo-result.show {
+            display: block;
+        }
+        
+        .key-terms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .term-card {
+            background: rgba(0, 147, 214, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgb(0, 147, 214);
+            transition: transform 0.3s;
+        }
+        
+        .term-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .term-title {
+            font-weight: bold;
+            color: rgb(0, 55, 100);
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-table th {
+            background: rgb(0, 55, 100);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 55, 100, 0.1);
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: rgba(197, 183, 131, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+            
+            .comparison-table th, 
+            .comparison-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Privacy and Legal Issues</h1>
+            <p class="subtitle">Interactive Guide to Computer Security Law and Ethics</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#privacy-basics">Privacy Basics</a></li>
+                <li><a href="#data-protection">Data Protection</a></li>
+                <li><a href="#legal-framework">Legal Framework</a></li>
+                <li><a href="#international">International Laws</a></li>
+                <li><a href="#technology">Technology & Privacy</a></li>
+            </ul>
+        </nav>
+        
+        <section id="privacy-basics" class="section">
+            <h2>Privacy Fundamentals</h2>
+            <p>Privacy is defined as the power to control what others know about you and what they can do with that information. In the digital age, this concept has become increasingly complex and critical.</p>
+            
+            <div class="key-terms">
+                <div class="term-card">
+                    <div class="term-title">Personally Identifiable Information (PII)</div>
+                    <div>A set of elements that can lead to the specific identity of a person, requiring special protection to prevent misuse.</div>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Data Sensitivity Labeling</div>
+                    <div>Classification system for information including Public, Private, Confidential, and Proprietary categories.</div>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Notice, Choice, and Consent</div>
+                    <div>Three key principles governing ethical PII collection: informing users, providing options, and obtaining agreement.</div>
+                </div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">Which of the following is NOT considered sensitive PII requiring special protection?</div>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">A) Credit card numbers</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">B) Social Security numbers</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, true)">C) Public company name</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">D) Bank account numbers</button>
+                </div>
+                <div class="quiz-result">
+                    <strong>Explanation:</strong> <span class="quiz-explanation"></span>
+                </div>
+            </div>
+        </section>
+        
+        <section id="data-protection" class="section">
+            <h2>Data Protection and Destruction</h2>
+            <p>Proper data handling includes not only protection during use but also secure destruction when data is no longer needed.</p>
+            
+            <div class="demo-container">
+                <h3>Data Classification Simulator</h3>
+                <p>Enter a type of information to see its recommended classification level:</p>
+                <input type="text" class="demo-input" id="dataInput" placeholder="e.g., employee salary, company logo, customer email">
+                <button class="demo-button" onclick="classifyData()">Classify Data</button>
+                <div class="demo-result" id="classificationResult"></div>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Destruction Method</th>
+                        <th>Description</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Burning</td>
+                        <td>Chemical destruction by fire - irreversible</td>
+                        <td>Paper documents, physical media</td>
+                    </tr>
+                    <tr>
+                        <td>Shredding</td>
+                        <td>Physical destruction into small pieces</td>
+                        <td>Paper documents, some storage media</td>
+                    </tr>
+                    <tr>
+                        <td>Degaussing</td>
+                        <td>Realigns magnetic particles to remove data</td>
+                        <td>Magnetic storage devices</td>
+                    </tr>
+                    <tr>
+                        <td>Wiping</td>
+                        <td>Multiple overwrites with random patterns</td>
+                        <td>Hard drives, SSDs (with special utilities)</td>
+                    </tr>
+                    <tr>
+                        <td>Pulverizing</td>
+                        <td>Physical destruction using excessive force</td>
+                        <td>Storage devices, circuit boards</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="legal-framework" class="section">
+            <h2>U.S. Legal Framework</h2>
+            <p>The United States has developed a comprehensive set of laws addressing privacy and computer security, each targeting specific sectors and types of data.</p>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">Which act specifically addresses children's online privacy?</div>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">A) HIPAA</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, true)">B) COPPA</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">C) GLBA</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">D) SOX</button>
+                </div>
+                <div class="quiz-result">
+                    <strong>Explanation:</strong> <span class="quiz-explanation"></span>
+                </div>
+            </div>
+            
+            <div class="key-terms">
+                <div class="term-card">
+                    <div class="term-title">Computer Fraud and Abuse Act (CFAA)</div>
+                    <div>Criminalizes unauthorized access to computer systems involved in interstate commerce or national security.</div>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Health Insurance Portability and Accountability Act (HIPAA)</div>
+                    <div>Protects medical information with security standards and privacy practices for healthcare data.</div>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Gramm-Leach-Bliley Act (GLBA)</div>
+                    <div>Requires financial institutions to explain information-sharing practices and protect customer data.</div>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Sarbanes-Oxley Act (SOX)</div>
+                    <div>Establishes controls for financial reporting systems, including IT security requirements.</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="international" class="section">
+            <h2>International Privacy Laws</h2>
+            <p>Privacy approaches vary significantly across jurisdictions, with fundamental differences in opt-in vs. opt-out philosophies and data protection frameworks.</p>
+            
+            <div class="demo-container">
+                <h3>Privacy Approach Comparison</h3>
+                <p>Select a region to see its privacy approach:</p>
+                <select class="demo-input" id="regionSelect" onchange="showPrivacyApproach()">
+                    <option value="">Select a region...</option>
+                    <option value="us">United States</option>
+                    <option value="eu">European Union</option>
+                    <option value="canada">Canada</option>
+                    <option value="asia">Asia-Pacific</option>
+                </select>
+                <div class="demo-result" id="privacyApproachResult"></div>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Primary Approach</th>
+                        <th>Key Legislation</th>
+                        <th>Philosophy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>United States</td>
+                        <td>Sectoral, Opt-out</td>
+                        <td>Multiple sector-specific laws</td>
+                        <td>Industry self-regulation with government oversight</td>
+                    </tr>
+                    <tr>
+                        <td>European Union</td>
+                        <td>Comprehensive, Opt-in</td>
+                        <td>GDPR, Data Protection Directive</td>
+                        <td>Privacy as fundamental human right</td>
+                    </tr>
+                    <tr>
+                        <td>Canada</td>
+                        <td>Comprehensive</td>
+                        <td>PIPEDA</td>
+                        <td>Balance between privacy and commerce</td>
+                    </tr>
+                    <tr>
+                        <td>Asia-Pacific</td>
+                        <td>Varied approaches</td>
+                        <td>Country-specific laws</td>
+                        <td>Cultural considerations of individualism vs. collectivism</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">What is the key difference between U.S. and EU privacy approaches?</div>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">A) EU has no privacy laws</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, true)">B) U.S. uses opt-out, EU uses opt-in by default</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">C) EU only protects government data</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">D) U.S. has stricter penalties</button>
+                </div>
+                <div class="quiz-result">
+                    <strong>Explanation:</strong> <span class="quiz-explanation"></span>
+                </div>
+            </div>
+        </section>
+        
+        <section id="technology" class="section">
+            <h2>Technology and Privacy</h2>
+            <p>Technology both creates privacy challenges and provides solutions through Privacy-Enhancing Technologies (PETs).</p>
+            
+            <div class="demo-container">
+                <h3>Cookie Privacy Simulator</h3>
+                <p>See how cookies affect your privacy:</p>
+                <button class="demo-button" onclick="simulateCookies()">Accept All Cookies</button>
+                <button class="demo-button" onclick="simulateRejectCookies()">Reject Tracking Cookies</button>
+                <div class="demo-result" id="cookieResult"></div>
+            </div>
+            
+            <div class="key-terms">
+                <div class="term-card">
+                    <div class="term-title">Cookies</div>
+                    <div>Small text files stored on user devices that can maintain state and track user behavior across web sessions.</div>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Privacy-Enhancing Technologies (PETs)</div>
+                    <div>Tools and applications that help protect privacy, including encryption, cookie blockers, and anonymization tools.</div>
+                </div>
+                <div class="term-card">
+                    <div class="term-title">Privacy Impact Assessment (PIA)</div>
+                    <div>Structured approach to determine gaps between desired and actual privacy performance in business processes.</div>
+                </div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">Which technology is considered the most important Privacy-Enhancing Technology?</div>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">A) Firewalls</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, true)">B) Encryption</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">C) Antivirus software</button>
+                    <button class="quiz-option" onclick="answerQuiz(this, false)">D) Web browsers</button>
+                </div>
+                <div class="quiz-result">
+                    <strong>Explanation:</strong> <span class="quiz-explanation"></span>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        function answerQuiz(button, isCorrect) {
+            const container = button.parentElement.parentElement;
+            const options = container.querySelectorAll('.quiz-option');
+            const result = container.querySelector('.quiz-result');
+            const explanation = container.querySelector('.quiz-explanation');
+            
+            // Disable all options
+            options.forEach(option => option.disabled = true);
+            
+            // Style the selected answer
+            if (isCorrect) {
+                button.classList.add('correct');
+                result.classList.add('show', 'correct');
+                explanation.textContent = 'Correct! ' + getCorrectExplanation(container);
+            } else {
+                button.classList.add('incorrect');
+                result.classList.add('show', 'incorrect');
+                explanation.textContent = 'Incorrect. ' + getCorrectExplanation(container);
+                
+                // Highlight correct answer
+                options.forEach(option => {
+                    if (!option.classList.contains('incorrect')) {
+                        const onclick = option.getAttribute('onclick');
+                        if (onclick && onclick.includes('true')) {
+                            option.classList.add('correct');
+                        }
+                    }
+                });
+            }
+        }
+        
+        function getCorrectExplanation(container) {
+            const question = container.querySelector('.quiz-question').textContent;
+            
+            if (question.includes('sensitive PII')) {
+                return 'Public company names are not considered sensitive PII as they are publicly available information and do not require special protection.';
+            } else if (question.includes('children\'s online privacy')) {
+                return 'COPPA (Children\'s Online Privacy Protection Act) specifically addresses the online privacy of children under 13 years old.';
+            } else if (question.includes('U.S. and EU privacy approaches')) {
+                return 'The fundamental difference is that the U.S. primarily uses an opt-out approach (users must request privacy), while the EU uses opt-in by default (highest privacy setting is default).';
+            } else if (question.includes('Privacy-Enhancing Technology')) {
+                return 'Encryption is considered the top Privacy-Enhancing Technology as it protects privacy and anonymity by securing data in transit and at rest.';
+            }
+            return 'See the course materials for more details.';
+        }
+        
+        function classifyData() {
+            const input = document.getElementById('dataInput').value.toLowerCase();
+            const result = document.getElementById('classificationResult');
+            
+            let classification = '';
+            let reasoning = '';
+            
+            if (input.includes('salary') || input.includes('ssn') || input.includes('social security') || 
+                input.includes('credit card') || input.includes('bank account')) {
+                classification = 'CONFIDENTIAL';
+                reasoning = 'Contains sensitive personal or financial information that could cause harm if disclosed.';
+            } else if (input.includes('employee') || input.includes('internal') || input.includes('meeting') || 
+                       input.includes('strategy') || input.includes('proprietary')) {
+                classification = 'PRIVATE';
+                reasoning = 'Internal information not intended for external sharing without authorization.';
+            } else if (input.includes('trade secret') || input.includes('algorithm') || input.includes('formula')) {
+                classification = 'PROPRIETARY';
+                reasoning = 'Contains trade secrets or intellectual property requiring special protection.';
+            } else if (input.includes('logo') || input.includes('public') || input.includes('website') || 
+                       input.includes('press release') || input.includes('marketing')) {
+                classification = 'PUBLIC';
+                reasoning = 'Information intended for public consumption with no confidentiality requirements.';
+            } else {
+                classification = 'PRIVATE (Default)';
+                reasoning = 'When in doubt, classify as private until proper assessment can be conducted.';
+            }
+            
+            result.innerHTML = `
+                <strong>Classification:</strong> ${classification}<br>
+                <strong>Reasoning:</strong> ${reasoning}
+            `;
+            result.classList.add('show');
+        }
+        
+        function showPrivacyApproach() {
+            const select = document.getElementById('regionSelect');
+            const result = document.getElementById('privacyApproachResult');
+            const value = select.value;
+            
+            let content = '';
+            
+            switch(value) {
+                case 'us':
+                    content = `<strong>United States Approach:</strong><br>
+                    • Sectoral legislation (different laws for different industries)<br>
+                    • Opt-out default (companies can share unless you say no)<br>
+                    • Industry self-regulation with government enforcement<br>
+                    • Focus on notice and choice`;
+                    break;
+                case 'eu':
+                    content = `<strong>European Union Approach:</strong><br>
+                    • Comprehensive data protection regulation (GDPR)<br>
+                    • Opt-in default (explicit consent required)<br>
+                    • Privacy as fundamental human right<br>
+                    • Strong penalties and enforcement mechanisms`;
+                    break;
+                case 'canada':
+                    content = `<strong>Canadian Approach:</strong><br>
+                    • PIPEDA applies to all organizations<br>
+                    • Balanced approach between privacy and commerce<br>
+                    • National and provincial privacy commissioners<br>
+                    • Similar to EU but more business-friendly`;
+                    break;
+                case 'asia':
+                    content = `<strong>Asia-Pacific Approach:</strong><br>
+                    • Varies significantly by country<br>
+                    • Cultural considerations of collectivism vs. individualism<br>
+                    • Growing adoption of comprehensive frameworks<br>
+                    • Focus on economic development with privacy protection`;
+                    break;
+            }
+            
+            if (content) {
+                result.innerHTML = content;
+                result.classList.add('show');
+            } else {
+                result.classList.remove('show');
+            }
+        }
+        
+        function simulateCookies() {
+            const result = document.getElementById('cookieResult');
+            result.innerHTML = `
+                <strong>Cookies Accepted - Privacy Impact:</strong><br>
+                • Websites can track your browsing behavior<br>
+                • Personalized ads will follow you across sites<br>
+                • Your preferences and login info will be remembered<br>
+                • Third-party trackers can build detailed profiles<br>
+                • Convenience increased, privacy reduced
+            `;
+            result.classList.add('show');
+        }
+        
+        function simulateRejectCookies() {
+            const result = document.getElementById('cookieResult');
+            result.innerHTML = `
+                <strong>Tracking Cookies Rejected - Privacy Impact:</strong><br>
+                • Limited behavioral tracking across websites<br>
+                • Fewer personalized advertisements<br>
+                • May need to re-login to websites more frequently<br>
+                • Some website functionality may be limited<br>
+                • Privacy increased, some convenience lost
+            `;
+            result.classList.add('show');
+        }
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
