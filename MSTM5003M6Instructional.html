@@ -79,38 +79,19 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-    .quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .quiz-btn {
-    width: 250px;
-    padding: 10px;
+    .quiz-btn {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 8px 15px;
     border: none;
     background: rgb(0, 99, 150);
     color: #fff;
     border-radius: 4px;
     cursor: pointer;
     transition: background .3s ease;
-    text-align: center;
   }
-
   .quiz-btn:hover {
     background: rgb(0, 75, 115);
-  }
-
-  .next-btn {
-    margin-top: 10px;
-    background: rgb(197, 183, 131);
-    color: #000;
-    font-weight: bold;
-  }
-
-  .next-btn:hover {
-    background: rgb(170, 160, 110);
   }
     @keyframes float {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -210,463 +191,94 @@
           <div id="tls-handshake-visual" style="margin-top: 15px;"></div>
         </div>
 
-<div id="ssl" class="content-section">
-  <h2>SSL/TLS</h2>
-  <p>SSL/TLS are cryptographic protocols that secure communications on the internet...</p>
+        <div class="interactive-demo">
+          <h4>SSL/TLS Knowledge Check</h4>
+          <p>Test your understanding of SSL/TLS concepts:</p>
+          <button class="demo-button" onclick="checkSSLKnowledge()">Random Question</button>
+          <div id="ssl-result" style="margin-top: 15px;"></div>
+        </div>
+      </div>
+<!-- =========================
+     SSL/TLS Knowledge Check
+     ========================= -->
+<div id="ssl-quiz" style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
+  <h3>SSL/TLS Knowledge Check</h3>
+  <p>Test your understanding of SSL/TLS concepts:</p>
 
-  <!-- =========================
-       SSL/TLS Knowledge Check
-       ========================= -->
-  <div id="ssl-quiz" style="border:1px solid #ddd; padding:15px; border-radius:5px; background:#f9f9f9;">
-    <h3>SSL/TLS Knowledge Check</h3>
-    <p>Test your understanding of SSL/TLS concepts:</p>
+  <div id="quiz-question"></div>
 
-    <div id="quiz-question"></div>
-    <div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
-    <div id="quiz-next" style="margin-top:15px;"></div>
-  </div>
+  <div id="quiz-feedback" style="margin-top:15px; font-weight:bold;"></div>
 </div>
 
       <!-- VULNERABILITIES -->
       <div id="vulnerabilities" class="content-section">
-        <h2>Web Vulnerabilities</h2>
-        <p>Modern web applications face numerous security challenges that require systematic identification and mitigation strategies.</p>
-
-        <h3>OWASP Top 10</h3>
-        <p>The Open Web Application Security Project (OWASP) maintains a list of the most critical web application security risks:</p>
-        <div class="code-block">
-1. Injection
-2. Broken Authentication
-3. Sensitive Data Exposure
-4. XML External Entities (XXE)
-5. Broken Access Control
-6. Security Misconfiguration
-7. Cross-Site Scripting (XSS)
-8. Insecure Deserialization
-9. Using Components with Known Vulnerabilities
-10. Insufficient Logging & Monitoring
-        </div>
-
-        <h3>Injection Vulnerabilities</h3>
-        <p>Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query:</p>
-        <ul>
-          <li><strong>SQL Injection:</strong> Manipulation of database queries</li>
-          <li><strong>Command Injection:</strong> Execution of operating system commands</li>
-          <li><strong>LDAP Injection:</strong> Manipulation of directory service queries</li>
-        </ul>
-
-        <div class="highlight-box">
-          <h4>Session Management Best Practices</h4>
-          <ul>
-            <li><strong>Secure Cookie Attributes:</strong> HttpOnly, Secure, SameSite flags</li>
-            <li><strong>Session Timeout:</strong> Limiting session duration</li>
-            <li><strong>Session Regeneration:</strong> Creating new session identifiers after authentication</li>
-            <li><strong>Proper Logout Procedures:</strong> Invalidating sessions on both client and server sides</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- CLIENT ATTACKS -->
-      <div id="client-attacks" class="content-section">
-        <h2>Client-Side Attacks</h2>
-        <p>Client-side attacks target vulnerabilities in the user's browser or related components, often exploiting trust relationships and user interaction.</p>
-
-        <h3>Cross-Site Scripting (XSS)</h3>
-        <p>XSS attacks inject malicious scripts into trusted websites, executing in victims' browsers:</p>
-        <ul>
-          <li><strong>Reflected XSS:</strong> Malicious script reflected from web server</li>
-          <li><strong>Stored XSS:</strong> Malicious script stored on target server</li>
-          <li><strong>DOM-based XSS:</strong> Vulnerability in client-side JavaScript</li>
-        </ul>
-
-        <div class="highlight-box">
-          <h4>XSS Prevention</h4>
-          <ul>
-            <li>Input validation and sanitization</li>
-            <li>Output encoding</li>
-            <li>Content Security Policy (CSP) implementation</li>
-            <li>Use of modern frameworks with built-in XSS protection</li>
-          </ul>
-        </div>
-
-        <h3>Cross-Site Request Forgery (CSRF)</h3>
-        <p>CSRF attacks trick users into performing unwanted actions on authenticated websites:</p>
-
-        <div class="interactive-demo">
-          <h4>CSRF Attack Simulation</h4>
-          <button class="demo-button" onclick="simulateCSRF()">Demonstrate CSRF</button>
-          <div id="csrf-demo-result" style="margin-top: 15px;"></div>
-        </div>
-      </div>
-
-      <!-- BROWSER SECURITY -->
-      <div id="browser-security" class="content-section">
-        <h2>Browser Security</h2>
-        <p>Modern browsers implement multiple security mechanisms to protect users from malicious websites and content.</p>
-
-        <h3>Same-Origin Policy</h3>
-        <p>The Same-Origin Policy restricts how documents or scripts from one origin can interact with resources from another origin, preventing malicious sites from accessing sensitive data.</p>
-
-        <h3>Content Security Policy</h3>
-        <p>CSP allows website administrators to control which resources can be loaded and executed, mitigating XSS and data injection attacks.</p>
-
-        <h3>Security Headers</h3>
-        <ul>
-          <li><strong>Strict-Transport-Security:</strong> Forces HTTPS connections</li>
-          <li><strong>X-Content-Type-Options:</strong> Prevents MIME type sniffing</li>
-          <li><strong>X-Frame-Options:</strong> Controls iframe embedding permissions</li>
-          <li><strong>X-XSS-Protection:</strong> Enables browser's XSS filtering</li>
-        </ul>
-
-        <h3>Browser Hardening Recommendations</h3>
-        <ul>
-          <li>Keep browsers and extensions updated</li>
-          <li>Use privacy-focused extensions</li>
-          <li>Configure appropriate security settings</li>
-          <li>Regularly verify certificate chains for critical sites</li>
-        </ul>
-
-        <div class="interactive-demo">
-          <h4>Browser Security Assessment</h4>
-          <p>Evaluate your browser's security configuration:</p>
-          <button class="demo-button" onclick="checkBrowserSecurity()">Security Check</button>
-          <div id="browser-security-result" style="margin-top: 15px; font-weight: bold;"></div>
-        </div>
-      </div>
-
-      <!-- INTRO FORENSICS -->
-      <div id="intro-forensics" class="content-section">
-        <h2>Digital Forensics: Scientific Investigation of Digital Evidence</h2>
-
-        <h3>Forensics vs. Incident Response</h3>
-        <p>Digital forensics represents the application of scientific methodologies to legal and investigative problems involving digital evidence. This discipline must be distinguished from incident response, which focuses on immediate system restoration and operational continuity.</p>
-
-        <div class="highlight-box">
-          <h4>Forensic Investigation Objectives</h4>
-          <ul>
-            <li><strong>Preservation:</strong> Maintaining evidence integrity throughout the investigation lifecycle</li>
-            <li><strong>Identification:</strong> Locating and cataloging relevant digital artifacts</li>
-            <li><strong>Documentation:</strong> Creating comprehensive records of all findings and procedures</li>
-            <li><strong>Collection:</strong> Acquiring evidence using forensically sound methods</li>
-            <li><strong>Analysis:</strong> Examining evidence to establish facts and draw conclusions</li>
-          </ul>
-        </div>
-
-        <h3>Scientific Methodology in Digital Forensics</h3>
-        <p>Digital forensics applies the scientific method to digital investigations:</p>
-        <h4>Scientific Process in Forensic Analysis</h4>
-        <div class="code-block">
-1. Formulate testable hypotheses about incident causation
-2. Design experiments to test hypotheses using available evidence
-3. Collect and analyze data systematically
-4. Draw conclusions based on empirical evidence
-5. Document methodology for peer review and replication
-        </div>
-
-        <h4>Quality Assurance and Validation</h4>
-        <p>Forensic methodologies must incorporate quality assurance measures to ensure reliability and reproducibility:</p>
-        <ul>
-          <li><strong>Tool Validation:</strong> Verification that forensic tools produce accurate and consistent results</li>
-          <li><strong>Procedure Documentation:</strong> Detailed documentation of all investigative procedures</li>
-          <li><strong>Peer Review:</strong> Independent verification of findings and methodology</li>
-          <li><strong>Proficiency Testing:</strong> Regular assessment of investigator competency</li>
-        </ul>
-
-        <div class="interactive-demo">
-          <h4>Forensic Investigation Workflow</h4>
-          <p>Understanding the systematic approach to digital investigations:</p>
-          <div class="progress-bar"><div class="progress-fill" style="width:0%" id="forensic-progress"></div></div>
-          <button class="demo-button" onclick="advanceForensicWorkflow()">Next Step</button>
-          <div id="forensic-workflow-step" style="margin-top: 15px;"></div>
-        </div>
-      </div>
-
-      <!-- EVIDENCE -->
-      <div id="evidence" class="content-section">
-        <h2>Evidence Types & Standards</h2>
-        <p>Digital evidence encompasses a wide range of electronic artifacts that may be relevant to an investigation or legal proceeding.</p>
-
-        <h3>Categories of Digital Evidence</h3>
-        <ul>
-          <li><strong>Persistent Data:</strong> Information stored on physical media (hard drives, SSDs, USB drives)</li>
-          <li><strong>Volatile Data:</strong> Information stored in memory (RAM, cache, registers)</li>
-          <li><strong>Network Data:</strong> Information transmitted over networks (packets, logs, connection records)</li>
-          <li><strong>Application Data:</strong> Information created and managed by software applications</li>
-        </ul>
-
-        <h3>Legal Standards for Digital Evidence</h3>
-        <p>For digital evidence to be admissible in court, it must meet several criteria:</p>
-        <div class="highlight-box">
-          <h4>Admissibility Requirements</h4>
-          <ul>
-            <li><strong>Authenticity:</strong> Evidence must be what it purports to be</li>
-            <li><strong>Reliability:</strong> Evidence collection and analysis methods must be trustworthy</li>
-            <li><strong>Completeness:</strong> Evidence must not be selectively presented</li>
-            <li><strong>Compliance with Rules of Evidence:</strong> Must adhere to jurisdictional requirements</li>
-            <li><strong>Expert Testimony:</strong> Often required to explain technical aspects to the court</li>
-          </ul>
-        </div>
-
-        <h3>Best Practices for Evidence Handling</h3>
-        <ul>
-          <li>Use write blockers when acquiring storage media</li>
-          <li>Create and verify forensic images</li>
-          <li>Maintain detailed chain of custody documentation</li>
-          <li>Work from copies, never original evidence</li>
-          <li>Document all actions taken with evidence</li>
-        </ul>
-      </div>
-
-      <!-- FORENSIC PROCESS -->
-      <div id="forensic-process" class="content-section">
-        <h2>Forensic Process</h2>
-        <p>The digital forensic process follows a structured methodology to ensure thoroughness, accuracy, and defensibility of findings.</p>
-
-        <h3>Standard Forensic Methodology</h3>
-        <ol>
-          <li><strong>Preparation:</strong> Planning, tool selection, and authorization</li>
-          <li><strong>Identification:</strong> Recognizing potential sources of evidence</li>
-          <li><strong>Collection:</strong> Acquiring data using forensically sound methods</li>
-          <li><strong>Preservation:</strong> Maintaining evidence integrity</li>
-          <li><strong>Analysis:</strong> Examining evidence to extract relevant information</li>
-          <li><strong>Documentation:</strong> Recording findings and methodology</li>
-          <li><strong>Presentation:</strong> Communicating results to stakeholders</li>
-        </ol>
-
-        <div class="interactive-demo">
-          <h4>Timeline Analysis Tool</h4>
-          <p>Visualize event sequences in an investigation:</p>
-          <button class="demo-button" onclick="showTimelineAnalysis()">Generate Timeline</button>
-          <div id="timeline-analysis" style="margin-top: 15px;"></div>
-        </div>
-
-        <h3>Forensic Acquisition Methods</h3>
-        <ul>
-          <li><strong>Physical Acquisition:</strong> Bit-by-bit copy of physical storage media</li>
-          <li><strong>Logical Acquisition:</strong> Collection of files and directories</li>
-          <li><strong>Memory Acquisition:</strong> Capture of volatile system memory</li>
-          <li><strong>Network Acquisition:</strong> Capture of network traffic</li>
-        </ul>
-      </div>
-
-      <!-- CHAIN OF CUSTODY -->
-      <div id="chain-custody" class="content-section">
-        <h2>Chain of Custody</h2>
-        <p>Chain of custody documents the chronological history of evidence, tracking its handling and storage from collection to presentation.</p>
-
-        <h3>Elements of Chain of Custody</h3>
-        <p>A proper chain of custody record includes:</p>
-        <ul>
-          <li>Description of the evidence</li>
-          <li>Name and signature of each person handling the evidence</li>
-          <li>Date and time of collection and each transfer</li>
-          <li>Locations where evidence was stored</li>
-          <li>Purpose for each transfer of possession</li>
-        </ul>
-
-        <div class="highlight-box">
-          <h4>Legal Importance</h4>
-          <p>Chain of custody documentation is critical for:</p>
-          <ul>
-            <li>Establishing evidence authenticity</li>
-            <li>Demonstrating evidence has not been tampered with</li>
-            <li>Supporting admissibility in legal proceedings</li>
-            <li>Defending against claims of evidence mishandling</li>
-          </ul>
-        </div>
-
-        <div class="interactive-demo">
-          <h4>Chain of Custody Documentation</h4>
-          <p>Practice creating proper documentation:</p>
-          <button class="demo-button" onclick="showCustodyForm()">Open Documentation Form</button>
-          <div id="custody-form" style="margin-top: 15px;"></div>
-        </div>
-      </div>
-
-      <!-- HOST FORENSICS -->
-      <div id="host-forensics" class="content-section">
-        <h2>Host Forensics</h2>
-        <p>Host forensics involves the examination of individual computing devices to identify evidence of activities, intrusions, or policy violations.</p>
-
-        <h3>Key Artifacts in Host Forensics</h3>
-        <ul>
-          <li><strong>File System:</strong> File metadata, deleted files, file fragments</li>
-          <li><strong>Operating System:</strong> Registry (Windows), logs, configuration files</li>
-          <li><strong>Application Data:</strong> Browser history, email, chat logs, documents</li>
-          <li><strong>User Activity:</strong> Login/logout times, command history, accessed files</li>
-        </ul>
-
-        <h3>Windows Forensics</h3>
-        <p>Windows systems contain numerous forensic artifacts:</p>
-        <div class="code-block">
-- Registry: NTUSER.DAT, SYSTEM, SOFTWARE hives
-- Event Logs: Application, Security, System
-- Prefetch: Application execution history
-- $MFT: Master File Table containing file metadata
-- Windows.edb: Search index with file content
-- Shellbags: Explorer viewing preferences
-- Jump Lists: Recently accessed documents
-- SRUM: System Resource Usage Monitor
-        </div>
-
-        <h3>Linux/Unix Forensics</h3>
-        <p>Linux systems provide different forensic challenges and opportunities:</p>
-        <ul>
-          <li>System logs in /var/log</li>
-          <li>Bash history and other shell histories</li>
-          <li>User configuration files in home directories</li>
-          <li>Scheduled tasks in crontab</li>
-          <li>Process accounting logs</li>
-        </ul>
-      </div>
-
-      <!-- NETWORK FORENSICS -->
-      <div id="network-forensics" class="content-section">
-        <h2>Network Forensics</h2>
-        <p>Network forensics involves capturing, recording, and analyzing network traffic to discover the source of security attacks or other incidents.</p>
-
-        <h3>Network Evidence Sources</h3>
-        <ul>
-          <li><strong>Packet Captures:</strong> Raw network traffic data</li>
-          <li><strong>NetFlow/IPFIX:</strong> Network connection metadata</li>
-          <li><strong>Firewall Logs:</strong> Connection attempts and policy enforcement</li>
-          <li><strong>IDS/IPS Alerts:</strong> Detected suspicious activities</li>
-          <li><strong>Proxy Logs:</strong> Web browsing and content filtering</li>
-          <li><strong>DNS Logs:</strong> Domain resolution requests</li>
-        </ul>
-
-        <h3>Network Traffic Analysis</h3>
-        <p>Analyzing network traffic requires understanding protocols and normal behavior:</p>
-        <div class="highlight-box">
-          <h4>Analysis Techniques</h4>
-          <ul>
-            <li>Protocol analysis and decoding</li>
-            <li>Session reconstruction</li>
-            <li>Anomaly detection</li>
-            <li>Signature-based detection</li>
-            <li>Behavioral analysis</li>
-          </ul>
-        </div>
-
-        <div class="interactive-demo">
-          <h4>Packet Analysis Demonstration</h4>
-          <p>Examine a sample packet capture:</p>
-          <button class="demo-button" onclick="analyzePackets()">Analyze Packets</button>
-          <div id="packet-analysis" style="margin-top: 15px;"></div>
-        </div>
-      </div>
-
-      <!-- E-DISCOVERY -->
-      <div id="e-discovery" class="content-section">
-        <h2>E-Discovery</h2>
-        <p>Electronic discovery (e-discovery) is the process of identifying, collecting, and producing electronically stored information in response to legal proceedings.</p>
-
-        <h3>E-Discovery Process</h3>
-        <ol>
-          <li><strong>Identification:</strong> Locating potential sources of relevant information</li>
-          <li><strong>Preservation:</strong> Implementing legal holds to prevent data destruction</li>
-          <li><strong>Collection:</strong> Gathering relevant ESI from identified sources</li>
-          <li><strong>Processing:</strong> Converting collected data to usable formats</li>
-          <li><strong>Review:</strong> Examining data for relevance and privilege</li>
-          <li><strong>Analysis:</strong> Evaluating data for case strategy development</li>
-          <li><strong>Production:</strong> Delivering relevant data to requesting parties</li>
-          <li><strong>Presentation:</strong> Using ESI in depositions, hearings, or trials</li>
-        </ol>
-
-        <h3>E-Discovery Challenges</h3>
-        <ul>
-          <li>Volume of electronic data</li>
-          <li>Diverse data formats and sources</li>
-          <li>Preservation of metadata</li>
-          <li>Privacy and confidentiality concerns</li>
-          <li>Cost and proportionality considerations</li>
-        </ul>
-
-        <div class="highlight-box">
-          <h4>E-Discovery Technologies</h4>
-          <ul>
-            <li><strong>Predictive Coding:</strong> Machine learning to identify relevant documents</li>
-            <li><strong>Data Deduplication:</strong> Removing redundant copies</li>
-            <li><strong>Email Threading:</strong> Grouping related email conversations</li>
-            <li><strong>Concept Searching:</strong> Finding documents with similar concepts</li>
-            <li><strong>Visual Analytics:</strong> Graphical representation of data relationships</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- HASH DEMO -->
-      <div id="hash-demo" class="content-section">
-        <h2>Hash Verification Demo</h2>
-        <p class="muted">Enter any text to see demonstration hashes (MD5, SHA-1, SHA-256). This is a <em>safe demo</em> and does not compute cryptographically real hashes.</p>
-        <div class="interactive-demo">
-          <input id="hash-input" placeholder="Type something to hash…" />
-          <button class="demo-button" onclick="calculateHashes()">Calculate</button>
-          <div id="hash-results" style="margin-top: 15px;"></div>
-        </div>
-      </div>
-
-      <!-- SSL ANALYZER -->
-      <div id="ssl-analyzer" class="content-section">
-        <h2>SSL/TLS Analyzer (Demo)</h2>
-        <p class="muted">This offline demo illustrates checks a basic analyzer could perform (protocol versions, cipher hints, HSTS). No network requests are made.</p>
-        <div class="interactive-demo">
-          <label for="domain-input">Domain (for display only):</label>
-          <input id="domain-input" placeholder="example.com" />
-          <button class="demo-button" onclick="runSSLAnalyzer()">Analyze</button>
-          <div id="ssl-analyzer-results" style="margin-top: 15px;"></div>
-        </div>
-      </div>
-
-      <!-- GLOSSARY -->
-      <div id="glossary" class="content-section">
-        <h2>Glossary</h2>
-        <ul>
-          <li><strong>HTTPS:</strong> HTTP over TLS providing encryption and integrity.</li>
-          <li><strong>CSP:</strong> Content Security Policy — a browser feature to control allowed sources of content.</li>
-          <li><strong>PFS:</strong> Perfect Forward Secrecy — session keys cannot be derived even if the server key is compromised.</li>
-          <li><strong>Forensic Image:</strong> A bit-for-bit copy of a storage device created for investigation.</li>
-          <li><strong>Chain of Custody:</strong> A documented process that records the sequence of evidence handling.</li>
-        </ul>
-      </div>
-
-    </main>
-  </div>
-
-  <script>
-    /* ---- Navigation ---- */
-    function showSection(sectionId) {
-      const sections = document.querySelectorAll('.content-section');
-      sections.forEach(s => s.classList.remove('active'));
-      const buttons = document.querySelectorAll('.nav-button');
-      buttons.forEach(b => b.classList.remove('active'));
-      const target = document.getElementById(sectionId);
-      if (target) target.classList.add('active');
-      const activeButton = document.querySelector(`.nav-button[onclick="showSection('${sectionId}')"]`);
-      if (activeButton) activeButton.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* ---- Particles ---- */
-    function initParticles() {
-      const container = document.getElementById('particle-container');
-      const particleCount = 30;
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 6 + 's';
-        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-        container.appendChild(particle);
-      }
-    }
-
-    /* ---- Progress Bar ---- */
-    function updateProgress(percentage) {
+@@ -623,267 +641,304 @@
       const el = document.getElementById('forensic-progress');
       if (el) el.style.width = percentage + '%';
     }
+// Example quiz questions
+  const sslQuestions = [
+    {
+      question: "Which SSL version should never be used?",
+      options: ["SSL 2.0", "TLS 1.2", "TLS 1.3", "All of the above"],
+      answer: "SSL 2.0"
+    },
+    {
+      question: "What is the main purpose of SSL/TLS?",
+      options: ["To speed up websites", "To secure data in transit", "To block ads", "To manage DNS"],
+      answer: "To secure data in transit"
+    },
+    {
+      question: "Which port is typically used for HTTPS with SSL/TLS?",
+      options: ["21", "80", "443", "8080"],
+      answer: "443"
+    }
+  ];
 
-   /* ---- XSS & CSRF Demos ---- */
+  function loadSSLQuiz() {
+    const container = document.getElementById('quiz-question');
+    const feedback = document.getElementById('quiz-feedback');
+    feedback.innerHTML = ""; // clear old feedback
+
+    // pick random question
+    const q = sslQuestions[Math.floor(Math.random() * sslQuestions.length)];
+
+    // render question + options
+    container.innerHTML = `
+      <p><strong>Question:</strong> ${q.question}</p>
+      ${q.options.map(opt => `
+        <button class="quiz-btn" onclick="checkSSLAnswer('${opt}', '${q.answer}')">${opt}</button>
+      `).join("<br>")}
+    `;
+  }
+
+    /* ---- SSL Knowledge Test ---- */
+    function checkSSLKnowledge() {
+      const questions = [
+        "What does TLS stand for?",
+        "Which SSL version should never be used?",
+        "What is Perfect Forward Secrecy?"
+      ];
+      const q = questions[Math.floor(Math.random() * questions.length)];
+      const result = document.getElementById('ssl-result');
+      result.innerHTML = `<div style="color: rgb(0, 99, 150);">Question: ${q}<br>
+        <small class="muted">This would be an interactive quiz in a full implementation.</small></div>`;
+  function checkSSLAnswer(selected, correct) {
+    const feedback = document.getElementById('quiz-feedback');
+    if (selected === correct) {
+      feedback.style.color = "green";
+      feedback.innerHTML = "✅ Correct! " + correct + " is the right answer.";
+    } else {
+      feedback.style.color = "red";
+      feedback.innerHTML = "❌ Incorrect. The correct answer is " + correct + ".";
+    }
+  }
+
+  // Load a question on page load
+  document.addEventListener("DOMContentLoaded", loadSSLQuiz);
+   
+
+    /* ---- XSS & CSRF Demos ---- */
     function demonstrateXSS() {
       const result = document.getElementById('attack-demo-result');
       result.innerHTML = `
@@ -913,71 +525,6 @@
       const firstButton = document.querySelector('.nav-button');
       if (firstButton) firstButton.classList.add('active');
     });
-
-  // Example quiz questions
-  const sslQuestions = [
-    {
-      question: "Which SSL version should never be used?",
-      options: ["SSL 2.0", "TLS 1.2", "TLS 1.3", "All of the above"],
-      answer: "SSL 2.0"
-    },
-    {
-      question: "What is the main purpose of SSL/TLS?",
-      options: ["To speed up websites", "To secure data in transit", "To block ads", "To manage DNS"],
-      answer: "To secure data in transit"
-    },
-    {
-      question: "Which port is typically used for HTTPS with SSL/TLS?",
-      options: ["21", "80", "443", "8080"],
-      answer: "443"
-    }
-  ];
-
-  let currentQuestion = null;
-
-  function loadSSLQuiz() {
-    const container = document.getElementById('quiz-question');
-    const feedback = document.getElementById('quiz-feedback');
-    const nextBtn = document.getElementById('quiz-next');
-
-    feedback.innerHTML = "";
-    nextBtn.innerHTML = "";
-
-    let q;
-    do {
-      q = sslQuestions[Math.floor(Math.random() * sslQuestions.length)];
-    } while (q === currentQuestion && sslQuestions.length > 1);
-
-    currentQuestion = q;
-
-    container.innerHTML = `
-      <p><strong>Question:</strong> ${q.question}</p>
-      <div class="quiz-options">
-        ${q.options.map(opt => `
-          <button class="quiz-btn" onclick="checkSSLAnswer('${opt}', '${q.answer}')">${opt}</button>
-        `).join("")}
-      </div>
-    `;
-  }
-
-  function checkSSLAnswer(selected, correct) {
-    const feedback = document.getElementById('quiz-feedback');
-    const nextBtn = document.getElementById('quiz-next');
-
-    if (selected === correct) {
-      feedback.style.color = "green";
-      feedback.innerHTML = "✅ Correct! " + correct + " is the right answer.";
-    } else {
-      feedback.style.color = "red";
-      feedback.innerHTML = "❌ Incorrect. The correct answer is " + correct + ".";
-    }
-
-    nextBtn.innerHTML = `<button class="quiz-btn next-btn" onclick="loadSSLQuiz()">Next Question</button>`;
-  }
-
-  // Load first question on page load
-  document.addEventListener("DOMContentLoaded", loadSSLQuiz);
-
   </script>
 </body>
 </html>
