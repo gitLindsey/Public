@@ -1210,73 +1210,7 @@ curl -I https://bank.com | grep -i strict
         function resetQuiz() {
             startQuiz();
         }
-// Keep the master list safe
-const allQuizQuestions = [
-  {
-    question: "What is the primary purpose of the SSL/TLS handshake process?",
-    options: [
-      "To compress data for faster transmission",
-      "To establish secure communication parameters and exchange keys",
-      "To authenticate user credentials",
-      "To optimize network routing"
-    ],
-    correct: 1,
-    category: "web"
-  },
-  {
-    question: "Which cryptographic hash function is commonly used for forensic evidence verification?",
-    options: ["ROT13", "Base64", "MD5", "ASCII"],
-    correct: 2,
-    category: "forensics"
-  },
-  {
-    question: "What type of attack specifically targets the SSL/TLS protocol downgrade process?",
-    options: ["Buffer Overflow", "SSL Stripping Attack", "Cross-Site Scripting", "SQL Injection"],
-    correct: 1,
-    category: "web"
-  },
-  {
-    question: "In digital forensics, what is the correct order for evidence volatility (most to least volatile)?",
-    options: [
-      "Hard disk, Memory, CPU registers, Network logs",
-      "CPU registers, Memory, Hard disk, Archived data",
-      "Memory, CPU registers, Hard disk, Network logs",
-      "Network logs, Hard disk, Memory, CPU registers"
-    ],
-    correct: 1,
-    category: "forensics"
-  },
-  {
-    question: "Which browser security mechanism allows selective script execution from trusted domains?",
-    options: ["ActiveX", "Java Security Manager", "NoScript Plugin", "Cookie Policy"],
-    correct: 2,
-    category: "web"
-  },
-  {
-    question: "What is the primary purpose of a write blocker in digital forensics?",
-    options: [
-      "To encrypt evidence during transport",
-      "To prevent modifications to source media during acquisition",
-      "To compress disk images for storage",
-      "To calculate hash values automatically"
-    ],
-    correct: 1,
-    category: "forensics"
-  }
-];
 
-// These track the current running quiz
-let quizQuestions = [];
-let currentQuestionIndex = 0;
-let userAnswers = [];
-let quizActive = false;
-
-function startTopicQuiz(topic) {
-  quizQuestions = allQuizQuestions.filter(q => q.category === topic);
-  if (quizQuestions.length > 0) {
-    startQuiz();
-  }
-}
         function selectQuizOption(element, isCorrect) {
             // Remove previous selections
             const siblings = element.parentNode.querySelectorAll('.quiz-option');
