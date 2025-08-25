@@ -70,6 +70,15 @@
       position: absolute; width: 5px; height: 5px; background-color: rgba(197, 183, 131, 0.5);
       border-radius: 50%; pointer-events: none; animation: float linear infinite;
     }
+     /* Optional extra CSS for smoother feedback */
+  #custody-form h4 {
+    margin-bottom: 10px;
+  }
+  #custody-form input {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
     @keyframes float {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
       100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
@@ -757,19 +766,20 @@
 
     /* ---- Custody Form ---- */
     function showCustodyForm() {
-      const form = document.getElementById('custody-form');
-      form.innerHTML = `
-        <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
-          <h4 style="margin-top: 0;">Evidence Chain of Custody Form</h4>
+    const form = document.getElementById('custody-form');
+    form.innerHTML = `
+      <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+        <h4 style="margin-top: 0;">Evidence Chain of Custody Form</h4>
+        <form id="custodyForm" onsubmit="submitCustodyForm(event)">
           <div style="margin-bottom: 10px;">
             <label style="display:block; margin-bottom:5px; font-weight:bold;">Evidence Description:</label>
-            <input type="text" placeholder="e.g., Western Digital 1TB Hard Drive, SN: WD-123456789">
+            <input type="text" required placeholder="e.g., Western Digital 1TB Hard Drive, SN: WD-123456789">
           </div>
           <div style="margin-bottom: 10px;">
             <label style="display:block; margin-bottom:5px; font-weight:bold;">Collection Information:</label>
             <div style="display:flex; gap:10px;">
-              <input type="text" style="flex:1" placeholder="Collected by">
-              <input type="text" style="flex:1" placeholder="Date/Time">
+              <input type="text" style="flex:1" required placeholder="Collected by">
+              <input type="text" style="flex:1" required placeholder="Date/Time">
             </div>
           </div>
           <div style="margin-bottom: 10px;">
@@ -782,16 +792,30 @@
                 <th style="padding:8px; text-align:left; border:1px solid #ddd;">Purpose</th>
               </tr>
               <tr>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" style="width:100%; border:none;"></td>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" style="width:100%; border:none;"></td>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" style="width:100%; border:none;"></td>
-                <td style="padding:8px; border:1px solid #ddd;"><input type="text" style="width:100%; border:none;"></td>
+                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
+                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
+                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
+                <td style="padding:8px; border:1px solid #ddd;"><input type="text" required style="width:100%; border:none;"></td>
               </tr>
             </table>
           </div>
-          <button class="demo-button" style="margin-top:10px;">Submit Form</button>
-        </div>`;
-    }
+          <button type="submit" class="demo-button" style="margin-top:10px;">Submit Form</button>
+        </form>
+      </div>
+    `;
+  }
+
+  function submitCustodyForm(event) {
+    event.preventDefault();
+    const formContainer = document.getElementById('custody-form');
+    formContainer.innerHTML = `
+      <div style="padding: 20px; text-align: center; border: 1px solid #ddd; border-radius: 5px; background:#f8f9fa;">
+        <h4 style="color: rgb(0, 99, 150);">Form Submitted</h4>
+        <p>Your evidence chain of custody form has been successfully submitted.</p>
+        <button onclick="showCustodyForm()" class="demo-button" style="margin-top:15px;">Back to Form</button>
+      </div>
+    `;
+  }
 
     /* ---- Packet Analysis ---- */
     function analyzePackets() {
